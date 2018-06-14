@@ -1,0 +1,119 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#root {
+    height: 100%;
+    overflow: hidden;
+}
+
+.App {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.App-header {
+    background-color: #222;
+    height: 50px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+}
+
+.App-title {
+    font-size: 1.5em;
+    flex: 1;
+}
+
+.StatusArea {
+    min-width: 100px;
+    padding: 4px;
+    align-self: flex-end;
+    color: blue;
+    border-radius: 4px;
+}
+
+
+.Table {
+    flex: 1;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+    justify-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.Card {
+    height: 250px;
+    width: 153px;
+    border-radius: 14px;
+    padding: 0;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+}
+
+    .Card[data-facedown=false].highlight-mismatch {
+        border: 2px solid red;
+    }
+
+    .Card[data-facedown=false].highlight-match {
+        border: 2px solid green;
+    }
+
+
+    .Card[data-facedown=false] .cardface {
+        display: inline-block;
+        font-size: large;
+        color: navy;
+        padding: 10px;
+    }
+
+    .Card[data-facedown=false] .cardback {
+        display: none;
+    }
+
+    .Card[data-facedown=true] .cardface {
+        display: none;
+    }
+
+    .Card[data-facedown=true] .cardback {
+        display: inline-block;
+        background-image: url('images/cards/CardBackWithOrange.png');
+        background-position: center;
+        background-clip: border-box;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100%;
+        width: 100%;
+    }
+
+
+
+.StatusArea {
+    background-color: lightgray;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.Overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    /*background-color: rgba(200, 200, 200, 0.3);*/
+}
