@@ -8,7 +8,8 @@ class Card extends Component {
         size: { index: null, name: null },
         container: { index: null, name: null },
         pattern: { index: null, name: null },
-        faceDown: true
+        faceDown: true,
+        highlight: "highlight-none"
     };
 
     static colors = ['orange', 'teal', 'yellow'];
@@ -155,9 +156,72 @@ class Card extends Component {
         return pattern;
     }
 
+    componentWillMount() {
+        console.log("componentWillMount: " + this.state.key);
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount: " + this.state.key);
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount: " + this.state.key);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("shouldComponentUpdate: " + this.state.key);
+        return true;
+    }
+
+    componentWillUpdate() {
+        console.log("componentWillUpdate: " + this.state.key);
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate: " + this.state.key);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        var stateChanges = {};
+        var count = 0;
+
+        // Handle face down or up
+        var faceDown = (nextProps.cardKeyJustShown === this.props.cardKey ? false :
+                        nextProps.cardKeyJustHid === this.props.cardKey ? true :
+                        null);
+
+        if (faceDown !== null && faceDown !== this.state.faceDown) {
+            stateChanges['faceDown'] = faceDown;
+            count++;
+        }
+
+        // Handle highlight if face up
+        var highlight = "none";
+        if (nextProps.highlight !== this.state.highlight) {
+            stateChanges['highlight'] = nextProps.highlight;
+            count++;
+        }
+
+
+        if (count > 0) {
+            this.setState(stateChanges);
+        }
+
+
+        //if (this.state.faceDown && nextProps.cardKeyJustShown == this.props.cardKey    // IF I'm face down but I'm the card just shown
+        //    || !this.state.faceDown && nextProps.highlight != this.state.highlight // OR I'm face up and I have a new highlight
+        //    || !this.state.faceDown && nextProps.cardKeyJustHid == this.props.cardKey) // OR I'm face up and I'm the card just hid
+        //{                                                                               // THEN update my state to force my re-render
+        //    this.setState({faceDown: false, highlight: this.props.highlight})
+        //}
+        //facedown = { faceDown } cardKeyJustShown = { this.state.cardKeyJustShown }, cardKeyJustHid = { this.state.cardJustHid } highlight = { this.state.highlight } 
+    }
+
     render() {
         return (
-            <div className={"Card " + this.state.key + " highlight-" + this.props.highlight} data-facedown={this.props.facedown} style={{ backgroundColor: this.state.color.value }}>
+            <div className={"Card " + this.state.key + " " + this.state.highlight} data-facedown={this.state.faceDown} style={{ backgroundColor: this.state.color.value }}>
+                <div className="cardback">
+                </div>
                 <div className="cardface">
                     <div>
                         {this.state.color.index} {this.state.color.name}<br />
@@ -165,8 +229,6 @@ class Card extends Component {
                         {this.state.container.index} {this.state.container.name}<br />
                         {this.state.pattern.index} {this.state.pattern.name}<br />
                     </div>
-                </div>
-                <div className="cardback">
                 </div>
             </div >
         );
