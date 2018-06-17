@@ -10,6 +10,11 @@ body {
     overflow: hidden;
 }
 
+:root {
+    --main-bg-color: #ddd;
+}
+
+
 .App {
     text-align: center;
     display: flex;
@@ -24,24 +29,57 @@ body {
     color: white;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
 }
 
-.App-title {
-    font-size: 1.5em;
-    flex: 1;
-}
+    .App-header .App-title {
+        font-size: 1.5em;
+        flex: 1;
+    }
 
 .StatusArea {
     min-width: 100px;
     padding: 4px;
-    align-self: flex-end;
     color: blue;
-    border-radius: 4px;
+    border-radius: 6px;
+    background-color: var(--main-bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+    .StatusArea .statusSection {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+        .StatusArea .statusSection .statusTitle {
+            flex: 1;
+            text-align: left;
+        }
+
+        .StatusArea .statusSection .statusCount {
+            width: 40px;
+            text-align: center;
+        }
+
+.Overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    /*background-color: rgba(200, 200, 200, 0.3);*/
 }
 
 
 .Table {
+    background-color: var(--main-bg-color);
     flex: 1;
     overflow: auto;
     display: grid;
@@ -97,24 +135,3 @@ body {
         height: 100%;
         width: 100%;
     }
-
-
-
-.StatusArea {
-    background-color: lightgray;
-    border: 1px solid gray;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-
-.Overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 1000;
-    /*background-color: rgba(200, 200, 200, 0.3);*/
-}

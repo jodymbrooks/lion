@@ -67,7 +67,26 @@ class Table extends Component {
 
     showCard = (card) => {
         var newSelectedCards = [...this.state.selectedCards, card];
-        var allMatch = this.checkShownCards(newSelectedCards);
+        var numNewSelectedCards = newSelectedCards.length;
+        var matchingAttrs = this.checkShownCards(newSelectedCards);
+        var allMatch = (matchingAttrs.length > 0);
+
+        if (allMatch && numNewSelectedCards > 1) {
+            var possPoints = numNewSelectedCards * numNewSelectedCards;
+            this.props.scoreStore.dispatch({
+                type: 'SET',
+                possPoints: possPoints,
+                matchingAttrs: matchingAttrs
+            });
+        }
+        else {
+            this.props.scoreStore.dispatch({
+                type: 'SET',
+                possPoints: 0,
+                matchingAttrs: []
+            });
+        }
+
         var highlight = (allMatch ? "highlight-match" : "highlight-mismatch");
         
         this.setState({
@@ -92,18 +111,27 @@ class Table extends Component {
     }
 
     checkShownCards = (selectedCards) => {
-        var allMatch = true;
+        var matchingAttrs = [
+            'color',
+            'size',
+            'container',
+            'pattern'
+        ];
 
         var selectedCardsCount = selectedCards.length;
-        if (selectedCardsCount <= 1)
-            return allMatch;
+        if (selectedCardsCount < 1)
+            return [];
+
+        if (selectedCardsCount === 1)
+            return matchingAttrs;
 
         var matches = {
             color: null,
             size: null,
             container: null,
             pattern: null,
-            count: null
+            count: null,
+            matchingAttrs: []
         };
 
         var card1 = selectedCards[0];
@@ -116,9 +144,7 @@ class Table extends Component {
                 break;
         }
 
-        allMatch = matches.count > 0;
-
-        return allMatch;
+        return matches.matchingAttrs;
     }
 
     checkForMatch = (card1, card2, matches) => {
@@ -129,8 +155,9 @@ class Table extends Component {
 
         // color
         if (firstTest) {
-            if (card1.props.color === card2.props.color)
+            if (card1.props.color === card2.props.color) {
                 matches.color = card1.props.color;
+            }
         }
         else {
             if (matches.color !== null && matches.color !== card2.props.color)
@@ -139,39 +166,58 @@ class Table extends Component {
 
         // size
         if (firstTest) {
-            if (card1.props.size === card2.props.size)
+            if (card1.props.size === card2.props.size) {
                 matches.size = card1.props.size;
+            }
         }
         else {
-            if (matches.size !== null && matches.size !== card2.props.size)
+            if (matches.size !== null && matches.size !== card2.props.size) {
                 matches.size = null;
+            }
         }
 
         // container
         if (firstTest) {
-            if (card1.props.container === card2.props.container)
+            if (card1.props.container === card2.props.container) {
                 matches.container = card1.props.container;
+            }
         }
         else {
-            if (matches.container !== null && matches.container !== card2.props.container)
+            if (matches.container !== null && matches.container !== card2.props.container) {
                 matches.container = null;
+            }
         }
 
         // pattern
         if (firstTest) {
-            if (card1.props.pattern === card2.props.pattern)
+            if (card1.props.pattern === card2.props.pattern) {
                 matches.pattern = card1.props.pattern;
+            }
         }
         else {
-            if (matches.pattern !== null && matches.pattern !== card2.props.pattern)
+            if (matches.pattern !== null && matches.pattern !== card2.props.pattern) {
                 matches.pattern = null;
+            }
         }
 
         matches.count = 0
-        matches.count += (matches.color !== null ? 1 : 0);
-        matches.count += (matches.size !== null ? 1 : 0);
-        matches.count += (matches.container !== null ? 1 : 0);
-        matches.count += (matches.pattern !== null ? 1 : 0);
+        matches.matchingAttrs = [];
+        if (matches.color !== null) {
+            matches.count++;
+            matches.matchingAttrs.push('color');
+        }
+        if (matches.size !== null) {
+            matches.count++;
+            matches.matchingAttrs.push('size');
+        }
+        if (matches.container !== null) {
+            matches.count++;
+            matches.matchingAttrs.push('container');
+        }
+        if (matches.pattern !== null) {
+            matches.count++;
+            matches.matchingAttrs.push('pattern');
+        }
 
         return matches;
     }

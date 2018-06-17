@@ -156,30 +156,30 @@ class Card extends Component {
         return pattern;
     }
 
-    componentWillMount() {
-        console.log("componentWillMount: " + this.state.key);
-    }
+    //componentWillMount() {
+    //    console.log("componentWillMount: " + this.state.key);
+    //}
 
-    componentDidMount() {
-        console.log("componentDidMount: " + this.state.key);
-    }
+    //componentDidMount() {
+    //    console.log("componentDidMount: " + this.state.key);
+    //}
 
-    componentWillUnmount() {
-        console.log("componentWillUnmount: " + this.state.key);
-    }
+    //componentWillUnmount() {
+    //    console.log("componentWillUnmount: " + this.state.key);
+    //}
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("shouldComponentUpdate: " + this.state.key);
-        return true;
-    }
+    //shouldComponentUpdate(nextProps, nextState) {
+    //    console.log("shouldComponentUpdate: " + this.state.key);
+    //    return true;
+    //}
 
-    componentWillUpdate() {
-        console.log("componentWillUpdate: " + this.state.key);
-    }
+    //componentWillUpdate() {
+    //    console.log("componentWillUpdate: " + this.state.key);
+    //}
 
-    componentDidUpdate() {
-        console.log("componentDidUpdate: " + this.state.key);
-    }
+    //componentDidUpdate() {
+    //    console.log("componentDidUpdate: " + this.state.key);
+    //}
 
     componentWillReceiveProps(nextProps) {
         var stateChanges = {};
@@ -196,7 +196,6 @@ class Card extends Component {
         }
 
         // Handle highlight if face up
-        var highlight = "none";
         if (nextProps.highlight !== this.state.highlight) {
             stateChanges['highlight'] = nextProps.highlight;
             count++;
@@ -206,7 +205,6 @@ class Card extends Component {
         if (count > 0) {
             this.setState(stateChanges);
         }
-
 
         //if (this.state.faceDown && nextProps.cardKeyJustShown == this.props.cardKey    // IF I'm face down but I'm the card just shown
         //    || !this.state.faceDown && nextProps.highlight != this.state.highlight // OR I'm face up and I have a new highlight
@@ -218,6 +216,7 @@ class Card extends Component {
     }
 
     render() {
+        //console.log("render: " + this.state.key);
         return (
             <div className={"Card " + this.state.key + " " + this.state.highlight} data-facedown={this.state.faceDown} style={{ backgroundColor: this.state.color.value }}>
                 <div className="cardback">
