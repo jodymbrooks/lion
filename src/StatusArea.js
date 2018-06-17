@@ -7,11 +7,15 @@ class StatusArea extends Component {
         sets: 0,
         points: 0,
         possPoints: 0,
-        matchingAttrs: ''
+        matchingAttrs: []
     }
 
     constructor(props) {
         super(props);
+
+        if (!this.props.scoreStore) {
+            throw "The scoreStore must be passed to this component";
+        }
 
         this.props.scoreStore.subscribe(this.scoreUpdate.bind(this));
 
@@ -45,7 +49,7 @@ class StatusArea extends Component {
                     <button id="keepButton">Keep</button>
                 </div>
                 <div className="statusSection matchingAttrsArea">
-                    <span className="statusTitle">Matches: </span><span className="matchingAttrs">{this.state.matchingAttrs}</span>
+                    <span className="statusTitle">Matches: </span><span className="matchingAttrs">{this.state.matchingAttrs.join(", ")}</span>
                 </div>
             </div>
         );

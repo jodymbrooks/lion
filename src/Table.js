@@ -11,6 +11,10 @@ class Table extends Component {
     constructor(props) {
         super(props);
 
+        if (!this.props.scoreStore) {
+            throw "The scoreStore prop must be passed to this component";
+        }
+
         this.state = {
             selectedCards: [],
             overlayShown: false,
@@ -20,11 +24,17 @@ class Table extends Component {
         };
 
         document.body.addEventListener("click", this.handleClick);
+
     }
 
     handleClick = event => {
         console.log("Clicked");
         console.log(event);
+
+        if (event.target.id === 'keepButton') {
+            this.keepMatches();
+            return;
+        }
 
         var cardElement = event.target.closest('.Card');
         if (!cardElement)
@@ -40,6 +50,13 @@ class Table extends Component {
         this.showCard(card);
 
         event.stopPropagation();
+    }
+
+    keepMatches = () => {
+        this.props.scoreStore.dispatch({
+            type: 'KEEP'
+        });
+
     }
 
     showOverlay = () => {

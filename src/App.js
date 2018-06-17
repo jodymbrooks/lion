@@ -12,45 +12,55 @@ class App extends Component {
 
     // a "reducer" that handle some events and return a state
     scoreReducer(scoreState = {}, action) {
-        //return action.type === 'INCREMENT' ? state + 1
-        //    : action.type === 'DECREMENT' ? state - 1
-        //        : state;
-
-
+        var newState = { ...scoreState };
 
         if (action.type === 'INCREMENT') {
             if (typeof (action.sets) !== "undefined") {
-                scoreState.sets += action.sets;
+                newState.sets += action.sets;
             }
             if (typeof (action.points) !== "undefined") {
-                scoreState.points += action.points;
+                newState.points += action.points;
             }
             if (typeof (action.possPoints) !== "undefined") {
-                scoreState.possPoints += action.possPoints;
+                newState.possPoints += action.possPoints;
             }
         }
         else if (action.type === 'SET') {
             if (typeof (action.sets) !== "undefined") {
-                scoreState.sets = action.sets;
+                newState.sets = action.sets;
             }
             if (typeof (action.points) !== "undefined") {
-                scoreState.points = action.points;
+                newState.points = action.points;
             }
             if (typeof (action.possPoints) !== "undefined") {
-                scoreState.possPoints = action.possPoints;
+                newState.possPoints = action.possPoints;
             }
             if (typeof (action.matchingAttrs) !== "undefined") {
-                scoreState.matchingAttrs = action.matchingAttrs.join(", ");
+                newState.matchingAttrs = action.matchingAttrs;
             }
         }
+        else if (action.type === 'KEEP') {
+            if (typeof (newState.possPoints) !== "undefined") {
+                newState.points += newState.possPoints;
+            }
+            newState.possPoints = 0;
+            newState.matchingAttrs = [];
+        }
 
-        return scoreState;
+        return newState;
     }
 
     constructor(props) {
         super(props);
 
-        this.scoreStore = createStore(this.scoreReducer.bind(this));
+        var initialStoreState = {
+            sets: 0,
+            points: 0,
+            possPoints: 0,
+            matchingAttrs: []
+        };
+
+        this.scoreStore = createStore(this.scoreReducer.bind(this), initialStoreState);
     }
 
 
