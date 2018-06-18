@@ -9,6 +9,7 @@ class Card extends Component {
         container: { index: null, name: null },
         pattern: { index: null, name: null },
         faceDown: true,
+        backgroundColor: "black",
         highlight: "highlight-none"
     };
 
@@ -18,8 +19,20 @@ class Card extends Component {
     static patterns = ['stripes', 'dots', 'stars'];
     static containers = ['jug', 'bottle', 'cup'];
 
-    static GetKey(color, size, container, pattern) {
-        return "Card" + color + size + container + pattern;
+    static GetKey(attr1, attr2, attr3, attr4) {
+        var attrsObj = {
+            attr1: attr1,
+            attr2: attr2,
+            attr3: attr3,
+            attr4: attr4
+        }
+        var key = btoa(JSON.stringify(attrsObj)); // base64 encoded key so can put on DOM element and not be obvious which card it is
+        return key;
+    }
+
+    static DecodeKey(key) {
+        var attrs = JSON.parse(atob(key));
+        return attrs;
     }
 
     constructor(props) {
@@ -193,6 +206,7 @@ class Card extends Component {
         if (faceDown !== null && faceDown !== this.state.faceDown) {
             stateChanges['faceDown'] = faceDown;
             count++;
+            this.state.backgroundColor = faceDown ? "black" : this.state.color.value;
         }
 
         // Handle highlight if face up
@@ -218,7 +232,7 @@ class Card extends Component {
     render() {
         //console.log("render: " + this.state.key);
         return (
-            <div className={"Card " + this.state.key + " " + this.state.highlight} data-facedown={this.state.faceDown} style={{ backgroundColor: this.state.color.value }}>
+            <div className={"Card " + this.state.highlight} data-key={this.state.key} data-facedown={this.state.faceDown} style={{ backgroundColor: this.state.backgroundColor }}>
                 <div className="cardback">
                 </div>
                 <div className="cardface">

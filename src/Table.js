@@ -41,7 +41,7 @@ class Table extends Component {
             return;
 
         var card = this.cards.find(card => {
-            return cardElement.classList.contains(card.props.cardKey);
+            return cardElement.getAttribute("data-key") === card.props.cardKey;
         });
 
         if (!card)
@@ -80,6 +80,10 @@ class Table extends Component {
         });
 
         this.hideOverlay();
+    }
+
+    removeSet = () => {
+
     }
 
     showCard = (card) => {
