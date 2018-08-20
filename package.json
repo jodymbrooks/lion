@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "react": "^16.4.0",
-    "react-card-flip": "^0.2.1",
     "react-dom": "^16.4.0",
+    "react-flipcard-2": "^0.3.2",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
-    "redux-devtools": "3.4.0"
+    "redux-devtools": "3.4.0",
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.2"
   },
   "devDependencies": {
     "eslint": "^5.3.0",

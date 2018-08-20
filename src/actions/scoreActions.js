@@ -1,3 +1,6 @@
+export const CARD_FLIPPED = 'CARD_FLIPPED';
+export const cardFlipped = (cardKey) => ({ type: CARD_FLIPPED, cardKey });
+
 export const KEEP_SCORE = 'KEEP_SCORE';
 export const keepScore = () => ({ type: KEEP_SCORE });
 

@@ -1,4 +1,4 @@
-import * as actions from '../actions/common';
+import * as commonActions from '../actions/commonActions';
 
 const initialState = {
   error: null,
@@ -7,16 +7,16 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case actions.SET_ERROR:
+    case commonActions.SET_ERROR:
       state = { ...state, error: action.error };
       return state;
-    case actions.CLEAR_ERROR:
+    case commonActions.CLEAR_ERROR:
       state = { ...state, error: null };
       return state;
-    case actions.SHOW_OVERLAY:
+    case commonActions.SHOW_OVERLAY:
       state = { ...state, overlayShown: true };
       return state;
-    case actions.HIDE_OVERLAY:
+    case commonActions.HIDE_OVERLAY:
       state = { ...state, overlayShown: false };
       return state;
     default:

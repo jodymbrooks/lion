@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
-import CommonReducer from './common';
-import ScoreReducer from './score';
+import commonReducer from './commonReducer';
+import scoreReducer from './scoreReducer';
+
 
 const reducers = {
-  common: CommonReducer,
-  score: ScoreReducer,
+  common: commonReducer,
+  score: scoreReducer,
 };
 
 export default combineReducers(reducers);
