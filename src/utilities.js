@@ -2,8 +2,39 @@ export default class utilities {
   static colors = ['orange', 'teal', 'yellow'];
   static colorMap = { 'orange': '#FF752D', 'teal': '#02A4B7', 'yellow': '#D1BC13' };
   static sizes = ['small', 'medium', 'large'];
-  static patterns = ['stripes', 'dots', 'stars'];
   static containers = ['jug', 'bottle', 'cup'];
+  static patterns = ['stripes', 'dots', 'stars'];
+
+
+  // static colors = ['green', 'purple', 'red'];
+  // static counts = ['1', '2', '3'];
+  // static patterns = ['empty', 'fenced', 'solid'];
+  // static shapes = ['diamond', 'ellipse', 'rectangle'];
+
+  static attrs = [
+    {
+      name: 'color',
+      values: ['orange', 'teal', 'yellow'],
+      colorMap: { 'orange': '#FF752D', 'teal': '#02A4B7', 'yellow': '#D1BC13' }
+    },
+
+    {
+      name: 'size',
+      values: ['small', 'medium', 'large']
+    },
+
+    {
+      name: 'container',
+      values: ['jug', 'bottle', 'cup']
+    },
+
+    {
+      name: 'pattern',
+      values: ['stripes', 'dots', 'stars']
+    }
+  ];
+
+
 
   static cardCache = [];
 

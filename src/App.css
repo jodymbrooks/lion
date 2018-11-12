@@ -1,3 +1,8 @@
+* {
+  /* box-sizing: border-box; */
+  --img-border-width: 10px;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -23,8 +28,8 @@ body {
 }
 
 .App-header {
-    background-color: #222;
-    height: 120px;
+    background-color: dodgerblue;
+    height: 140px;
     padding: 20px;
     color: white;
     display: flex;
@@ -42,30 +47,41 @@ body {
 .StatusArea {
     min-width: 100px;
     padding: 4px;
-    color: blue;
     border-radius: 6px;
-    background-color: var(--main-bg-color);
+    background-color: seashell;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-    .StatusArea .statusSection {
+    .StatusArea .status-section {
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
 
-        .StatusArea .statusSection .statusTitle {
+        .StatusArea .status-section .statusTitle {
             flex: 1;
             text-align: left;
+            background-color: inherit;
         }
 
-        .StatusArea .statusSection .statusCount {
-            width: 40px;
-            text-align: center;
+        .StatusArea .status-section .status-count {
+          width: 40px;
+          text-align: center;
         }
+    
+        .StatusArea .status-section .keep-button {
+          padding: 6px 14px;
+        }
+
+        .StatusArea .matching-attrs {
+          background-color: inherit;
+          min-width: 170px;
+          display: inline-block;
+        }
+
 
 .Overlay {
     position: absolute;
@@ -78,27 +94,35 @@ body {
 
 
 .Table {
-    background-color: var(--main-bg-color);
+    background-color: lightsteelblue; /* var(--main-bg-color); */
     flex: 1;
     overflow: auto;
-    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
     /* align-items: stretch; */
     /* justify-items: center; */
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+    overflow: hidden;
+  }
 
 .Table_grid {
+  flex: 1;
   display: grid;
   box-sizing: border-box;
-  grid-gap: 1vh;
-  height: 100%;
-  width: 100%;
+  /* grid-gap: calc(3 * var(--img-border-width)); */
+  grid-gap: 2vmin;
+  grid-template-columns: repeat(5, minmax(50px, 1fr));
+  grid-template-rows: repeat(4, minmax(50px, 1fr));
+  /* margin: calc(2 * var(--img-border-width)); */
+  margin: 1vmin;
+  max-width: 670px;
 }
 
-@media (max-width:500px) {
+/* .Table_grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-rows: repeat(5, minmax(50px, 200px));
+} */
+
+/* @media (max-width:500px) {
     .Table_grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(5, 1fr);
   }
 }
@@ -112,7 +136,7 @@ body {
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(4, 1fr);
   }
-}
+} */
 
 .Table_grid_item {
   position: relative;
@@ -121,28 +145,34 @@ body {
 .Card {
   border-radius: 14px;
   padding: 0;
-  border: 10px solid white;
+  border: 8px solid white;
   box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
   line-height: 0;
+  position: relative;
 }
 
-.Card[data-facedown=true] {
-  background-color: white;
-}
+/* .Card[data-facedown=true] {
+} */
 
 .Card[data-facedown=false].highlight-mismatch {
-  border: 10px solid red;
-  background-color: red;
+  border: 8px solid red;
 }
 
 .Card[data-facedown=false].highlight-match {
-        border: 10px solid green;
-        background-color: green;
-    }
+  border: 8px solid green;
+}
 
     .Card img {
       height: 100%;
       width: 100%;
       object-fit: contain;
       line-height: 0;
+    }
+
+    .Card[data-facedown=false] .card-label {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      top: 50%;
+      line-height: initial;
     }

@@ -16,9 +16,11 @@ class Card extends Component {
       pattern: utilities.decodePattern(props.pattern),
       faceDown: true,
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick = () => {
+  handleClick(){
     this.setState({ faceDown: !this.state.faceDown });
 
     this.props.dispatch(cardFlipped(this.props.cardKey));
@@ -49,9 +51,9 @@ class Card extends Component {
     }
     // else ...
     return (
-      <div className={"Card " + highlight} data-facedown={faceDown} onClick={this.handleClick}>
+      <div className={"Card " + highlight} data-facedown={faceDown} data-card-label={faceDescription} onClick={this.handleClick}>
         <img src={imgSrc} alt={alt} />
-        <div className='ui bottom attached label'>{faceDescription}</div>
+        <div className="card-label">{faceDescription}</div>
       </div >
     );
   }

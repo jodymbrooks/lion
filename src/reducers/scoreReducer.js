@@ -78,6 +78,35 @@ export default function (scoreState = initialStoreState, action) {
       newState.matchingAttrs = [];
       newState.highlight = 'none';
       newState.selectedCards = [];
+
+      /*
+      
+          // Remove each selected (matched) card's cardInfo peer
+          this.state.selectedCards.forEach((card) => {
+            var index = this.cards.indexOf(card); // the index of the card is the same index of cardInfo to remove
+            if (index !== -1) {
+              this.cardInfos.splice(index, 1); // remove the card
+            }
+          });
+      
+      
+      */
+      break;
+
+
+    case scoreActions.RESET_FLIPPED_CARDS:
+  //   this.state.selectedCards.forEach(card => {
+  //     this.hideCard(card);
+  //   });
+
+
+  //   this.setState({
+  //     //cards: cards,
+  //     selectedCards: []
+  //   });
+
+  //   this.hideOverlay();
+  // }
       break;
 
     default:

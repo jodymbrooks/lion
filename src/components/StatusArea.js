@@ -1,37 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
+import { keepScore } from '../actions/scoreActions';
 
-function StatusArea(props) {
-  const { sets, points, possPoints, matchingAttrs } = props.score;
-  const matchingAttrsString = matchingAttrs ? matchingAttrs.join(', ') : '';
-  return (
-    <div className='StatusArea'>
-      <div className='statusSection setsArea'>
-        <span className='statusTitle'>Sets: </span><span className='statusCount'>{sets}</span>
-      </div>
-      <div className='statusSection pointsArea'>
-        <span className='statusTitle'>Points: </span><span className='statusCount'>{points}</span>
-      </div>
-      <div className='statusSection possPointsArea'>
-        <span className='statusTitle'>Possible Points: </span>
-        <div className='ui right labeled button' role='button' tabIndex='0'>
-          <button className='ui icon button' disabled={possPoints === 0}>
-            <i aria-hidden='true' className='thumbs up icon' />Keep
-          </button>
-          <a className='ui left pointing basic label'>{possPoints}</a>
+class StatusArea extends Component {
+  onKeepButtonClick(/*event*/) {
+    this.props.dispatch(keepScore());
+  }
+
+  render() {
+    const { sets, points, possPoints, matchingAttrs } = this.props.score;
+    const matchingAttrsString = matchingAttrs ? matchingAttrs.join(', ') : '';
+    return (
+      <div className='StatusArea'>
+        <div className='status-section setsArea'>
+          <span className='statusTitle ui label'>Sets: </span><span className='status-count ui basic label'>{sets}</span>
         </div>
-
-
-
-
+        <div className='status-section points-area'>
+          <span className='statusTitle ui label'>Points: </span><span className='status-count ui basic label'>{points}</span>
+        </div>
+        <div className='status-section posspoints-area'>
+          <span className='statusTitle ui label'>Possible Points: </span>
+          <div className=''>
+            <button className='ui button primary keep-button' tabIndex='0' disabled={possPoints === 0} onClick={this.onKeepButtonClick.bind(this)}>
+              Keep
+            </button>
+            <span className='status-count ui basic label'>{possPoints}</span>
+          </div>
+        </div>
+        <div className='status-section matching-attrs-area'>
+          <span className='statusTitle ui label'>Matches: </span><span className='matching-attrs ui label'>{matchingAttrsString}</span>
+        </div>
       </div>
-      <div className='statusSection matchingAttrsArea'>
-        <span className='statusTitle'>Matches: </span><span className='matchingAttrs'>{matchingAttrsString}</span>
-      </div>
-    </div>
-  );
+    );
+  }
+
 }
+
 
 function mapStateToProps(state) {
   return {

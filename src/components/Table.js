@@ -5,7 +5,6 @@ import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
 import { showOverlay, hideOverlay } from '../actions/commonActions';
-import { keepScore } from '../actions/scoreActions';
 import utilities from '../utilities';
 
 class Table extends Component {
@@ -16,22 +15,9 @@ class Table extends Component {
   constructor(props) {
     super(props);
 
-    //     document.body.addEventListener("click", this.handleClick);
     if (!this.cardInfos) {
       this.cardInfos = utilities.createCardInfos();
     }
-  }
-
-  keepMatches = () => {
-    this.props.dispatch(keepScore());
-
-    // Remove each selected (matched) card's cardInfo peer
-    this.state.selectedCards.forEach((card) => {
-      var index = this.cards.indexOf(card); // the index of the card is the same index of cardInfo to remove
-      if (index !== -1) {
-        this.cardInfos.splice(index, 1); // remove the card
-      }
-    });
   }
 
   showOverlay = () => {
@@ -40,25 +26,6 @@ class Table extends Component {
 
   hideOverlay = () => {
     this.props.dispatch(hideOverlay());
-  }
-
-  resetFlippedCards = () => {
-    //var cards = [...this.cards];
-    this.state.selectedCards.forEach(card => {
-      this.hideCard(card);
-    });
-
-
-    this.setState({
-      //cards: cards,
-      selectedCards: []
-    });
-
-    this.hideOverlay();
-  }
-
-  removeSet = () => {
-
   }
 
   getCards = (count) => {
@@ -93,8 +60,7 @@ class Table extends Component {
 function mapStateToProps(state) {
   return {
     common: state.common,
-    score: state.score,
-    cards: state.cards
+    score: state.score
   };
 }
 

@@ -9,3 +9,13 @@ export const setScore = (possPoints, matchingAttrs) => ({ type: SET_SCORE, possP
 
 export const INCREMENT_SCORE = 'INCREMENT_SCORE';
 export const incrementScore = (score) => ({ type: INCREMENT_SCORE, score });
+
+export const RESET_FLIPPED_CARDS = 'RESET_FLIPPED_CARDS';
+export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
+
+
+
+
+
+
+
