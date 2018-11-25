@@ -1,40 +1,32 @@
 export default class utilities {
-  static colors = ['orange', 'teal', 'yellow'];
-  static colorMap = { 'orange': '#FF752D', 'teal': '#02A4B7', 'yellow': '#D1BC13' };
-  static sizes = ['small', 'medium', 'large'];
-  static containers = ['jug', 'bottle', 'cup'];
-  static patterns = ['stripes', 'dots', 'stars'];
-
-
-  // static colors = ['green', 'purple', 'red'];
-  // static counts = ['1', '2', '3'];
-  // static patterns = ['empty', 'fenced', 'solid'];
-  // static shapes = ['diamond', 'ellipse', 'rectangle'];
-
   static attrs = [
     {
       name: 'color',
-      values: ['orange', 'teal', 'yellow'],
-      colorMap: { 'orange': '#FF752D', 'teal': '#02A4B7', 'yellow': '#D1BC13' }
+      values: ['green', 'purple', 'red'],
+      colorMap: { 'green': '#00C000', 'purple': '#C000C0', 'red': '#FF0000' }
     },
 
     {
-      name: 'size',
-      values: ['small', 'medium', 'large']
+      name: 'count',
+      values: ['1', '2', '3'],
+      isColor: false
     },
 
     {
-      name: 'container',
-      values: ['jug', 'bottle', 'cup']
+      name: 'shape',
+      values: ['diamond', 'oval', 'rectangle'],
+      isColor: false
     },
 
     {
       name: 'pattern',
-      values: ['stripes', 'dots', 'stars']
+      values: ['empty', 'striped', 'solid'],
+      isColor: false
     }
   ];
 
-
+  static attrNames = utilities.attrs.map(attr => attr.name);
+  static colorAttr = utilities.attrs.filter(attr => typeof(attr.colorMap) !== "undefined");
 
   static cardCache = [];
 
@@ -44,82 +36,34 @@ export default class utilities {
     // However for subsequent tests, only match against what's already matched
     var firstTest = (matches.count === null);
 
-    // color
-    if (firstTest) {
-      if (card1.color === card2.color) {
-        matches.color = card1.color;
+    card1.attrs.forEach((card1attr, index) => {
+      let card2attr = card2.attrs[index];
+      if (firstTest) {
+        if (card1attr === card2attr) {
+          matches.attrs[index] = card1attr;
+        }
       }
-    }
-    else {
-      if (matches.color !== null && matches.color !== card2.color)
-        matches.color = null;
-    }
-
-    // size
-    if (firstTest) {
-      if (card1.size === card2.size) {
-        matches.size = card1.size;
+      else {
+        if (matches.attrs[index] !== null && matches.attrs[index] !== card2attr)
+          matches.attrs[index] = null;
       }
-    }
-    else {
-      if (matches.size !== null && matches.size !== card2.size) {
-        matches.size = null;
-      }
-    }
-
-    // container
-    if (firstTest) {
-      if (card1.container === card2.container) {
-        matches.container = card1.container;
-      }
-    }
-    else {
-      if (matches.container !== null && matches.container !== card2.container) {
-        matches.container = null;
-      }
-    }
-
-    // pattern
-    if (firstTest) {
-      if (card1.pattern === card2.pattern) {
-        matches.pattern = card1.pattern;
-      }
-    }
-    else {
-      if (matches.pattern !== null && matches.pattern !== card2.pattern) {
-        matches.pattern = null;
-      }
-    }
+    });
 
     matches.count = 0
     matches.matchingAttrs = [];
-    if (matches.color !== null) {
-      matches.count++;
-      matches.matchingAttrs.push('color');
-    }
-    if (matches.size !== null) {
-      matches.count++;
-      matches.matchingAttrs.push('size');
-    }
-    if (matches.container !== null) {
-      matches.count++;
-      matches.matchingAttrs.push('container');
-    }
-    if (matches.pattern !== null) {
-      matches.count++;
-      matches.matchingAttrs.push('pattern');
-    }
+
+    matches.attrs.forEach((attr, index) => {
+      if (attr !== null) {
+        matches.count++;
+        matches.matchingAttrs.push(utilities.attrs[index].name);
+      }  
+    });
 
     return matches;
   }
 
   static getMatchingAttrs = (selectedCards) => {
-    var matchingAttrs = [
-      'color',
-      'size',
-      'container',
-      'pattern'
-    ];
+    var matchingAttrs = utilities.attrNames;
 
     var selectedCardsCount = selectedCards.length;
     if (selectedCardsCount < 1)
@@ -129,12 +73,9 @@ export default class utilities {
       return matchingAttrs;
 
     var matches = {
-      color: null,
-      size: null,
-      container: null,
-      pattern: null,
-      count: null,
-      matchingAttrs: []
+      attrs: [null, null, null, null],
+      matchingAttrs: [],
+      count: null
     };
 
     var cardKey1 = selectedCards[0];
@@ -154,18 +95,23 @@ export default class utilities {
 
   static createCardInfos() {
     var cardInfos = [];
-    var numColors = utilities.colors.length;
-    var numSizes = utilities.sizes.length;
-    var numContainers = utilities.containers.length;
-    var numPatterns = utilities.patterns.length;
 
-    for (var color = 0; color < numColors; color++) {
-      for (var size = 0; size < numSizes; size++) {
-        for (var container = 0; container < numContainers; container++) {
-          for (var pattern = 0; pattern < numPatterns; pattern++) {
-            const key = utilities.getKey(color, size, container, pattern);
+    let numAttr1Values = utilities.attrs[0].values.length;
+    let numAttr2Values = utilities.attrs[0].values.length;
+    let numAttr3Values = utilities.attrs[0].values.length;
+    let numAttr4Values = utilities.attrs[0].values.length;
 
-            var cardInfo = { color, size, container, pattern, key };
+
+    for (var attr1 = 0; attr1 < numAttr1Values; attr1++) {
+      for (var attr2 = 0; attr2 < numAttr2Values; attr2++) {
+        for (var attr3 = 0; attr3 < numAttr3Values; attr3++) {
+          for (var attr4 = 0; attr4 < numAttr4Values; attr4++) {
+            const key = utilities.getKey(attr1, attr2, attr3, attr4);
+
+            var cardInfo = {
+              attrs: [attr1, attr2, attr3, attr4],
+              key
+            };
             cardInfos.push(cardInfo);
             utilities.cardCache[key] = cardInfo;
           }
@@ -183,128 +129,134 @@ export default class utilities {
   //   return attrs;
   // }
 
-  static decodeColor(colorProp) {
-    var color = {
-      index: null,
-      name: null,
-      value: null
-    };
+  // static decodeColor(colorProp) {
+  //   var color = {
+  //     index: null,
+  //     name: null,
+  //     value: null
+  //   };
 
-    var colorName;
+  //   var colorName;
 
-    if (typeof (colorProp) === "string") {
-      var colorIndex = utilities.colors.indexOf(colorProp.toLowerCase());
-      if (colorIndex !== -1) {
-        colorName = utilities.colors[colorIndex]; // get it from the array so it's normalized
-        color = {
-          index: colorIndex,
-          name: colorName,
-          value: utilities.colorMap[colorName]
-        }
-      }
-    } else if (typeof (colorProp === "number")) {
-      colorName = utilities.colors[colorProp];
-      if (typeof (colorName) !== "undefined") {
-        color = {
-          index: colorProp,
-          name: colorName,
-          value: utilities.colorMap[colorName]
-        }
-      }
-    }
+  //   if (typeof (colorProp) === "string") {
+  //     var colorIndex = utilities.colorAttr.values.indexOf(colorProp.toLowerCase());
+  //     if (colorIndex !== -1) {
+  //       colorName = utilities.colorAttr.values[colorIndex]; // get it from the array so it's normalized
+  //       color = {
+  //         index: colorIndex,
+  //         name: colorName,
+  //         value: utilities.colorAttr.colorMap[colorName]
+  //       }
+  //     }
+  //   } else if (typeof (colorProp === "number")) {
+  //     colorName = utilities.colorAttrs.name[colorProp];
+  //     if (typeof (colorName) !== "undefined") {
+  //       color = {
+  //         index: colorProp,
+  //         name: colorName,
+  //         value: utilities.colorAttr.colorMap[colorName]
+  //       }
+  //     }
+  //   }
 
-    return color;
-  }
+  //   return color;
+  // }
 
-  static decodeContainer(containerProp) {
-    var container = {
-      index: null,
-      name: null
-    };
-
-    var containerName;
-
-    if (typeof (containerProp) === "string") {
-      var containerIndex = utilities.containers.indexOf(containerProp.toLowerCase());
-      if (containerIndex !== -1) {
-        containerName = utilities.containers[containerIndex]; // get it from the array so it's normalized
-        container = {
-          index: containerIndex,
-          name: containerName
-        }
-      }
-    } else if (typeof (containerProp === "number")) {
-      containerName = utilities.containers[containerProp];
-      if (typeof (containerName) !== "undefined") {
-        container = {
-          index: containerProp,
-          name: containerName
-        }
-      }
-    }
-
-    return container;
-  }
-
-  static decodePattern(patternProp) {
-    var pattern = {
+  static decodeAttr(index, value) {
+    var attr = {
       index: null,
       name: null
     };
 
-    var patternName;
+    var valueIndex;
+    var valueName;
 
-    if (typeof (patternProp) === "string") {
-      var patternIndex = utilities.patterns.indexOf(patternProp.toLowerCase());
-      if (patternIndex !== -1) {
-        patternName = utilities.patterns[patternIndex]; // get it from the array so it's normalized
-        pattern = {
-          index: patternIndex,
-          name: patternName
+    if (typeof (value) === "string") {
+      valueIndex = utilities.attrs[index].values.indexOf(value.toLowerCase());
+      if (valueIndex !== -1) {
+        valueName = utilities.attrs[index].name[valueIndex]; // get it from the array so it's normalized
+        attr = {
+          index: valueIndex,
+          name: valueName
         }
       }
-    } else if (typeof (patternProp === "number")) {
-      patternName = utilities.patterns[patternProp];
-      if (typeof (patternName) !== "undefined") {
-        pattern = {
-          index: patternProp,
-          name: patternName
-        }
-      }
-    }
-
-    return pattern;
-  }
-
-  static decodeSize(sizeProp) {
-    var size = {
-      index: null,
-      name: null
-    };
-
-    var sizeName;
-
-    if (typeof (sizeProp) === "string") {
-      var sizeIndex = utilities.sizes.indexOf(sizeProp.toLowerCase());
-      if (sizeIndex !== -1) {
-        sizeName = utilities.sizes[sizeIndex]; // get it from the array so it's normalized
-        size = {
-          index: sizeIndex,
-          name: sizeName
-        }
-      }
-    } else if (typeof (sizeProp === "number")) {
-      sizeName = utilities.sizes[sizeProp];
-      if (typeof (sizeName) !== "undefined") {
-        size = {
-          index: sizeProp,
-          name: sizeName
+    } else if (typeof (value === "number")) {
+      valueIndex = value;
+      valueName = utilities.attrs[index].values[value];
+      if (typeof (valueName) !== "undefined") {
+        attr = {
+          index: valueIndex,
+          name: valueName
         }
       }
     }
 
-    return size;
+    if (utilities.attrs[index].colorMap) {
+      attr.value = utilities.attrs[index].colorMap[attr.name];
+    }
+
+    return attr;
   }
+
+  // static decodePattern(patternProp) {
+  //   var pattern = {
+  //     index: null,
+  //     name: null
+  //   };
+
+  //   var patternName;
+
+  //   if (typeof (patternProp) === "string") {
+  //     var patternIndex = utilities.attrs[3]s.indexOf(patternProp.toLowerCase());
+  //     if (patternIndex !== -1) {
+  //       patternName = utilities.attrs[3]s[patternIndex]; // get it from the array so it's normalized
+  //       pattern = {
+  //         index: patternIndex,
+  //         name: patternName
+  //       }
+  //     }
+  //   } else if (typeof (patternProp === "number")) {
+  //     patternName = utilities.attrs[3]s[patternProp];
+  //     if (typeof (patternName) !== "undefined") {
+  //       pattern = {
+  //         index: patternProp,
+  //         name: patternName
+  //       }
+  //     }
+  //   }
+
+  //   return pattern;
+  // }
+
+  // static decodeSize(sizeProp) {
+  //   var size = {
+  //     index: null,
+  //     name: null
+  //   };
+
+  //   var sizeName;
+
+  //   if (typeof (sizeProp) === "string") {
+  //     var sizeIndex = utilities.attrs[1]s.indexOf(sizeProp.toLowerCase());
+  //     if (sizeIndex !== -1) {
+  //       sizeName = utilities.attrs[1]s[sizeIndex]; // get it from the array so it's normalized
+  //       size = {
+  //         index: sizeIndex,
+  //         name: sizeName
+  //       }
+  //     }
+  //   } else if (typeof (sizeProp === "number")) {
+  //     sizeName = utilities.attrs[1]s[sizeProp];
+  //     if (typeof (sizeName) !== "undefined") {
+  //       size = {
+  //         index: sizeProp,
+  //         name: sizeName
+  //       }
+  //     }
+  //   }
+
+  //   return size;
+  // }
 
   static getKey(attr1, attr2, attr3, attr4) {
     const key = `${attr1}${attr2}${attr3}${attr4}`;

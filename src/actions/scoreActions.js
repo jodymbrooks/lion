@@ -1,3 +1,5 @@
+import { showOverlay, hideOverlay } from './commonActions';
+
 export const CARD_FLIPPED = 'CARD_FLIPPED';
 export const cardFlipped = (cardKey) => ({ type: CARD_FLIPPED, cardKey });
 
@@ -13,7 +15,34 @@ export const incrementScore = (score) => ({ type: INCREMENT_SCORE, score });
 export const RESET_FLIPPED_CARDS = 'RESET_FLIPPED_CARDS';
 export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
 
+export const CLEAR_KEPT_CARDS = 'CLEAR_KEPT_CARDS';
+export const clearKeptCards = () => ({ type: CLEAR_KEPT_CARDS });
 
+// export const cardFlippedAndCheckStuff = dispatch => {
+//     return cardFlipped().then(
+//       sauce => dispatch(makeASandwich(forPerson, sauce)),
+//       error => dispatch(apologize('The Sandwich Shop', forPerson, error))
+//     );
+//   };
+
+export function cardFlippedAndFollowup(cardKey) {
+    return (dispatch, getState) => {
+        dispatch(cardFlipped(cardKey));
+
+        const { score } = getState();
+        const { selectedCards, matchingAttrs } = score;
+
+        const isMatch = selectedCards.length === 1 || matchingAttrs.length > 0;
+
+        if (!isMatch) {
+            dispatch(showOverlay());
+            setTimeout(() => {
+                dispatch(resetFlippedCards());
+                dispatch(hideOverlay());
+            }, 2000);
+        }
+    };
+}
 
 
 

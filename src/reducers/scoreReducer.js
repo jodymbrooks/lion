@@ -95,18 +95,13 @@ export default function (scoreState = initialStoreState, action) {
 
 
     case scoreActions.RESET_FLIPPED_CARDS:
-  //   this.state.selectedCards.forEach(card => {
-  //     this.hideCard(card);
-  //   });
+      newState.selectedCards = [];
+      newState.possPoints = 0;
+      newState.matchingAttrs = [];
+      break;
 
-
-  //   this.setState({
-  //     //cards: cards,
-  //     selectedCards: []
-  //   });
-
-  //   this.hideOverlay();
-  // }
+    case scoreActions.CLEAR_KEPT_CARDS:
+      console.log("scoreReducer: CLEAR_KEPT_CARDS");
       break;
 
     default:

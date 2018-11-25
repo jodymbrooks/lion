@@ -18,7 +18,7 @@ class App extends Component {
       <Provider store={this.store}>
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">BOLD - the card game</h1>
+            <h1 className="App-title">Brave - the card game</h1>
             <StatusArea />
           </header>
           <Table />
