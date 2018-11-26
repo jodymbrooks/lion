@@ -1,5 +1,8 @@
 import { showOverlay, hideOverlay } from './commonActions';
 
+export const SET_CARD_INFOS = 'SET_CARD_INFOS';
+export const setCardInfos = (cardInfos) => ({ type: SET_CARD_INFOS, cardInfos });
+
 export const CARD_FLIPPED = 'CARD_FLIPPED';
 export const cardFlipped = (cardKey) => ({ type: CARD_FLIPPED, cardKey });
 

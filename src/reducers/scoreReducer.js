@@ -2,6 +2,7 @@ import * as scoreActions from '../actions/scoreActions';
 import utilities from '../utilities';
 
 var initialStoreState = {
+  cardInfos: [],
   sets: 0,
   points: 0,
   possPoints: 0,
@@ -16,6 +17,7 @@ export default function (scoreState = initialStoreState, action) {
   switch (action.type) {
     case scoreActions.CARD_FLIPPED:
       const { cardKey } = action;
+      const { cardInfos } = scoreState;
       const selectedCards = [...scoreState.selectedCards];
       const idx = selectedCards.indexOf(cardKey);
       if (idx === -1) {
@@ -27,7 +29,7 @@ export default function (scoreState = initialStoreState, action) {
       newState.selectedCards = selectedCards;
 
       const numSelectedCards = selectedCards.length;
-      const matchingAttrs = utilities.getMatchingAttrs(selectedCards);
+      const matchingAttrs = utilities.getMatchingAttrs(selectedCards, cardInfos);
       const allMatch = (matchingAttrs.length > 0);
 
       if (allMatch && numSelectedCards > 1) {
@@ -79,18 +81,16 @@ export default function (scoreState = initialStoreState, action) {
       newState.highlight = 'none';
       newState.selectedCards = [];
 
-      /*
-      
-          // Remove each selected (matched) card's cardInfo peer
-          this.state.selectedCards.forEach((card) => {
-            var index = this.cards.indexOf(card); // the index of the card is the same index of cardInfo to remove
-            if (index !== -1) {
-              this.cardInfos.splice(index, 1); // remove the card
-            }
-          });
-      
-      
-      */
+      const newCardInfos = [...scoreState.cardInfos];
+      newState.cardInfos = newCardInfos;
+
+      // Mark each selected (matched) card's cardInfo peer as kept so it's removed from the table
+      scoreState.selectedCards.forEach((cardKey) => {
+        const cardInfoIndex = utilities.getCardInfoIndexFromKey(cardKey);
+        if (cardInfoIndex !== null) {
+          newCardInfos[cardInfoIndex].kept = true;
+        }
+      });
       break;
 
 
@@ -102,6 +102,16 @@ export default function (scoreState = initialStoreState, action) {
 
     case scoreActions.CLEAR_KEPT_CARDS:
       console.log("scoreReducer: CLEAR_KEPT_CARDS");
+
+
+
+      break;
+
+    case scoreActions.SET_CARD_INFOS:
+      {
+        const { cardInfos } = action;
+        newState.cardInfos = [...cardInfos];
+      }
       break;
 
     default:

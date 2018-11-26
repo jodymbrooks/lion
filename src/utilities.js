@@ -26,9 +26,9 @@ export default class utilities {
   ];
 
   static attrNames = utilities.attrs.map(attr => attr.name);
-  static colorAttr = utilities.attrs.filter(attr => typeof(attr.colorMap) !== "undefined");
+  static colorAttr = utilities.attrs.filter(attr => typeof (attr.colorMap) !== "undefined");
 
-  static cardCache = [];
+  static cardInfoIndexCache = [];
 
   static getMatches(card1, card2, matches) {
 
@@ -56,13 +56,13 @@ export default class utilities {
       if (attr !== null) {
         matches.count++;
         matches.matchingAttrs.push(utilities.attrs[index].name);
-      }  
+      }
     });
 
     return matches;
   }
 
-  static getMatchingAttrs = (selectedCards) => {
+  static getMatchingAttrs = (selectedCards, cardInfos) => {
     var matchingAttrs = utilities.attrNames;
 
     var selectedCardsCount = selectedCards.length;
@@ -79,11 +79,11 @@ export default class utilities {
     };
 
     var cardKey1 = selectedCards[0];
-    var card1 = utilities.cardCache[cardKey1];
+    var card1 = utilities.getCardInfoFromKey(cardKey1, cardInfos);
 
     for (var idx = 1; idx < selectedCardsCount; idx++) {
       var cardKey2 = selectedCards[idx];
-      var card2 = utilities.cardCache[cardKey2];
+      var card2 = utilities.getCardInfoFromKey(cardKey2, cardInfos);
       matches = utilities.getMatches(card1, card2, matches);
 
       if (matches.count === 0)
@@ -110,10 +110,11 @@ export default class utilities {
 
             var cardInfo = {
               attrs: [attr1, attr2, attr3, attr4],
-              key
+              key,
+              kept: false
             };
             cardInfos.push(cardInfo);
-            utilities.cardCache[key] = cardInfo;
+            utilities.cardInfoIndexCache[key] = cardInfos.length - 1;
           }
         }
       }
@@ -122,6 +123,27 @@ export default class utilities {
     this.shuffleArray(cardInfos);
 
     return cardInfos;
+  }
+
+  static getCardInfoIndexFromKey(key) {
+    const cardInfoIndex = utilities.cardInfoIndexCache[key];
+    if (typeof(cardInfoIndex) === "undefined") return null;
+    
+    return cardInfoIndex;
+  }
+
+  static getCardInfoFromKey(key, cardInfos) {
+    if (!key || !cardInfos) return;
+
+    const cardInfoIndex = utilities.getCardInfoIndexFromKey(key);
+
+    if (cardInfoIndex) {
+      const cardInfo = cardInfos[cardInfoIndex];
+    
+      return cardInfo;
+    }
+
+    return null;
   }
 
   // static decodeKey(key) {

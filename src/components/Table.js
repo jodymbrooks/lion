@@ -5,33 +5,38 @@ import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
 import utilities from '../utilities';
+import { setCardInfos } from '../actions/scoreActions';
 
 class Table extends Component {
 
-  cardInfos = null;
+  // cardInfos = null;
   cards = null;
 
   constructor(props) {
     super(props);
 
-    if (!this.cardInfos) {
-      this.cardInfos = utilities.createCardInfos();
+    if (!this.props.cardInfos) {
+      this.props.dispatch(setCardInfos(utilities.createCardInfos()));
     }
   }
 
   getCards = (count) => {
     this.cards = [];
-    this.cardInfos.slice(0, count).map((cardInfo) => {
-      const { key, attrs } = cardInfo;
-      const faceDown = !this.props.score.selectedCards.includes(key);
+    this.props.score.cardInfos.some((cardInfo) => {
+      const { key, attrs, kept } = cardInfo;
 
-      var card = (
-        <div key={key} className="Table_grid_item">
-          <Card cardKey={key} attr1={attrs[0]} attr2={attrs[1]} attr3={attrs[2]} attr4={attrs[3]} faceDown={faceDown} />
-        </div>
-      );
-      this.cards.push(card);
-      return card;
+      if (!kept) {
+        const faceDown = !this.props.score.selectedCards.includes(key);
+
+        var card = (
+          <div key={key} className="Table_grid_item">
+            <Card cardKey={key} attr1={attrs[0]} attr2={attrs[1]} attr3={attrs[2]} attr4={attrs[3]} faceDown={faceDown} />
+          </div>
+        );
+        this.cards.push(card);
+      }
+
+      return this.cards.length >= count;
     })
   }
 
