@@ -2,12 +2,12 @@ import * as scoreActions from '../actions/scoreActions';
 import utilities from '../utilities';
 
 var initialStoreState = {
-  cardInfos: [],
+  tableCards: [],
+  deckCards: [],
+  matchingAttrs: [],
   sets: 0,
   points: 0,
   possPoints: 0,
-  matchingAttrs: [],
-  selectedCards: [],
   highlight: "none"
 };
 
@@ -15,34 +15,80 @@ export default function (scoreState = initialStoreState, action) {
   var newState = { ...scoreState };
 
   switch (action.type) {
-    case scoreActions.CARD_FLIPPED:
-      const { cardKey } = action;
-      const { cardInfos } = scoreState;
-      const selectedCards = [...scoreState.selectedCards];
-      const idx = selectedCards.indexOf(cardKey);
-      if (idx === -1) {
-        selectedCards.push(cardKey);
-      } else {
-        selectedCards.splice(idx, 1);
+    case scoreActions.DEAL_CARDS:
+      {
+        const count = 20;
+        
+        let { deckCards } = scoreState;
+
+        if (deckCards.length === 0) {
+          newState.deckCards = utilities.shuffleDeckCards();
+          deckCards = newState.deckCards;
+        }
+
+        if (scoreState.tableCards.length === 0) {
+          newState.tableCards = new Array(count).fill(null);
+        } else {
+          newState.tableCards = [...scoreState.tableCards];
+        }
+
+        if (deckCards.length > 0) {
+          newState.tableCards.forEach((tableCard, tableCardsIndex) => {
+            // Replace empty table slots (null values) with the next available deck card
+            if (tableCard === null) {
+              const [card] = deckCards.splice(0, 1); // returns an array of the spliced entries which is just one entry
+              newState.tableCards[tableCardsIndex] = { ...card, index: tableCardsIndex };
+            }
+          });
+        }
       }
+      break;
 
-      newState.selectedCards = selectedCards;
+    case scoreActions.CARD_FLIPPED:
+      {
+        const { cardKey } = action;
+        const { tableCards } = scoreState;
+        const card = utilities.getCardFromKey(tableCards, cardKey);
+        const newTableCards = [...tableCards];
 
-      const numSelectedCards = selectedCards.length;
-      const matchingAttrs = utilities.getMatchingAttrs(selectedCards, cardInfos);
-      const allMatch = (matchingAttrs.length > 0);
+        const newCard = { ...card, faceDown: !card.faceDown };
+        newTableCards[newCard.index] = newCard;
+        newState.tableCards = newTableCards;
+      }
+      break;
 
-      if (allMatch && numSelectedCards > 1) {
+    case scoreActions.CHECK_MATCHES:
+      {
+        const { tableCards } = action;
+        const selectedCards = utilities.getSelectedCards(tableCards);
+
+        const numSelectedCards = Object.keys(selectedCards).length;
+        const matchingAttrs = utilities.getMatchingAttrs(selectedCards);
+        const allMatch = (matchingAttrs.length > 0);
+        newState.highlight = (allMatch ? "highlight-match" : "highlight-mismatch");
+
+        if (allMatch && numSelectedCards > 1) {
+          newState.matchingAttrs = matchingAttrs;
+        }
+        else {
+          newState.matchingAttrs = [];
+        }
+
+      }
+      break;
+
+    case scoreActions.UPDATE_SCORE_FROM_MATCHES:
+      const { tableCards } = action;
+      const selectedCards = utilities.getSelectedCards(tableCards);
+      const { matchingAttrs } = scoreState;
+      if (matchingAttrs.length > 0) {
+        const numSelectedCards = Object.keys(selectedCards).length;
         var possPoints = numSelectedCards * numSelectedCards;
         newState.possPoints = possPoints;
-        newState.matchingAttrs = matchingAttrs;
       }
       else {
         newState.possPoints = 0;
-        newState.matchingAttrs = [];
       }
-
-      newState.highlight = (allMatch ? "highlight-match" : "highlight-mismatch");
       break;
 
     case scoreActions.INCREMENT_SCORE:
@@ -79,38 +125,22 @@ export default function (scoreState = initialStoreState, action) {
       newState.possPoints = 0;
       newState.matchingAttrs = [];
       newState.highlight = 'none';
-      newState.selectedCards = [];
-
-      const newCardInfos = [...scoreState.cardInfos];
-      newState.cardInfos = newCardInfos;
-
-      // Mark each selected (matched) card's cardInfo peer as kept so it's removed from the table
-      scoreState.selectedCards.forEach((cardKey) => {
-        const cardInfoIndex = utilities.getCardInfoIndexFromKey(cardKey);
-        if (cardInfoIndex !== null) {
-          newCardInfos[cardInfoIndex].kept = true;
-        }
-      });
       break;
 
 
     case scoreActions.RESET_FLIPPED_CARDS:
-      newState.selectedCards = [];
       newState.possPoints = 0;
       newState.matchingAttrs = [];
+      newState.tableCards = scoreState.tableCards.map(card => { return { ...card, faceDown: true } });
       break;
 
     case scoreActions.CLEAR_KEPT_CARDS:
-      console.log("scoreReducer: CLEAR_KEPT_CARDS");
-
-
-
-      break;
-
-    case scoreActions.SET_CARD_INFOS:
       {
-        const { cardInfos } = action;
-        newState.cardInfos = [...cardInfos];
+        const { tableCards } = scoreState;
+        const selectedCards = utilities.getSelectedCards(tableCards);
+        const newTableCards = [...tableCards];
+        selectedCards.forEach(card => { newTableCards[card.index] = null });
+        newState.tableCards = newTableCards;
       }
       break;
 

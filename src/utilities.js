@@ -28,7 +28,12 @@ export default class utilities {
   static attrNames = utilities.attrs.map(attr => attr.name);
   static colorAttr = utilities.attrs.filter(attr => typeof (attr.colorMap) !== "undefined");
 
-  static cardInfoIndexCache = [];
+  // static cardInfoIndexCache = [];
+
+  static getSelectedCards(tableCards) {
+    const selectedCards = tableCards.filter(card => !card.faceDown);
+    return selectedCards;
+  }
 
   static getMatches(card1, card2, matches) {
 
@@ -62,7 +67,7 @@ export default class utilities {
     return matches;
   }
 
-  static getMatchingAttrs = (selectedCards, cardInfos) => {
+  static getMatchingAttrs = (selectedCards, deckCards) => {
     var matchingAttrs = utilities.attrNames;
 
     var selectedCardsCount = selectedCards.length;
@@ -78,12 +83,10 @@ export default class utilities {
       count: null
     };
 
-    var cardKey1 = selectedCards[0];
-    var card1 = utilities.getCardInfoFromKey(cardKey1, cardInfos);
+    var card1 = selectedCards[0];
 
     for (var idx = 1; idx < selectedCardsCount; idx++) {
-      var cardKey2 = selectedCards[idx];
-      var card2 = utilities.getCardInfoFromKey(cardKey2, cardInfos);
+      var card2 = selectedCards[idx];
       matches = utilities.getMatches(card1, card2, matches);
 
       if (matches.count === 0)
@@ -93,8 +96,8 @@ export default class utilities {
     return matches.matchingAttrs;
   }
 
-  static createCardInfos() {
-    var cardInfos = [];
+  static shuffleDeckCards() {
+    var deckCards = [];
 
     let numAttr1Values = utilities.attrs[0].values.length;
     let numAttr2Values = utilities.attrs[0].values.length;
@@ -111,39 +114,30 @@ export default class utilities {
             var cardInfo = {
               attrs: [attr1, attr2, attr3, attr4],
               key,
-              kept: false
+              faceDown: true,
+              index: null // used when dealt to table
             };
-            cardInfos.push(cardInfo);
-            utilities.cardInfoIndexCache[key] = cardInfos.length - 1;
+            deckCards.push(cardInfo);
           }
         }
       }
     }
 
-    this.shuffleArray(cardInfos);
+    this.shuffleArray(deckCards);
 
-    return cardInfos;
+    return deckCards;
   }
 
-  static getCardInfoIndexFromKey(key) {
-    const cardInfoIndex = utilities.cardInfoIndexCache[key];
-    if (typeof(cardInfoIndex) === "undefined") return null;
-    
-    return cardInfoIndex;
-  }
+  // static getCardIndexFromKey(cards, key) {
+  //   const cardIndex = cards.findIndex(card => card.key === key);
 
-  static getCardInfoFromKey(key, cardInfos) {
-    if (!key || !cardInfos) return;
+  //   return cardIndex ? cardIndex : null;
+  // }
 
-    const cardInfoIndex = utilities.getCardInfoIndexFromKey(key);
+  static getCardFromKey(cards, key) {
+    const card = cards.find(card => card.key === key);
 
-    if (cardInfoIndex) {
-      const cardInfo = cardInfos[cardInfoIndex];
-    
-      return cardInfo;
-    }
-
-    return null;
+    return card ? card : null;
   }
 
   // static decodeKey(key) {

@@ -151,6 +151,11 @@ body {
   position: relative;
 }
 
+.Card.is-empty {
+    border: 8px solid transparent;
+    box-shadow: none;
+}
+
 /* .Card[data-facedown=true] {
 } */
 

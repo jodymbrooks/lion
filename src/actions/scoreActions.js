@@ -1,10 +1,17 @@
 import { showOverlay, hideOverlay } from './commonActions';
+import utilities from '../utilities';
 
-export const SET_CARD_INFOS = 'SET_CARD_INFOS';
-export const setCardInfos = (cardInfos) => ({ type: SET_CARD_INFOS, cardInfos });
+export const DEAL_CARDS = 'DEAL_CARDS';
+export const dealCards = () => ({ type: DEAL_CARDS });
 
 export const CARD_FLIPPED = 'CARD_FLIPPED';
 export const cardFlipped = (cardKey) => ({ type: CARD_FLIPPED, cardKey });
+
+export const CHECK_MATCHES = 'CHECK_MATCHES';
+export const checkMatches = (tableCards) => ({ type: CHECK_MATCHES, tableCards });
+
+export const UPDATE_SCORE_FROM_MATCHES = 'UPDATE_SCORE_FROM_MATCHES';
+export const updateScoreFromMatches = (tableCards) => ({ type: UPDATE_SCORE_FROM_MATCHES, tableCards });
 
 export const KEEP_SCORE = 'KEEP_SCORE';
 export const keepScore = () => ({ type: KEEP_SCORE });
@@ -21,20 +28,18 @@ export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
 export const CLEAR_KEPT_CARDS = 'CLEAR_KEPT_CARDS';
 export const clearKeptCards = () => ({ type: CLEAR_KEPT_CARDS });
 
-// export const cardFlippedAndCheckStuff = dispatch => {
-//     return cardFlipped().then(
-//       sauce => dispatch(makeASandwich(forPerson, sauce)),
-//       error => dispatch(apologize('The Sandwich Shop', forPerson, error))
-//     );
-//   };
-
-export function cardFlippedAndFollowup(cardKey) {
+export function cardFlippedAndFollowUp(cardKey) {
     return (dispatch, getState) => {
         dispatch(cardFlipped(cardKey));
 
-        const { score } = getState();
-        const { selectedCards, matchingAttrs } = score;
+        const tableCards = getState().score.tableCards;
+        dispatch(checkMatches(tableCards));
 
+        const matchingAttrs = getState().score.matchingAttrs;
+
+        dispatch(updateScoreFromMatches(tableCards));
+
+        const selectedCards = utilities.getSelectedCards(tableCards);
         const isMatch = selectedCards.length === 1 || matchingAttrs.length > 0;
 
         if (!isMatch) {
@@ -47,7 +52,14 @@ export function cardFlippedAndFollowup(cardKey) {
     };
 }
 
-
-
-
-
+export function keepScoreAndFollowUp() {
+    return (dispatch) => {
+        dispatch(keepScore());
+        dispatch(clearKeptCards());
+        dispatch(showOverlay());
+        setTimeout(() => {
+            dispatch(dealCards());
+            dispatch(hideOverlay());
+        }, 1000);
+    };
+}

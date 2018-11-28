@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
-import { keepScore } from '../actions/scoreActions';
+import { keepScoreAndFollowUp } from '../actions/scoreActions';
 
 class StatusArea extends Component {
   onKeepButtonClick(/*event*/) {
-    this.props.dispatch(keepScore());
+    this.props.dispatch(keepScoreAndFollowUp());
   }
 
   render() {

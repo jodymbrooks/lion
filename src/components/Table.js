@@ -4,44 +4,49 @@ import { connect } from 'react-redux';
 import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
-import utilities from '../utilities';
-import { setCardInfos } from '../actions/scoreActions';
+import { dealCards } from '../actions/scoreActions';
 
 class Table extends Component {
-
-  // cardInfos = null;
-  cards = null;
 
   constructor(props) {
     super(props);
 
-    if (!this.props.cardInfos) {
-      this.props.dispatch(setCardInfos(utilities.createCardInfos()));
+    this.cards = null;
+
+    if (!this.props.deckCards) {
+      this.props.dispatch(dealCards());
     }
   }
 
-  getCards = (count) => {
+  getCards = () => {
     this.cards = [];
-    this.props.score.cardInfos.some((cardInfo) => {
-      const { key, attrs, kept } = cardInfo;
 
-      if (!kept) {
-        const faceDown = !this.props.score.selectedCards.includes(key);
+    this.props.score.tableCards.forEach((cardInfo, index) => {
+      let card;
 
-        var card = (
-          <div key={key} className="Table_grid_item">
+      if (cardInfo) {
+        const { key, attrs, faceDown } = cardInfo;
+
+        card = (
+          <div key={index+"."+key} className="Table_grid_item">
             <Card cardKey={key} attr1={attrs[0]} attr2={attrs[1]} attr3={attrs[2]} attr4={attrs[3]} faceDown={faceDown} />
           </div>
         );
-        this.cards.push(card);
+      } else {
+        card = (
+          <div key={index+".empty"} className="Table_grid_item">
+            <Card isEmpty={true} />
+          </div>
+        );
       }
 
-      return this.cards.length >= count;
+
+      this.cards.push(card);
     })
   }
 
   render() {
-    this.getCards(20);
+    this.getCards();
 
     return (
       <div className="Table">
