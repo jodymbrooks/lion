@@ -31,7 +31,7 @@ export default class utilities {
   // static cardInfoIndexCache = [];
 
   static getSelectedCards(tableCards) {
-    const selectedCards = tableCards.filter(card => !card.faceDown);
+    const selectedCards = tableCards.filter(card => card !== null && !card.faceDown);
     return selectedCards;
   }
 
@@ -129,13 +129,13 @@ export default class utilities {
   }
 
   // static getCardIndexFromKey(cards, key) {
-  //   const cardIndex = cards.findIndex(card => card.key === key);
+  //   const cardIndex = cards.findIndex(card => card !== null && card.key === key);
 
   //   return cardIndex ? cardIndex : null;
   // }
 
   static getCardFromKey(cards, key) {
-    const card = cards.find(card => card.key === key);
+    const card = cards.find(card => card !== null && card.key === key);
 
     return card ? card : null;
   }

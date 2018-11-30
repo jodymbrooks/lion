@@ -1,4 +1,4 @@
-import * as scoreActions from '../actions/scoreActions';
+import * as scoreActions from './scoreActions';
 import utilities from '../utilities';
 
 var initialStoreState = {
@@ -8,7 +8,8 @@ var initialStoreState = {
   sets: 0,
   points: 0,
   possPoints: 0,
-  highlight: "none"
+  highlight: "none",
+  gameOver: false,
 };
 
 export default function (scoreState = initialStoreState, action) {
@@ -17,30 +18,37 @@ export default function (scoreState = initialStoreState, action) {
   switch (action.type) {
     case scoreActions.DEAL_CARDS:
       {
-        const count = 20;
-        
-        let { deckCards } = scoreState;
+        const count = 78;
 
-        if (deckCards.length === 0) {
-          newState.deckCards = utilities.shuffleDeckCards();
-          deckCards = newState.deckCards;
-        }
+        let { deckCards } = scoreState;
 
         if (scoreState.tableCards.length === 0) {
           newState.tableCards = new Array(count).fill(null);
+
+          if (deckCards.length === 0) {
+            newState.deckCards = utilities.shuffleDeckCards();
+            deckCards = newState.deckCards;
+          }
+
         } else {
           newState.tableCards = [...scoreState.tableCards];
         }
 
-        if (deckCards.length > 0) {
-          newState.tableCards.forEach((tableCard, tableCardsIndex) => {
-            // Replace empty table slots (null values) with the next available deck card
-            if (tableCard === null) {
+        let stillHaveTableCards = false;
+
+        newState.tableCards.forEach((tableCard, idx) => {
+          // Replace empty table slots (null values) with the next available deck card, if any
+          if (tableCard === null) {
+            if (deckCards.length > 0) {
               const [card] = deckCards.splice(0, 1); // returns an array of the spliced entries which is just one entry
-              newState.tableCards[tableCardsIndex] = { ...card, index: tableCardsIndex };
+              newState.tableCards[idx] = { ...card, index: idx };
+              stillHaveTableCards = true;
             }
-          });
-        }
+          } else {
+            stillHaveTableCards = true;
+          }
+        });
+        newState.gameOver = !stillHaveTableCards;
       }
       break;
 

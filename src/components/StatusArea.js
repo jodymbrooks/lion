@@ -11,6 +11,7 @@ class StatusArea extends Component {
   render() {
     const { sets, points, possPoints, matchingAttrs } = this.props.score;
     const matchingAttrsString = matchingAttrs ? matchingAttrs.join(', ') : '';
+    const cardsLeft = this.props.score.deckCards.length;
     return (
       <div className='StatusArea'>
         <div className='status-section setsArea'>
@@ -27,6 +28,9 @@ class StatusArea extends Component {
             </button>
             <span className='status-count ui basic label'>{possPoints}</span>
           </div>
+        </div>
+        <div className='status-section cards-area'>
+          <span className='statusTitle ui label'>Cards Left: </span><span className='status-count ui basic label'>{cardsLeft}</span>
         </div>
         <div className='status-section matching-attrs-area'>
           <span className='statusTitle ui label'>Matches: </span><span className='matching-attrs ui label'>{matchingAttrsString}</span>

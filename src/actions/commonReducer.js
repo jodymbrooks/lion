@@ -1,4 +1,4 @@
-import * as commonActions from '../actions/commonActions';
+import * as commonActions from './commonActions';
 
 const initialState = {
   error: null,

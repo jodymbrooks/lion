@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import './App.css';
 import StatusArea from './components/StatusArea';
 import Table from './components/Table';
+import DevTools from './DevTools';
 import configureStore from './store';
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
             <h1 className="App-title">Brave - the card game</h1>
             <StatusArea />
           </header>
+          <DevTools />
           <Table />
         </div>
       </Provider>

@@ -60,6 +60,6 @@ export function keepScoreAndFollowUp() {
         setTimeout(() => {
             dispatch(dealCards());
             dispatch(hideOverlay());
-        }, 1000);
+        }, 300);
     };
 }
