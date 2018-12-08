@@ -45,7 +45,7 @@ class Card extends Component {
       if (!faceDown) {
         alt = faceDescription;
         imgSrc = `/images/cards/brave/${imgName}`;
-        // imgSrc = "/images/cards/CardFaceBlank.png";
+        // imgSrc = "/images/cards/C ardFaceBlank.png";
       }
 
       if (faceDown) {

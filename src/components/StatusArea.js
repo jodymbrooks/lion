@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
-import { keepScoreAndFollowUp } from '../actions/scoreActions';
+import { keepScoreAndFollowUp, testRemoveBunchOfCardsAndFollowUp } from '../actions/scoreActions';
 
 class StatusArea extends Component {
+  onClearButtonClick(/*event*/) {
+    this.props.dispatch(testRemoveBunchOfCardsAndFollowUp());
+  }
+
   onKeepButtonClick(/*event*/) {
     this.props.dispatch(keepScoreAndFollowUp());
   }
@@ -14,6 +18,7 @@ class StatusArea extends Component {
     const cardsLeft = this.props.score.deckCards.length;
     return (
       <div className='StatusArea'>
+
         <div className='status-section setsArea'>
           <span className='statusTitle ui label'>Sets: </span><span className='status-count ui basic label'>{sets}</span>
         </div>
@@ -35,6 +40,11 @@ class StatusArea extends Component {
         <div className='status-section matching-attrs-area'>
           <span className='statusTitle ui label'>Matches: </span><span className='matching-attrs ui label'>{matchingAttrsString}</span>
         </div>
+
+        <button className='ui button primary' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
+          Clear table
+        </button>
+
       </div>
     );
   }

@@ -1,8 +1,18 @@
 import { showOverlay, hideOverlay } from './commonActions';
 import utilities from '../utilities';
 
+
+export const TEST_REMOVE_BUNCH_OF_CARDS = 'TEST_REMOVE_BUNCH_OF_CARDS';
+export const testRemoveBunchOfCards = (count) => ({ type: TEST_REMOVE_BUNCH_OF_CARDS, count });
+
+
+
+
 export const DEAL_CARDS = 'DEAL_CARDS';
 export const dealCards = () => ({ type: DEAL_CARDS });
+
+export const CHECK_GAME_OVER = 'CHECK_GAME_OVER';
+export const checkAvailableMatches = () => ({ type: CHECK_GAME_OVER });
 
 export const CARD_FLIPPED = 'CARD_FLIPPED';
 export const cardFlipped = (cardKey) => ({ type: CARD_FLIPPED, cardKey });
@@ -59,6 +69,20 @@ export function keepScoreAndFollowUp() {
         dispatch(showOverlay());
         setTimeout(() => {
             dispatch(dealCards());
+            dispatch(checkAvailableMatches());
+            dispatch(hideOverlay());
+        }, 300);
+    };
+}
+
+export function testRemoveBunchOfCardsAndFollowUp(count) {
+    return (dispatch) => {
+        dispatch(testRemoveBunchOfCards(count));
+        dispatch(clearKeptCards());
+        dispatch(showOverlay());
+        setTimeout(() => {
+            dispatch(dealCards());
+            dispatch(checkAvailableMatches());
             dispatch(hideOverlay());
         }, 300);
     };

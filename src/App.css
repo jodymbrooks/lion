@@ -181,3 +181,16 @@ body {
       top: 50%;
       line-height: initial;
     }
+
+
+
+    .game-over-message {
+        padding: 40px;
+        margin: 40px;
+        font-size: x-large;
+        font-weight: bolder;
+        color: darkblue;
+        background-color: seashell;
+        border-radius: 14px;
+        line-height: 3em;
+    }

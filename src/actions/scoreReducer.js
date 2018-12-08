@@ -16,9 +16,26 @@ export default function (scoreState = initialStoreState, action) {
   var newState = { ...scoreState };
 
   switch (action.type) {
+
+
+    case scoreActions.TEST_REMOVE_BUNCH_OF_CARDS:
+      let count = Math.floor(Math.random() * scoreState.tableCardsCount) + 1;
+      console.log(`TEST_REMOVE_BUNCH_OF_CARDS: ${count}`);
+
+      newState.tableCards.forEach((card, idx) => {
+        if (card !== null && count-- > 0) {
+          newState.tableCards[idx] = { ...card, index: idx, faceDown: false };
+        }
+      });
+      break;
+
+
+
+
+
     case scoreActions.DEAL_CARDS:
       {
-        const count = 78;
+        const count = 20;
 
         let { deckCards } = scoreState;
 
@@ -34,21 +51,54 @@ export default function (scoreState = initialStoreState, action) {
           newState.tableCards = [...scoreState.tableCards];
         }
 
-        let stillHaveTableCards = false;
-
+        let tableCardsCount = 0;
         newState.tableCards.forEach((tableCard, idx) => {
           // Replace empty table slots (null values) with the next available deck card, if any
           if (tableCard === null) {
             if (deckCards.length > 0) {
               const [card] = deckCards.splice(0, 1); // returns an array of the spliced entries which is just one entry
               newState.tableCards[idx] = { ...card, index: idx };
-              stillHaveTableCards = true;
+              tableCardsCount++;
             }
-          } else {
-            stillHaveTableCards = true;
+          }
+          else {
+            tableCardsCount++;
           }
         });
-        newState.gameOver = !stillHaveTableCards;
+        newState.tableCardsCount = tableCardsCount;
+      }
+      break;
+
+    case scoreActions.CHECK_GAME_OVER:
+      newState.gameOver = scoreState.tableCardsCount < 2; // If 1 or fewer cards, no chance for a match so game over
+
+      if (!newState.gameOver) { // If enough cards, then check for matches
+        let foundAvailableMatch = false;
+
+        const tableCardsLength = scoreState.tableCards.length;
+        for (let idx1 = 0; idx1 < tableCardsLength && !foundAvailableMatch; idx1++) {
+          const card1 = scoreState.tableCards[idx1];
+          if (!card1) continue;
+
+          for (let idx2 = idx1 + 1; idx2 < tableCardsLength && !foundAvailableMatch; idx2++) {
+            const card2 = scoreState.tableCards[idx2];
+            if (!card2) continue;
+
+            console.log("CHECK_GAME_OVER: card1: ");
+            console.log(card1);
+
+            console.log("CHECK_GAME_OVER: card2: ");
+            console.log(card2);
+
+            const cards = [card1, card2];
+            const matchingAttrs = utilities.getMatchingAttrs(cards);
+            if (matchingAttrs && matchingAttrs.length > 0) {
+              foundAvailableMatch = true; // this will cause both loops to break
+            }
+          }
+        }
+
+        newState.gameOver = !foundAvailableMatch;
       }
       break;
 
@@ -57,11 +107,13 @@ export default function (scoreState = initialStoreState, action) {
         const { cardKey } = action;
         const { tableCards } = scoreState;
         const card = utilities.getCardFromKey(tableCards, cardKey);
-        const newTableCards = [...tableCards];
+        if (card != null) {
+          const newTableCards = [...tableCards];
 
-        const newCard = { ...card, faceDown: !card.faceDown };
-        newTableCards[newCard.index] = newCard;
-        newState.tableCards = newTableCards;
+          const newCard = { ...card, faceDown: !card.faceDown };
+          newTableCards[newCard.index] = newCard;
+          newState.tableCards = newTableCards;
+        }
       }
       break;
 
@@ -139,7 +191,7 @@ export default function (scoreState = initialStoreState, action) {
     case scoreActions.RESET_FLIPPED_CARDS:
       newState.possPoints = 0;
       newState.matchingAttrs = [];
-      newState.tableCards = scoreState.tableCards.map(card => { return { ...card, faceDown: true } });
+      newState.tableCards = scoreState.tableCards.map(card => ( card ? { ...card, faceDown: true } : null ) );
       break;
 
     case scoreActions.CLEAR_KEPT_CARDS:
@@ -158,13 +210,4 @@ export default function (scoreState = initialStoreState, action) {
 
   return newState;
 }
-
-
-
-
-
-
-
-
-
 
