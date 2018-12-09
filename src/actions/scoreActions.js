@@ -38,6 +38,22 @@ export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
 export const CLEAR_KEPT_CARDS = 'CLEAR_KEPT_CARDS';
 export const clearKeptCards = () => ({ type: CLEAR_KEPT_CARDS });
 
+export function cardClickedAndFollowUp(cardKey) {
+    return (dispatch, getState) => {
+
+        const { tableCards, possPoints } = getState().score;
+        const card = utilities.getCardFromKey(tableCards, cardKey);
+
+        if (card.faceDown) {
+            dispatch(cardFlippedAndFollowUp(cardKey));
+        } else {
+            if (possPoints > 0) {
+                dispatch(keepScoreAndFollowUp());
+            }
+        }
+    }
+}
+
 export function cardFlippedAndFollowUp(cardKey) {
     return (dispatch, getState) => {
         dispatch(cardFlipped(cardKey));

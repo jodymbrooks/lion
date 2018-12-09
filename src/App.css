@@ -29,8 +29,8 @@ body {
 
 .App-header {
     background-color: dodgerblue;
-    height: 140px;
-    padding: 20px;
+    height: 152px;
+    padding: 10px 20px;
     color: white;
     display: flex;
     flex-direction: row;
@@ -99,7 +99,6 @@ body {
     overflow: auto;
     /* align-items: stretch; */
     /* justify-items: center; */
-    overflow: hidden;
   }
 
 .Table_grid {

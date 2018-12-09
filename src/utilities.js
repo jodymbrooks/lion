@@ -123,7 +123,11 @@ export default class utilities {
       }
     }
 
-    this.shuffleArray(deckCards);
+
+    const timesToShuffle = Math.floor(Math.random() * 50) + 10; // At least 5
+    for (let idx = 0; idx < timesToShuffle; idx++) {
+      this.shuffleArray(deckCards);
+    }
 
     return deckCards;
   }
@@ -287,6 +291,7 @@ export default class utilities {
   }
 
   static shuffleArray(arr) {
+    console.log("Shuffling cards");
     for (var idx = arr.length - 1; idx >= 0; idx--) {
       var randomIndex = Math.floor(Math.random() * (idx + 1));
       var itemAtIndex = arr[randomIndex];

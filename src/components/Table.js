@@ -5,7 +5,6 @@ import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
 import { dealCards } from '../actions/scoreActions';
-import { Button } from 'semantic-ui-react';
 
 class Table extends Component {
 
@@ -61,7 +60,7 @@ class Table extends Component {
         <div className="Table">
           <Overlay />
           <div className="game-over-message">Congratulations!<br/>All possible combinations have been played!</div>
-          <button className='ui button primary new-game-button' onClick={() => {window.location = window.location}}>
+          <button className='ui button primary new-game-button' onClick={() => {document.location.reload()}}>
             New Game
           </button>
 

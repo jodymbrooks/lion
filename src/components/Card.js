@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import FlipCard from 'react-flipcard-2';
 
 import '../App.css';
-import { cardFlippedAndFollowUp } from '../actions/scoreActions';
+import { cardClickedAndFollowUp } from '../actions/scoreActions';
 import utilities from '../utilities';
 
 class Card extends Component {
@@ -14,8 +14,7 @@ class Card extends Component {
   }
 
   handleClick() {
-
-    this.props.dispatch(cardFlippedAndFollowUp(this.props.cardKey));
+    this.props.dispatch(cardClickedAndFollowUp(this.props.cardKey));
   }
 
   render() {

@@ -181,6 +181,7 @@ export default function (scoreState = initialStoreState, action) {
     case scoreActions.KEEP_SCORE:
       if (typeof (newState.possPoints) !== 'undefined') {
         newState.points += newState.possPoints;
+        newState.sets++;
       }
       newState.possPoints = 0;
       newState.matchingAttrs = [];
@@ -191,7 +192,7 @@ export default function (scoreState = initialStoreState, action) {
     case scoreActions.RESET_FLIPPED_CARDS:
       newState.possPoints = 0;
       newState.matchingAttrs = [];
-      newState.tableCards = scoreState.tableCards.map(card => ( card ? { ...card, faceDown: true } : null ) );
+      newState.tableCards = scoreState.tableCards.map(card => (card ? { ...card, faceDown: true } : null));
       break;
 
     case scoreActions.CLEAR_KEPT_CARDS:
