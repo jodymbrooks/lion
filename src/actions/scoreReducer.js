@@ -5,8 +5,19 @@ var initialStoreState = {
   tableCards: [],
   deckCards: [],
   matchingAttrs: [],
-  sets: 0,
-  points: 0,
+  userScores: [
+    {
+      user: "Player 1",
+      sets: 0,
+      points: 0
+    },
+    {
+      user: "Player 2",
+      sets: 0,
+      points: 0
+    }
+  ],
+  activeUserIndex: 0,
   possPoints: 0,
   highlight: "none",
   gameOver: false,
@@ -179,10 +190,16 @@ export default function (scoreState = initialStoreState, action) {
       break;
 
     case scoreActions.KEEP_SCORE:
+      const { activeUserIndex } = scoreState; 
+      const activeUser = { ...scoreState.userScores[activeUserIndex]};
+
       if (typeof (newState.possPoints) !== 'undefined') {
-        newState.points += newState.possPoints;
-        newState.sets++;
+        activeUser.points += scoreState.possPoints;
+        activeUser.sets++;
+        newState.userScores = [...scoreState.userScores];
+        newState.userScores[activeUserIndex] = activeUser;
       }
+      newState.activeUserIndex = (activeUserIndex + 1) % 2;
       newState.possPoints = 0;
       newState.matchingAttrs = [];
       newState.highlight = 'none';
@@ -193,6 +210,7 @@ export default function (scoreState = initialStoreState, action) {
       newState.possPoints = 0;
       newState.matchingAttrs = [];
       newState.tableCards = scoreState.tableCards.map(card => (card ? { ...card, faceDown: true } : null));
+      newState.activeUserIndex = (scoreState.activeUserIndex + 1) % 2;
       break;
 
     case scoreActions.CLEAR_KEPT_CARDS:

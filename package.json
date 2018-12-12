@@ -18,13 +18,16 @@
     "semantic-ui-react": "^0.82.2"
   },
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "redux-logger": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "unusedButHold": {
     "redux-devtools": "3.4.0",
@@ -35,5 +38,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "homepage": "http://jodymbrooks.github.io/brave"
 }

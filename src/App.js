@@ -17,12 +17,17 @@ class App extends Component {
     this.store = configureStore();
   }
 
-  onClearButtonClick(/*event*/) {
+/*
+
+  onClearButtonClick() {
     this.store.dispatch(testRemoveBunchOfCardsAndFollowUp());
   }
 
+            <button className='ui button negative' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
+              Clear table
+            </button>
 
-
+*/
 
   render() {
     return (
@@ -30,10 +35,6 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
 
-
-            <button className='ui button negative' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
-              Clear table
-            </button>
 
 
 
