@@ -4,47 +4,70 @@ import { connect } from 'react-redux';
 import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
-import { showOverlay, hideOverlay } from '../actions/commonActions';
-import utilities from '../utilities';
+import { dealCards } from '../actions/scoreActions';
 
 class Table extends Component {
-
-  cardInfos = null;
-  cards = null;
 
   constructor(props) {
     super(props);
 
-    if (!this.cardInfos) {
-      this.cardInfos = utilities.createCardInfos();
+    this.cards = null;
+
+    if (!this.props.deckCards) {
+      this.props.dispatch(dealCards());
     }
   }
 
-  showOverlay = () => {
-    this.props.dispatch(showOverlay());
-  }
-
-  hideOverlay = () => {
-    this.props.dispatch(hideOverlay());
-  }
-
-  getCards = (count) => {
+  getCards = () => {
     this.cards = [];
-    this.cardInfos.slice(0, count).map((cardInfo) => {
-      const { key, color, size, container, pattern } = cardInfo;
 
-      var card = (
-        <div key={key} className="Table_grid_item">
-          <Card cardKey={key} color={color} size={size} container={container} pattern={pattern} />
-        </div>
-      );
+    this.props.score.tableCards.forEach((cardInfo, index) => {
+      let card = null;
+
+      if (cardInfo) {
+        const { key, attrs, faceDown } = cardInfo;
+
+        if (attrs && attrs.length === 4) {
+          card = (
+            <div key={index + "." + key} className="Table_grid_item">
+              <Card cardKey={key} attr1={attrs[0]} attr2={attrs[1]} attr3={attrs[2]} attr4={attrs[3]} faceDown={faceDown} />
+            </div>
+          );
+        }
+        else {
+          console.log("cardInfo @ index " + index + " = ");
+          console.log(cardInfo);
+        }
+      }
+
+      if (!card) {
+        card = (
+          <div key={index + ".empty"} className="Table_grid_item">
+            <Card isEmpty={true} />
+          </div>
+        );
+      }
+
       this.cards.push(card);
-      return card;
     })
   }
 
   render() {
-    this.getCards(20);
+    this.getCards();
+
+    if (this.props.score.gameOver) {
+      return (
+        <div className="Table">
+          <Overlay />
+          <div className="game-over-message">Congratulations!<br/>All possible combinations have been played!</div>
+          <button className='ui button primary new-game-button' onClick={() => {document.location.reload()}}>
+            New Game
+          </button>
+
+        </div>
+      );
+    }
+    // else ...
 
     return (
       <div className="Table">

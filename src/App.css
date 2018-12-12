@@ -29,8 +29,8 @@ body {
 
 .App-header {
     background-color: dodgerblue;
-    height: 140px;
-    padding: 20px;
+    height: 152px;
+    padding: 10px 20px;
     color: white;
     display: flex;
     flex-direction: row;
@@ -45,14 +45,24 @@ body {
     }
 
 .StatusArea {
-    min-width: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    background-color: seashell;
     padding: 4px;
     border-radius: 6px;
-    background-color: seashell;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 }
+
+    .StatusArea .SharedStatus,
+    .StatusArea .UserScore {
+        min-width: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border-radius: 6px;
+        padding: 4px;
+    }
 
     .StatusArea .status-section {
         width: 100%;
@@ -60,6 +70,14 @@ body {
         flex-direction: row;
         justify-content: space-between;
     }
+
+        .StatusArea .UserScore[data-isActive=true] {
+            background-color: cyan;
+        }
+
+        .StatusArea .status-section.userArea .statusTitle {
+            text-align: center;
+        }
 
         .StatusArea .status-section .statusTitle {
             flex: 1;
@@ -99,7 +117,6 @@ body {
     overflow: auto;
     /* align-items: stretch; */
     /* justify-items: center; */
-    overflow: hidden;
   }
 
 .Table_grid {
@@ -151,6 +168,11 @@ body {
   position: relative;
 }
 
+.Card.is-empty {
+    border: 8px solid transparent;
+    box-shadow: none;
+}
+
 /* .Card[data-facedown=true] {
 } */
 
@@ -175,4 +197,17 @@ body {
       right: 20%;
       top: 50%;
       line-height: initial;
+    }
+
+
+
+    .game-over-message {
+        padding: 40px;
+        margin: 40px;
+        font-size: x-large;
+        font-weight: bolder;
+        color: darkblue;
+        background-color: seashell;
+        border-radius: 14px;
+        line-height: 3em;
     }

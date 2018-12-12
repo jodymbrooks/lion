@@ -4,7 +4,11 @@ import { Provider } from 'react-redux';
 import './App.css';
 import StatusArea from './components/StatusArea';
 import Table from './components/Table';
+import DevTools from './DevTools';
 import configureStore from './store';
+
+import { testRemoveBunchOfCardsAndFollowUp  } from './actions/scoreActions';
+
 
 class App extends Component {
   constructor(props) {
@@ -13,14 +17,30 @@ class App extends Component {
     this.store = configureStore();
   }
 
+/*
+
+  onClearButtonClick() {
+    this.store.dispatch(testRemoveBunchOfCardsAndFollowUp());
+  }
+
+            <button className='ui button negative' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
+              Clear table
+            </button>
+
+*/
+
   render() {
     return (
       <Provider store={this.store}>
         <div className="App">
           <header className="App-header">
-            <h1 className="App-title">BOLD - the card game</h1>
+
+
+
+
             <StatusArea />
           </header>
+          <DevTools />
           <Table />
         </div>
       </Provider>
