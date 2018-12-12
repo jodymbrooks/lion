@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/brave/static/media/icons.faff9214.woff"
   },
   {
-    "revision": "400368aafbfe4106067c",
+    "revision": "123bbefe463119fffd1c",
     "url": "/brave/static/css/main.474bdca8.chunk.css"
   },
   {
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "/brave/static/media/icons.0ab54153.woff2"
   },
   {
-    "revision": "400368aafbfe4106067c",
-    "url": "/brave/static/js/main.400368aa.chunk.js"
+    "revision": "123bbefe463119fffd1c",
+    "url": "/brave/static/js/main.123bbefe.chunk.js"
   },
   {
     "revision": "e8c322de9658cbeb8a774b6624167c2c",
@@ -56,12 +56,12 @@ self.__precacheManifest = [
     "url": "/brave/static/media/brand-icons.a046592b.woff"
   },
   {
-    "revision": "8e3c7f5520f5ae906c6cf6d7f3ddcd19",
-    "url": "/brave/static/media/icons.8e3c7f55.eot"
-  },
-  {
     "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
     "url": "/brave/static/media/icons.b87b9ba5.ttf"
+  },
+  {
+    "revision": "8e3c7f5520f5ae906c6cf6d7f3ddcd19",
+    "url": "/brave/static/media/icons.8e3c7f55.eot"
   },
   {
     "revision": "13db00b7a34fee4d819ab7f9838cc428",
@@ -84,7 +84,7 @@ self.__precacheManifest = [
     "url": "/brave/static/css/1.847c6ea1.chunk.css"
   },
   {
-    "revision": "75d7264540422c5c688ce8afe1eb309b",
+    "revision": "945b7dd343fb22e19f8f97663f478314",
     "url": "/brave/index.html"
   }
 ];
