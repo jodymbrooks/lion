@@ -27,7 +27,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy:ghpages": "gh-pages -d build",
+    "deploy:surge": "surge C:\\Users\\jmbrooks\\Dropbox\\Code\\brave\\build brave.jodymbrooks.com"
   },
   "unusedButHold": {
     "redux-devtools": "3.4.0",
@@ -38,6 +39,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "homepage": "http://jodymbrooks.github.io/brave"
+  ]
 }
