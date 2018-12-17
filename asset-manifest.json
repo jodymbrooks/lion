@@ -1,16 +1,16 @@
 {
-  "main.css": "/brave/static/css/main.474bdca8.chunk.css",
-  "main.js": "/brave/static/js/main.123bbefe.chunk.js",
-  "main.js.map": "/brave/static/js/main.123bbefe.chunk.js.map",
+  "main.css": "/brave/static/css/main.206a84dc.chunk.css",
+  "main.js": "/brave/static/js/main.b19a5d0e.chunk.js",
+  "main.js.map": "/brave/static/js/main.b19a5d0e.chunk.js.map",
   "static/css/1.847c6ea1.chunk.css": "/brave/static/css/1.847c6ea1.chunk.css",
-  "static/js/1.d3ea8677.chunk.js": "/brave/static/js/1.d3ea8677.chunk.js",
-  "static/js/1.d3ea8677.chunk.js.map": "/brave/static/js/1.d3ea8677.chunk.js.map",
+  "static/js/1.75b300fc.chunk.js": "/brave/static/js/1.75b300fc.chunk.js",
+  "static/js/1.75b300fc.chunk.js.map": "/brave/static/js/1.75b300fc.chunk.js.map",
   "runtime~main.js": "/brave/static/js/runtime~main.cae88e19.js",
   "runtime~main.js.map": "/brave/static/js/runtime~main.cae88e19.js.map",
   "static/media/semantic.min.css": "/brave/static/media/brand-icons.a1a749e8.svg",
-  "static/css/main.474bdca8.chunk.css.map": "/brave/static/css/main.474bdca8.chunk.css.map",
   "static/css/1.847c6ea1.chunk.css.map": "/brave/static/css/1.847c6ea1.chunk.css.map",
+  "static/css/main.206a84dc.chunk.css.map": "/brave/static/css/main.206a84dc.chunk.css.map",
   "index.html": "/brave/index.html",
-  "precache-manifest.a7c13f9a653749f5efb3754d6e8cb836.js": "/brave/precache-manifest.a7c13f9a653749f5efb3754d6e8cb836.js",
+  "precache-manifest.1a9fe8d5170b2526094004f06a1fcaec.js": "/brave/precache-manifest.1a9fe8d5170b2526094004f06a1fcaec.js",
   "service-worker.js": "/brave/service-worker.js"
 }
