@@ -1,7 +1,7 @@
 import * as scoreActions from './scoreActions';
 import utilities from '../utilities';
 
-var initialStoreState = {
+const initialStoreState = {
   tableCards: [],
   deckCards: [],
   matchingAttrs: [],
@@ -159,33 +159,6 @@ export default function (scoreState = initialStoreState, action) {
       }
       else {
         newState.possPoints = 0;
-      }
-      break;
-
-    case scoreActions.INCREMENT_SCORE:
-      if (typeof (action.sets) !== 'undefined') {
-        newState.sets += action.sets;
-      }
-      if (typeof (action.points) !== 'undefined') {
-        newState.points += action.points;
-      }
-      if (typeof (action.possPoints) !== 'undefined') {
-        newState.possPoints += action.possPoints;
-      }
-      break;
-
-    case scoreActions.SET_SCORE:
-      if (typeof (action.sets) !== 'undefined') {
-        newState.sets = action.sets;
-      }
-      if (typeof (action.points) !== 'undefined') {
-        newState.points = action.points;
-      }
-      if (typeof (action.possPoints) !== 'undefined') {
-        newState.possPoints = action.possPoints;
-      }
-      if (typeof (action.matchingAttrs) !== 'undefined') {
-        newState.matchingAttrs = action.matchingAttrs;
       }
       break;
 

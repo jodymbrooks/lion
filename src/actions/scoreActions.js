@@ -26,12 +26,6 @@ export const updateScoreFromMatches = (tableCards) => ({ type: UPDATE_SCORE_FROM
 export const KEEP_SCORE = 'KEEP_SCORE';
 export const keepScore = () => ({ type: KEEP_SCORE });
 
-export const SET_SCORE = 'SET_SCORE';
-export const setScore = (possPoints, matchingAttrs) => ({ type: SET_SCORE, possPoints, matchingAttrs });
-
-export const INCREMENT_SCORE = 'INCREMENT_SCORE';
-export const incrementScore = (score) => ({ type: INCREMENT_SCORE, score });
-
 export const RESET_FLIPPED_CARDS = 'RESET_FLIPPED_CARDS';
 export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
 

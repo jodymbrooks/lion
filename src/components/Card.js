@@ -31,7 +31,7 @@ class Card extends Component {
     // </FlipCard>
 
     if (isEmpty) {
-      let imgSrc = "/images/cards/brave/CardEmpty.png";
+      let imgSrc = "images/cards/brave/CardEmpty.png";
       return (
         <div className="Card is-empty">
           <img alt="" src={imgSrc} />
@@ -39,12 +39,12 @@ class Card extends Component {
       );
     } else {
       let alt = "card back";
-      let imgSrc = "/images/cards/brave/CardBack.png";
+      let imgSrc = "images/cards/brave/CardBack.png";
 
       if (!faceDown) {
         alt = faceDescription;
-        imgSrc = `/images/cards/brave/${imgName}`;
-        // imgSrc = "/images/cards/CardFaceBlank.png";
+        imgSrc = `images/cards/brave/${imgName}`;
+        // imgSrc = "images/cards/CardFaceBlank.png";
       }
 
       if (faceDown) {

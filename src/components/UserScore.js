@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import '../App.css';
 
 class UserScore extends Component {
@@ -20,6 +21,18 @@ class UserScore extends Component {
     );
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { isActive } = this.props;
+    console.log("componentDidUpdate: isActive=" + isActive);
+    if (isActive) {
+      const domNode = ReactDOM.findDOMNode(this);
+      console.log("componentDidUpdate: domNode=");
+      console.log(domNode);
+      window.setTimeout(() => {
+      domNode.scrollIntoView({behavior: "smooth", block: "end", inline: "end"});
+    },100);
+    }
+  }
 }
 
 export default UserScore;

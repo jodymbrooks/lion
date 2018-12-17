@@ -30,25 +30,22 @@ body {
 .App-header {
     background-color: dodgerblue;
     height: 152px;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
     color: white;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+    overflow: auto;
 }
-
-    .App-header .App-title {
-        font-size: 1.5em;
-        flex: 1;
-    }
 
 .StatusArea {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    min-width: 440px;
     background-color: seashell;
     padding: 4px;
     border-radius: 6px;
