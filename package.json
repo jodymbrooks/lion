@@ -28,7 +28,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy:ghpages": "gh-pages -d build",
-    "deploy:surge": "surge C:\\Users\\jmbrooks\\Dropbox\\Code\\brave\\build brave.jodymbrooks.com"
+    "deploy": "surge C:\\Users\\jmbrooks\\Dropbox\\Code\\brave\\build brave.jodymbrooks.com"
   },
   "unusedButHold": {
     "redux-devtools": "3.4.0",
