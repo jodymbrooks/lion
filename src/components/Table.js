@@ -35,8 +35,8 @@ class Table extends Component {
           );
         }
         else {
-          console.log("cardInfo @ index " + index + " = ");
-          console.log(cardInfo);
+          // console.log("cardInfo @ index " + index + " = ");
+          // console.log(cardInfo);
         }
       }
 
@@ -56,10 +56,20 @@ class Table extends Component {
     this.getCards();
 
     if (this.props.score.gameOver) {
+      const { userScores } = this.props.score;
+      const winnerIndex = userScores[0].points > userScores[1].points ? 0 :
+                          userScores[0].points < userScores[1].points ? 1 :
+                          null;
+      const winnerMessage = winnerIndex === null ? "It's a tie!" : 
+                            userScores[winnerIndex].user + " won with " + userScores[winnerIndex].points + " points!";
+
       return (
         <div className="Table">
           <Overlay />
-          <div className="game-over-message">Congratulations!<br/>All possible combinations have been played!</div>
+          <div className="game-over-message">
+            Congratulations!<br/>
+            {winnerMessage}
+          </div>
           <button className='ui button primary new-game-button' onClick={() => {document.location.reload()}}>
             New Game
           </button>

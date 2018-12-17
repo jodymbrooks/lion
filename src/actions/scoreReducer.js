@@ -7,12 +7,12 @@ const initialStoreState = {
   matchingAttrs: [],
   userScores: [
     {
-      user: "Player 1",
+      user: "Player1",
       sets: 0,
       points: 0
     },
     {
-      user: "Player 2",
+      user: "Player2",
       sets: 0,
       points: 0
     }
@@ -31,7 +31,6 @@ export default function (scoreState = initialStoreState, action) {
 
     case scoreActions.TEST_REMOVE_BUNCH_OF_CARDS:
       let count = Math.floor(Math.random() * scoreState.tableCardsCount) + 1;
-      console.log(`TEST_REMOVE_BUNCH_OF_CARDS: ${count}`);
 
       newState.tableCards.forEach((card, idx) => {
         if (card !== null && count-- > 0) {
@@ -40,7 +39,14 @@ export default function (scoreState = initialStoreState, action) {
       });
       break;
 
-
+    case scoreActions.UPDATE_PLAYER_NAME:
+      {
+        const { user, index } = action;
+        if (index === 0 || index === 1) {
+          newState.userScores[index].user = user;
+        }
+      }
+      break;
 
 
 
@@ -94,12 +100,6 @@ export default function (scoreState = initialStoreState, action) {
           for (let idx2 = idx1 + 1; idx2 < tableCardsLength && !foundAvailableMatch; idx2++) {
             const card2 = scoreState.tableCards[idx2];
             if (!card2) continue;
-
-            console.log("CHECK_GAME_OVER: card1: ");
-            console.log(card1);
-
-            console.log("CHECK_GAME_OVER: card2: ");
-            console.log(card2);
 
             const cards = [card1, card2];
             const matchingAttrs = utilities.getMatchingAttrs(cards);
@@ -163,8 +163,8 @@ export default function (scoreState = initialStoreState, action) {
       break;
 
     case scoreActions.KEEP_SCORE:
-      const { activeUserIndex } = scoreState; 
-      const activeUser = { ...scoreState.userScores[activeUserIndex]};
+      const { activeUserIndex } = scoreState;
+      const activeUser = { ...scoreState.userScores[activeUserIndex] };
 
       if (typeof (newState.possPoints) !== 'undefined') {
         activeUser.points += scoreState.possPoints;

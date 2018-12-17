@@ -124,7 +124,7 @@ export default class utilities {
     }
 
 
-    const timesToShuffle = Math.floor(Math.random() * 50) + 10; // At least 5
+    const timesToShuffle = Math.floor(Math.random() * 50) + 10; // At least 10
     for (let idx = 0; idx < timesToShuffle; idx++) {
       this.shuffleArray(deckCards);
     }

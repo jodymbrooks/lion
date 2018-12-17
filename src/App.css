@@ -72,6 +72,12 @@ body {
             background-color: cyan;
         }
 
+        .StatusArea .status-section.userArea input {
+            width: 100%;
+            height: 2em;
+            margin-bottom: 4px;
+        }
+
         .StatusArea .status-section.userArea .statusTitle {
             text-align: center;
         }

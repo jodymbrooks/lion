@@ -6,7 +6,8 @@ export const TEST_REMOVE_BUNCH_OF_CARDS = 'TEST_REMOVE_BUNCH_OF_CARDS';
 export const testRemoveBunchOfCards = (count) => ({ type: TEST_REMOVE_BUNCH_OF_CARDS, count });
 
 
-
+export const UPDATE_PLAYER_NAME = 'UPDATE_PLAYER_NAME';
+export const updatePlayerName = (user, index) => ({ type: UPDATE_PLAYER_NAME, user, index });
 
 export const DEAL_CARDS = 'DEAL_CARDS';
 export const dealCards = () => ({ type: DEAL_CARDS });
