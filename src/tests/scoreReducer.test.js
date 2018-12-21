@@ -5,9 +5,6 @@ import * as scoreActions from '../actions/scoreActions';
 describe('todos reducer', () => {
   it('should return the initial state', () => {
     expect(scoreReducer(undefined, {})).toEqual({
-      tableCards: [],
-      deckCards: [],
-      matchingAttrs: [],
       userScores: [
         {
           user: "Player 1",
@@ -22,8 +19,6 @@ describe('todos reducer', () => {
       ],
       activeUserIndex: 0,
       possPoints: 0,
-      highlight: "none",
-      gameOver: false,
     })
   });
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
-import { dealCards } from '../actions/scoreActions';
+import { dealCards } from '../actions/cardsActions';
 
 class Table extends Component {
 
@@ -21,7 +21,7 @@ class Table extends Component {
   getCards = () => {
     this.cards = [];
 
-    this.props.score.tableCards.forEach((cardInfo, index) => {
+    this.props.cards.tableCards.forEach((cardInfo, index) => {
       let card = null;
 
       if (cardInfo) {
@@ -34,10 +34,10 @@ class Table extends Component {
             </div>
           );
         }
-        else {
-          // console.log("cardInfo @ index " + index + " = ");
-          // console.log(cardInfo);
-        }
+        // else {
+        //   // console.log("cardInfo @ index " + index + " = ");
+        //   // console.log(cardInfo);
+        // }
       }
 
       if (!card) {
@@ -55,7 +55,7 @@ class Table extends Component {
   render() {
     this.getCards();
 
-    if (this.props.score.gameOver) {
+    if (this.props.cards.gameOver) {
       const { userScores } = this.props.score;
       const winnerIndex = userScores[0].points > userScores[1].points ? 0 :
                           userScores[0].points < userScores[1].points ? 1 :
@@ -92,8 +92,8 @@ class Table extends Component {
 
 function mapStateToProps(state) {
   return {
-    common: state.common,
-    score: state.score
+    score: state.score,
+    cards: state.cards
   };
 }
 

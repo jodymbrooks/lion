@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import FlipCard from 'react-flipcard-2';
 
 import '../App.css';
-import { cardClickedAndFollowUp } from '../actions/scoreActions';
+import { cardClickedAndFollowUp } from '../actions/cardsActions';
 import utilities from '../utilities';
 
 class Card extends Component {
@@ -68,7 +68,7 @@ class Card extends Component {
 function mapStateToProps(state) {
   return {
     common: state.common,
-    highlight: state.score.highlight
+    highlight: state.cards.highlight
   };
 }
 

@@ -99,7 +99,7 @@ body {
 
         .StatusArea .matching-attrs {
           background-color: inherit;
-          min-width: 170px;
+          /* min-width: 170px; */
           display: inline-block;
         }
 

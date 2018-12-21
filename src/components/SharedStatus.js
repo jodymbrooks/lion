@@ -9,9 +9,10 @@ class SharedStatus extends Component {
   }
 
   render() {
-    const { possPoints, matchingAttrs } = this.props.score;
+    const { possPoints } = this.props.score;
+    const { matchingAttrs } = this.props.cards;
     const matchingAttrsString = matchingAttrs ? matchingAttrs.join(', ') : '';
-    const cardsLeft = this.props.score.deckCards.length;
+    const cardsLeft = this.props.cards.deckCards.length;
     return (
       <div className='SharedStatus'>
         <div className='status-section cards-area'>
@@ -38,8 +39,8 @@ class SharedStatus extends Component {
 
 function mapStateToProps(state) {
   return {
-    common: state.common,
-    score: state.score
+    score: state.score,
+    cards: state.cards
   };
 }
 

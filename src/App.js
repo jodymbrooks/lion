@@ -6,8 +6,7 @@ import StatusArea from './components/StatusArea';
 import Table from './components/Table';
 import DevTools from './DevTools';
 import configureStore from './store';
-
-
+import { testRemoveBunchOfCardsAndFollowUp  } from './actions/cardsActions';
 
 class App extends Component {
   constructor(props) {
@@ -16,15 +15,17 @@ class App extends Component {
     this.store = configureStore();
   }
 
-/*
-import { testRemoveBunchOfCardsAndFollowUp  } from './actions/scoreActions';
   onClearButtonClick() {
     this.store.dispatch(testRemoveBunchOfCardsAndFollowUp());
   }
 
-          <button className='ui button negative' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
+
+/*
+            <button className='ui button negative' tabIndex='0' onClick={this.onClearButtonClick.bind(this)}>
               Clear table
             </button>
+
+
 
 */
 
@@ -33,7 +34,6 @@ import { testRemoveBunchOfCardsAndFollowUp  } from './actions/scoreActions';
       <Provider store={this.store}>
         <div className="App">
           <header className="App-header">
-
 
 
 
