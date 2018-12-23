@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import '../App.css';
 import Card from './Card';
 import Overlay from './Overlay';
-import { dealCards } from '../actions/scoreActions';
+import { dealCards } from '../actions/cardsActions';
 
 class Table extends Component {
 
@@ -21,7 +21,7 @@ class Table extends Component {
   getCards = () => {
     this.cards = [];
 
-    this.props.score.tableCards.forEach((cardInfo, index) => {
+    this.props.cards.tableCards.forEach((cardInfo, index) => {
       let card = null;
 
       if (cardInfo) {
@@ -34,10 +34,10 @@ class Table extends Component {
             </div>
           );
         }
-        else {
-          console.log("cardInfo @ index " + index + " = ");
-          console.log(cardInfo);
-        }
+        // else {
+        //   // console.log("cardInfo @ index " + index + " = ");
+        //   // console.log(cardInfo);
+        // }
       }
 
       if (!card) {
@@ -55,11 +55,21 @@ class Table extends Component {
   render() {
     this.getCards();
 
-    if (this.props.score.gameOver) {
+    if (this.props.cards.gameOver) {
+      const { userScores } = this.props.score;
+      const winnerIndex = userScores[0].points > userScores[1].points ? 0 :
+                          userScores[0].points < userScores[1].points ? 1 :
+                          null;
+      const winnerMessage = winnerIndex === null ? "It's a tie!" : 
+                            userScores[winnerIndex].user + " won with " + userScores[winnerIndex].points + " points!";
+
       return (
         <div className="Table">
           <Overlay />
-          <div className="game-over-message">Congratulations!<br/>All possible combinations have been played!</div>
+          <div className="game-over-message">
+            Congratulations!<br/>
+            {winnerMessage}
+          </div>
           <button className='ui button primary new-game-button' onClick={() => {document.location.reload()}}>
             New Game
           </button>
@@ -82,8 +92,8 @@ class Table extends Component {
 
 function mapStateToProps(state) {
   return {
-    common: state.common,
-    score: state.score
+    score: state.score,
+    cards: state.cards
   };
 }
 

@@ -1,5 +1,11 @@
 {
   "extends": "react-app",
+  "plugins": [ "jest" ],
+  "env": {
+    "jest/globals": true,
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "no-unused-vars": [
       "error",
@@ -13,6 +19,7 @@
     ],
     "react/prop-types": [ 0 ],
     "object-curly-newline": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "jsx-a11y/anchor-has-content": "off"
   }
 }

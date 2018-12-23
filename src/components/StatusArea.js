@@ -11,7 +11,7 @@ class StatusArea extends Component {
       const { user, sets, points } = userScore;
       const isActive = this.props.score.activeUserIndex === index;
       return (
-        <UserScore key={index} user={user} sets={sets} points={points} isActive={isActive} />
+        <UserScore key={index} index={index} user={user} sets={sets} points={points} isActive={isActive} />
       );
     });
 

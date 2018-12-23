@@ -19,7 +19,12 @@
   },
   "devDependencies": {
     "gh-pages": "^2.0.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "eslint-config-airbnb": "15.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "20.0.3",
+    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-react": "^7.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,7 +33,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy:ghpages": "gh-pages -d build",
-    "deploy:surge": "surge C:\\Users\\jmbrooks\\Dropbox\\Code\\brave\\build brave.jodymbrooks.com"
+    "deploy": "surge C:\\Users\\jmbrooks\\Dropbox\\Code\\brave\\build brave.jodymbrooks.com"
   },
   "unusedButHold": {
     "redux-devtools": "3.4.0",
@@ -39,5 +44,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "homepage": "https://brave.jodymbrooks.com"
 }
