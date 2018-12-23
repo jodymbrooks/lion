@@ -1,5 +1,5 @@
 import * as scoreActions from './scoreActions';
-import utilities from '../utilities';
+import cardUtilities from '../cardUtilities';
 
 const initialStoreState = {
   userScores: [
@@ -40,9 +40,9 @@ export default function (scoreState = initialStoreState, action) {
 
     case scoreActions.UPDATE_SCORE_FROM_MATCHES:
       const { tableCards, matchingAttrs } = action;
-      const selectedCards = utilities.getSelectedCards(tableCards);
-      if (matchingAttrs.length > 0) {
-        const numSelectedCards = Object.keys(selectedCards).length;
+      const selectedCards = cardUtilities.getSelectedCards(tableCards);
+      const numSelectedCards = Object.keys(selectedCards).length;
+      if (matchingAttrs !== null && matchingAttrs.length > 0) {
         var possPoints = numSelectedCards * numSelectedCards;
         newState.possPoints = possPoints;
       } else {

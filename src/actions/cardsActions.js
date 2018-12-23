@@ -1,6 +1,6 @@
 import { showOverlay, hideOverlay } from './commonActions';
 import { updateScoreFromMatches, keepScoreAndFollowUp, switchUser } from './scoreActions';
-import utilities from '../utilities';
+import cardUtilities from '../cardUtilities';
 
 
 export const TEST_REMOVE_BUNCH_OF_CARDS = 'TEST_REMOVE_BUNCH_OF_CARDS';
@@ -29,7 +29,7 @@ export function cardClickedAndFollowUp(cardKey) {
 
         const { tableCards } = getState().cards;
         const { possPoints } = getState().score;
-        const card = utilities.getCardFromKey(tableCards, cardKey);
+        const card = cardUtilities.getCardFromKey(tableCards, cardKey);
 
         if (card.faceDown) {
             dispatch(cardFlippedAndFollowUp(cardKey));
@@ -53,7 +53,7 @@ export function cardFlippedAndFollowUp(cardKey) {
 
         dispatch(updateScoreFromMatches(tableCards, matchingAttrs));
 
-        const selectedCards = utilities.getSelectedCards(tableCards);
+        const selectedCards = cardUtilities.getSelectedCards(tableCards);
         const isMatch = selectedCards.length === 1 || matchingAttrs.length > 0;
 
         if (!isMatch) {

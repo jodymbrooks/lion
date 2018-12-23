@@ -1,6 +1,6 @@
 * {
-  /* box-sizing: border-box; */
-  --img-border-width: 10px;
+  box-sizing: border-box;
+  /* --img-border-width: 10px; */
 }
 
 body {
@@ -126,11 +126,9 @@ body {
   flex: 1;
   display: grid;
   box-sizing: border-box;
-  /* grid-gap: calc(3 * var(--img-border-width)); */
   grid-gap: 2vmin;
   grid-template-columns: repeat(5, minmax(50px, 1fr));
   grid-template-rows: repeat(4, minmax(50px, 1fr));
-  /* margin: calc(2 * var(--img-border-width)); */
   margin: 1vmin;
   max-width: 670px;
 }
@@ -163,45 +161,34 @@ body {
 }
 
 .Card {
-  border-radius: 14px;
   padding: 0;
-  border: 8px solid white;
-  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
   line-height: 0;
   position: relative;
 }
 
-.Card.is-empty {
-    border: 8px solid transparent;
-    box-shadow: none;
-}
-
-/* .Card[data-facedown=true] {
-} */
-
-.Card[data-facedown=false].highlight-mismatch {
-  border: 8px solid red;
-}
-
-.Card[data-facedown=false].highlight-match {
-  border: 8px solid green;
-}
-
     .Card img {
       height: 100%;
-      width: 100%;
+      width: 80%;
       object-fit: contain;
       line-height: 0;
+      border: 8px solid white;
+      border-radius: 20px;
+      box-sizing: content-box;
+      box-shadow: none;
     }
 
-    .Card[data-facedown=false] .card-label {
-      position: absolute;
-      left: 20%;
-      right: 20%;
-      top: 50%;
-      line-height: initial;
+    .Card[data-facedown=false].highlight-mismatch img {
+        border-color: red;
+      }
+      
+      .Card[data-facedown=false].highlight-match img {
+        border-color: green;
+      }
+      
+      .Card.is-empty img {
+        border-color: transparent;
     }
-
+    
 
 
     .game-over-message {
