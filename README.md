@@ -4,27 +4,11 @@ Brave is a simple matching card game that mixes risk-taking to get more points a
 
 The deck consists of 81 cards where each card has four attributes each with  three possible values. These are:
 
- - color
-     - red
-     - green
-     - purple
- - shape
-	 - ellipse
-	 - rectangle
-	 - diamond
- - count
-	 - one
-	 - two
-	 - three
- - pattern
-	 - empty
-	 - filled
-	 - lined
-
 | color | shape | count | pattern |
 | ----------- | ----------- | ----------- | ----------- |
-| Header | Title | 
-| Paragraph | Text | 
+| red | ellipse | one | empty |
+| green | rectangle | two | filled |
+| purple | diamond | three | lined |
 
 A table of 20 cards is dealt (5 x 4) face down. The first player then choose two cards. If these match in any one of the above attributes (color, shape, count and/or pattern), then this is a match of a possible 4 points. The player then has the choice to keep these cards as a set, or to select another card that will hopefully match the first two cards. For example if the first two cards matched in color and shape (say, red rectangles), then the third card would need to be either a red or a rectangle (or both) for the three cards to still be considered a match. This three-card match would be worth 9 points, so the value of the risk might be worth it as it is more than double the 4 points the first two were worth.
 
@@ -52,6 +36,6 @@ At the end, the player with the most *points* (not sets) wins.
  - [ ] Once the cards-remaining goes to 0, either the next deal or the one after that will replenish the cards back up to a full deck
  - [ ] The shuffling still doesn't seem random enough but no matter how many times I shuffle the deck, it's always about the same... the test is that **most** of the time, I can pick two cards side by side and they'll match as a two-some.  If not, then usually one of the cards beside those two will match one of those. This happens way too often for the shuffling to seem random. Need to check play with a real deck and see if this happens there too. It may just simply be due to the statistics of the available attributes, etc.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3NDIzNjI5NCwtMzE3NDQ4NDM5LC0xOT
-MzNzcxNzAxXX0=
+eyJoaXN0b3J5IjpbLTIwNDAxNTY2OTUsLTMxNzQ0ODQzOSwtMT
+kzMzc3MTcwMV19
 -->
