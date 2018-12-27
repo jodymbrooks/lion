@@ -84,15 +84,10 @@ describe('score reducer', () => {
       tableCards,
       matchingAttrs
     });
-    console.log("newState...: ");
-    console.log(newState);
     expect(newState.possPoints).toBe(0);
   });
 
   it('should handle UPDATE_SCORE_FROM_MATCHES with 2 unmatching cards selected as 0 possible points', () => {
-    const startingState = { ...initialState,
-      activeUserIndex: 0
-    };
     const testUtils = new testUtilities();
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
@@ -100,25 +95,20 @@ describe('score reducer', () => {
     tableCards[0].faceDown = false; // selects this card
 
     // Replace a table card with one that doesn't match
-    const [card] = deckCards.splice(deckCards.length-1, 1);  
+    const [card] = deckCards.splice(deckCards.length - 1, 1);
     tableCards[1] = card;
     tableCards[1].faceDown = false; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
-    const newState = scoreReducer(startingState, {
+    const newState = scoreReducer(initialState, {
       type: scoreActions.UPDATE_SCORE_FROM_MATCHES,
       tableCards,
       matchingAttrs
     });
-    console.log("newState...: ");
-    console.log(newState);
     expect(newState.possPoints).toBe(0);
   });
 
   it('should handle UPDATE_SCORE_FROM_MATCHES with 2 matching cards selected as 4 possible points', () => {
-    const startingState = { ...initialState,
-      activeUserIndex: 0
-    };
     const testUtils = new testUtilities();
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
@@ -127,20 +117,15 @@ describe('score reducer', () => {
     tableCards[1].faceDown = false; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
-    const newState = scoreReducer(startingState, {
+    const newState = scoreReducer(initialState, {
       type: scoreActions.UPDATE_SCORE_FROM_MATCHES,
       tableCards,
       matchingAttrs
     });
-    console.log("newState...: ");
-    console.log(newState);
     expect(newState.possPoints).toBe(4);
   });
 
   it('should handle UPDATE_SCORE_FROM_MATCHES with 3 matching cards selected as 9 possible points', () => {
-    const startingState = { ...initialState,
-      activeUserIndex: 0
-    };
     const testUtils = new testUtilities();
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
@@ -150,20 +135,15 @@ describe('score reducer', () => {
     tableCards[2].faceDown = false; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
-    const newState = scoreReducer(startingState, {
+    const newState = scoreReducer(initialState, {
       type: scoreActions.UPDATE_SCORE_FROM_MATCHES,
       tableCards,
       matchingAttrs
     });
-    console.log("newState...: ");
-    console.log(newState);
-    expect(newState.possPoints).toBe(9);    
+    expect(newState.possPoints).toBe(9);
   });
 
   it('should handle UPDATE_SCORE_FROM_MATCHES with 4 matching cards selected as 16 possible points', () => {
-    const startingState = { ...initialState,
-      activeUserIndex: 0
-    };
     const testUtils = new testUtilities();
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
@@ -174,28 +154,55 @@ describe('score reducer', () => {
     tableCards[3].faceDown = false; // "
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
-    const newState = scoreReducer(startingState, {
+    const newState = scoreReducer(initialState, {
       type: scoreActions.UPDATE_SCORE_FROM_MATCHES,
       tableCards,
       matchingAttrs
     });
-    console.log("newState...: ");
-    console.log(newState);
     expect(newState.possPoints).toBe(16);
   });
 
-  it('should handle KEEP_SCORE with a 2-card set', () => {});
+  it('should handle KEEP_SCORE with a 2-card set', () => {
+    const testUtils = new testUtilities();
+    const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
+    const { tableCards } = dealInfo;
+    tableCards[0].faceDown = false; // selects this card
+    tableCards[1].faceDown = false; // "
+    const selectedCards = cardUtilities.getSelectedCards(tableCards);
+    const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
+    const nextState = scoreReducer(initialState, {
+      type: scoreActions.UPDATE_SCORE_FROM_MATCHES,
+      tableCards,
+      matchingAttrs
+    });
 
-  it('should handle KEEP_SCORE with a 3-card set', () => {});
+    const newState = scoreReducer(nextState, {
+      type: scoreActions.KEEP_SCORE
+    });
+    expect(newState.userScores[0].sets).toBe(1);
+    expect(newState.userScores[0].points).toBe(4);
+  });
 
-  it('should handle KEEP_SCORE with a 4-card set', () => {});
-
-  it('should handle KEEP_SCORE with a 5-card set', () => {});
-
-  it('should handle KEEP_SCORE with a 6-card set', () => {});
-
-  it('should handle KEEP_SCORE with a 7-card set', () => {});
-
-  it('should handle KEEP_SCORE with a 8-card set', () => {});
-
+  it('should handle KEEP_SCORE with a 3-card set', () => {
+    const startingState = {
+      userScores: [{
+          user: "Player1",
+          sets: 0,
+          points: 0
+        },
+        {
+          user: "Player2",
+          sets: 4,
+          points: 20
+        }
+      ],
+      activeUserIndex: 1,
+      possPoints: 9
+    };
+    const newState = scoreReducer(startingState, {
+      type: scoreActions.KEEP_SCORE
+    });
+    expect(newState.userScores[1].sets).toBe(5);
+    expect(newState.userScores[1].points).toBe(29);
+  });
 });

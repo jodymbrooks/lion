@@ -137,7 +137,7 @@ export default class cardUtilities {
   static getShuffledDeckCards() {
     var deckCards = cardUtilities.getOrderedDeckCards();
 
-    const timesToShuffle = Math.floor(Math.random() * 50) + 10; // At least 10
+    const timesToShuffle = 1; // Doesn't seem to make any difference ... Math.floor(Math.random() * 50) + 10; // At least 10
     for (let idx = 0; idx < timesToShuffle; idx++) {
       this.shuffleArray(deckCards);
     }
