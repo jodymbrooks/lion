@@ -5,7 +5,7 @@ Brave is a simple matching card game that mixes risk-taking to get more points a
 The deck consists of 81 cards where each card has four attributes each with  three possible values. These are:
 
 | color | shape | count | pattern |
-| ----------- | ----------- | ----------- | ----------- |
+| :-----------: | ----------- | ----------- | ----------- |
 | red | ellipse | one | empty |
 | green | rectangle | two | filled |
 | purple | diamond | three | lined |
@@ -36,6 +36,6 @@ At the end, the player with the most *points* (not sets) wins.
  - [ ] Once the cards-remaining goes to 0, either the next deal or the one after that will replenish the cards back up to a full deck
  - [ ] The shuffling still doesn't seem random enough but no matter how many times I shuffle the deck, it's always about the same... the test is that **most** of the time, I can pick two cards side by side and they'll match as a two-some.  If not, then usually one of the cards beside those two will match one of those. This happens way too often for the shuffling to seem random. Need to check play with a real deck and see if this happens there too. It may just simply be due to the statistics of the available attributes, etc.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwNDAxNTY2OTUsLTMxNzQ0ODQzOSwtMT
-kzMzc3MTcwMV19
+eyJoaXN0b3J5IjpbMTg3ODA4ODAzNSwtMjA0MDE1NjY5NSwtMz
+E3NDQ4NDM5LC0xOTMzNzcxNzAxXX0=
 -->
