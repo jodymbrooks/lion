@@ -1,4 +1,5 @@
 # Brave - the card game
+[Play here](http://brave.jodymbrooks.com)
 
 Brave is a simple matching card game that mixes risk-taking to get more points as well as using your memory to remember what's played (ala the "Concentration" memory card game).
 
@@ -35,7 +36,7 @@ At the end, the player with the most *points* (not sets) wins.
 ## Known Issues
  - [ ] The shuffling still doesn't seem random enough but no matter how many times I shuffle the deck, it's always about the same... the test is that **most** of the time, I can pick two cards side by side and they'll match as a two-some.  If not, then usually one of the cards beside those two will match one of those. This happens way too often for the shuffling to seem random. Need to check play with a real deck and see if this happens there too. It may just simply be due to the statistics of the available attributes, etc.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjI0OTQ1MTg3LC01NDE0NzMyNjksMTIyOT
-Q5OTEwMywtNDIyNTkwMzgzLC0yMDQwMTU2Njk1LC0zMTc0NDg0
-MzksLTE5MzM3NzE3MDFdfQ==
+eyJoaXN0b3J5IjpbMTQ3MjcwMTk1Miw2MjQ5NDUxODcsLTU0MT
+Q3MzI2OSwxMjI5NDk5MTAzLC00MjI1OTAzODMsLTIwNDAxNTY2
+OTUsLTMxNzQ0ODQzOSwtMTkzMzc3MTcwMV19
 -->
