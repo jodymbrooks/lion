@@ -1,8 +1,9 @@
 import * as cardsActions from './cardsActions';
 import cardUtilities from '../cardUtilities';
 
-const initialStoreState = {
+export const initialStoreState = {
   tableCards: [],
+  tableCardsCount: null,
   deckCards: [],
   matchingAttrs: [],
   highlight: "none",
@@ -16,7 +17,7 @@ export default function (cardsState = initialStoreState, action) {
   switch (action.type) {
 
 
-    case cardsActions.TEST_REMOVE_BUNCH_OF_CARDS:
+    case cardsActions.DEBUG_REMOVE_BUNCH_OF_CARDS:
       let count = Math.floor(Math.random() * cardsState.tableCardsCount) + 1;
 
       newState.tableCards.forEach((card, idx) => {

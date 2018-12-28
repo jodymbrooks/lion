@@ -1,48 +1,52 @@
 export const tableMaxCards = 20;
 
 export default class cardUtilities {
-  static attrs = [{
-      name: 'color',
-      values: ['green', 'purple', 'red'],
+  static attrs = [
+    {
+      name: "color",
+      values: ["green", "purple", "red"],
       colorMap: {
-        'green': '#00C000',
-        'purple': '#C000C0',
-        'red': '#FF0000'
+        green: "#00C000",
+        purple: "#C000C0",
+        red: "#FF0000"
       }
     },
 
     {
-      name: 'count',
-      values: ['1', '2', '3'],
+      name: "count",
+      values: ["1", "2", "3"],
       isColor: false
     },
 
     {
-      name: 'shape',
-      values: ['diamond', 'oval', 'rectangle'],
+      name: "shape",
+      values: ["diamond", "oval", "rectangle"],
       isColor: false
     },
 
     {
-      name: 'pattern',
-      values: ['empty', 'striped', 'solid'],
+      name: "pattern",
+      values: ["empty", "striped", "solid"],
       isColor: false
     }
   ];
 
   static attrNames = cardUtilities.attrs.map(attr => attr.name);
-  static colorAttr = cardUtilities.attrs.filter(attr => typeof (attr.colorMap) !== "undefined");
+  static colorAttr = cardUtilities.attrs.filter(
+    attr => typeof attr.colorMap !== "undefined"
+  );
 
   static getSelectedCards(tableCards) {
-    const selectedCards = tableCards.filter(card => card !== null && !card.faceDown);
+    const selectedCards = tableCards.filter(
+      card => card !== null && !card.faceDown
+    );
     return selectedCards;
   }
 
   static getMatches(card1, card2, matches) {
-
     // For first test, any matches will do;
     // However for subsequent tests, only match against what's already matched
-    var firstTest = (matches.count === null);
+    var firstTest = matches.count === null;
 
     card1.attrs.forEach((card1attr, index) => {
       let card2attr = card2.attrs[index];
@@ -56,7 +60,7 @@ export default class cardUtilities {
       }
     });
 
-    matches.count = 0
+    matches.count = 0;
     matches.matchingAttrs = [];
 
     matches.attrs.forEach((attr, index) => {
@@ -69,15 +73,13 @@ export default class cardUtilities {
     return matches;
   }
 
-  static getMatchingAttrs = (selectedCards) => {
+  static getMatchingAttrs = selectedCards => {
     // var matchingAttrs = cardUtilities.attrNames;
 
     var selectedCardsCount = selectedCards.length;
-    if (selectedCardsCount < 1)
-      return [];
+    if (selectedCardsCount < 1) return [];
 
-    if (selectedCardsCount === 1)
-      return null;
+    if (selectedCardsCount === 1) return null;
 
     var matches = {
       attrs: [null, null, null, null],
@@ -91,12 +93,11 @@ export default class cardUtilities {
       var card2 = selectedCards[idx];
       matches = cardUtilities.getMatches(card1, card2, matches);
 
-      if (matches.count === 0)
-        break;
+      if (matches.count === 0) break;
     }
 
     return matches.matchingAttrs;
-  }
+  };
 
   static getCardInfoFromAttrs(attr1, attr2, attr3, attr4) {
     const key = cardUtilities.getKeyFromAttrs(attr1, attr2, attr3, attr4);
@@ -119,12 +120,16 @@ export default class cardUtilities {
     let numAttr3Values = cardUtilities.attrs[0].values.length;
     let numAttr4Values = cardUtilities.attrs[0].values.length;
 
-
     for (var attr1 = 0; attr1 < numAttr1Values; attr1++) {
       for (var attr2 = 0; attr2 < numAttr2Values; attr2++) {
         for (var attr3 = 0; attr3 < numAttr3Values; attr3++) {
           for (var attr4 = 0; attr4 < numAttr4Values; attr4++) {
-            var cardInfo = cardUtilities.getCardInfoFromAttrs(attr1, attr2, attr3, attr4);
+            var cardInfo = cardUtilities.getCardInfoFromAttrs(
+              attr1,
+              attr2,
+              attr3,
+              attr4
+            );
             deckCards.push(cardInfo);
           }
         }
@@ -137,7 +142,7 @@ export default class cardUtilities {
   static getShuffledDeckCards() {
     var deckCards = cardUtilities.getOrderedDeckCards();
 
-    const timesToShuffle = Math.floor(Math.random() * 50) + 10; // At least 10
+    const timesToShuffle = 1; // Doesn't seem to make any difference ... Math.floor(Math.random() * 50) + 10; // At least 10
     for (let idx = 0; idx < timesToShuffle; idx++) {
       this.shuffleArray(deckCards);
     }
@@ -160,23 +165,25 @@ export default class cardUtilities {
     var valueIndex;
     var valueName;
 
-    if (typeof (value) === "string") {
-      valueIndex = cardUtilities.attrs[index].values.indexOf(value.toLowerCase());
+    if (typeof value === "string") {
+      valueIndex = cardUtilities.attrs[index].values.indexOf(
+        value.toLowerCase()
+      );
       if (valueIndex !== -1) {
         valueName = cardUtilities.attrs[index].name[valueIndex]; // get it from the array so it's normalized
         attr = {
           index: valueIndex,
           name: valueName
-        }
+        };
       }
     } else if (typeof (value === "number")) {
       valueIndex = value;
       valueName = cardUtilities.attrs[index].values[value];
-      if (typeof (valueName) !== "undefined") {
+      if (typeof valueName !== "undefined") {
         attr = {
           index: valueIndex,
           name: valueName
-        }
+        };
       }
     }
 
@@ -208,19 +215,36 @@ export default class cardUtilities {
     let newTableCards;
     let newDeckCards;
 
+    // if (cardsState.tableCards.length === 0) {
+    //   newState.tableCards = new Array(count).fill(null);
+
+    //   if (deckCards.length === 0) {
+    //     newState.deckCards = utilities.shuffleDeckCards();
+    //     deckCards = newState.deckCards;
+    //   }
+
+    // } else {
+    //   newState.tableCards = [...cardsState.tableCards];
+    // }
+
     if (tableCards.length === 0) {
       newTableCards = new Array(tableMaxCards).fill(null);
+      if (deckCards.length === 0) {
+        newDeckCards = cardUtilities.getShuffledDeckCards();
+      }
     } else {
       newTableCards = [...tableCards];
     }
 
-    if (deckCards.length === 0) {
-      newDeckCards = cardUtilities.getShuffledDeckCards();
-    } else {
+    if (!newDeckCards) {
       newDeckCards = [...deckCards];
     }
 
-
+    // if (deckCards.length === 0) {
+    //   newDeckCards = cardUtilities.getShuffledDeckCards();
+    // } else {
+    //   newDeckCards = [...deckCards];
+    // }
 
     let tableCardsCount = 0;
     newTableCards.forEach((tableCard, idx) => {
@@ -231,21 +255,15 @@ export default class cardUtilities {
           newTableCards[idx] = { ...card, index: idx };
           tableCardsCount++;
         }
-      }
-      else {
+      } else {
         tableCardsCount++;
       }
     });
 
-    return { 
+    return {
       deckCards: newDeckCards,
       tableCards: newTableCards,
       tableCardsCount
     };
   }
-
-
-
-
-
 }
