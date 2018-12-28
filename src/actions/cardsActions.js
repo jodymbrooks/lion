@@ -3,8 +3,8 @@ import { updateScoreFromMatches, keepScoreAndFollowUp, switchUser } from './scor
 import cardUtilities from '../cardUtilities';
 
 
-export const TEST_REMOVE_BUNCH_OF_CARDS = 'TEST_REMOVE_BUNCH_OF_CARDS';
-export const testRemoveBunchOfCards = (count) => ({ type: TEST_REMOVE_BUNCH_OF_CARDS, count });
+export const DEBUG_REMOVE_BUNCH_OF_CARDS = 'DEBUG_REMOVE_BUNCH_OF_CARDS';
+export const debugRemoveBunchOfCards = (count) => ({ type: DEBUG_REMOVE_BUNCH_OF_CARDS, count });
 
 export const DEAL_CARDS = 'DEAL_CARDS';
 export const dealCards = () => ({ type: DEAL_CARDS });
@@ -67,9 +67,9 @@ export function cardFlippedAndFollowUp(cardKey) {
     };
 }
 
-export function testRemoveBunchOfCardsAndFollowUp(count) {
+export function debugRemoveBunchOfCardsAndFollowUp(count) {
     return (dispatch) => {
-        dispatch(testRemoveBunchOfCards(count));
+        dispatch(debugRemoveBunchOfCards(count));
         dispatch(clearKeptCards());
         dispatch(showOverlay());
         setTimeout(() => {
