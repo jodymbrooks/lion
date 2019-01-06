@@ -18,7 +18,10 @@
             "isBackground": true,
             "runOptions": {
                 "runOn": "folderOpen"
-            }
+            },
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
         }
     ]
 }
