@@ -1,5 +1,5 @@
-import * as scoreActions from './scoreActions';
-import cardUtilities from '../cardUtilities';
+import * as scoreActions from "./scoreActions";
+import cardUtilities from "../cardUtilities";
 
 const initialStoreState = {
   userScores: [
@@ -9,7 +9,7 @@ const initialStoreState = {
       points: 0
     },
     {
-      user: "Player2",
+      user: "Computer",
       sets: 0,
       points: 0
     }
@@ -18,12 +18,10 @@ const initialStoreState = {
   possPoints: 0
 };
 
-export default function (scoreState = initialStoreState, action) {
+export default function(scoreState = initialStoreState, action) {
   var newState = { ...scoreState };
 
   switch (action.type) {
-
-
     case scoreActions.UPDATE_PLAYER_NAME:
       {
         const { user, index } = action;
@@ -39,29 +37,33 @@ export default function (scoreState = initialStoreState, action) {
       break;
 
     case scoreActions.UPDATE_SCORE_FROM_MATCHES:
-      const { tableCards, matchingAttrs } = action;
-      const selectedCards = cardUtilities.getSelectedCards(tableCards);
-      const numSelectedCards = Object.keys(selectedCards).length;
-      if (matchingAttrs !== null && matchingAttrs.length > 0) {
-        var possPoints = numSelectedCards * numSelectedCards;
-        newState.possPoints = possPoints;
-      } else {
-        newState.possPoints = 0;
+      {
+        const { tableCards, matchingAttrs } = action;
+        const selectedCards = cardUtilities.getSelectedCards(tableCards);
+        const numSelectedCards = Object.keys(selectedCards).length;
+        if (matchingAttrs !== null && matchingAttrs.length > 0) {
+          var possPoints = numSelectedCards * numSelectedCards;
+          newState.possPoints = possPoints;
+        } else {
+          newState.possPoints = 0;
+        }
       }
       break;
 
     case scoreActions.KEEP_SCORE:
-      const { activeUserIndex } = scoreState;
-      const activeUser = { ...scoreState.userScores[activeUserIndex] };
+      {
+        const { activeUserIndex } = scoreState;
+        const activeUser = { ...scoreState.userScores[activeUserIndex] };
 
-      if (typeof (newState.possPoints) !== 'undefined') {
-        activeUser.points += scoreState.possPoints;
-        activeUser.sets++;
-        newState.userScores = [...scoreState.userScores];
-        newState.userScores[activeUserIndex] = activeUser;
+        if (typeof newState.possPoints !== "undefined") {
+          activeUser.points += scoreState.possPoints;
+          activeUser.sets++;
+          newState.userScores = [...scoreState.userScores];
+          newState.userScores[activeUserIndex] = activeUser;
+        }
+        // newState.activeUserIndex = (activeUserIndex + 1) % 2;
+        // newState.possPoints = 0;
       }
-      // newState.activeUserIndex = (activeUserIndex + 1) % 2;
-      // newState.possPoints = 0;
       break;
 
     default:

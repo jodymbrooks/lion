@@ -176,7 +176,7 @@ export default class cardUtilities {
           name: valueName
         };
       }
-    } else if (typeof (value === "number")) {
+    } else if (typeof value === "number") {
       valueIndex = value;
       valueName = cardUtilities.attrs[index].values[value];
       if (typeof valueName !== "undefined") {

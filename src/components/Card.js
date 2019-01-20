@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 // import FlipCard from 'react-flipcard-2';
 
-import '../App.css';
-import { cardClickedAndFollowUp } from '../actions/cardsActions';
-import cardUtilities from '../cardUtilities';
+import "../App.css";
+import { cardClickedAndFollowUp } from "../actions/cardsActions";
+import cardUtilities from "../cardUtilities";
 
 class Card extends Component {
   constructor(props) {
@@ -25,8 +25,12 @@ class Card extends Component {
 
     // const { attr1, attr2, attr3, attr4 } = this.state;
     const { isEmpty, faceDown, highlight } = this.props;
-    const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${attr4.name}`;
-    const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${attr4.name}.png`;
+    const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${
+      attr4.name
+    }`;
+    const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${
+      attr4.name
+    }.png`;
     // <FlipCard flipped={!faceDown} disabled={true}>
     // </FlipCard>
 
@@ -35,7 +39,7 @@ class Card extends Component {
       return (
         <div className="Card is-empty">
           <img alt="" src={imgSrc} />
-        </div >
+        </div>
       );
     } else {
       let alt = "card back";
@@ -49,16 +53,25 @@ class Card extends Component {
 
       if (faceDown) {
         return (
-          <div className={"Card " + highlight} data-facedown={faceDown} onClick={this.handleClick}>
+          <div
+            className={"Card " + highlight}
+            data-facedown={faceDown}
+            onClick={this.handleClick}
+          >
             <img src={imgSrc} alt={alt} />
-          </div >
+          </div>
         );
       }
       // else ...
       return (
-        <div className={"Card " + highlight} data-facedown={faceDown} data-card-label={faceDescription} onClick={this.handleClick}>
+        <div
+          className={"Card " + highlight}
+          data-facedown={faceDown}
+          data-card-label={faceDescription}
+          onClick={this.handleClick}
+        >
           <img src={imgSrc} alt={alt} />
-        </div >
+        </div>
       );
     }
   }
