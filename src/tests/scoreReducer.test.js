@@ -12,7 +12,7 @@ describe("score reducer", () => {
         points: 0
       },
       {
-        user: "Player2",
+        user: "Computer",
         sets: 0,
         points: 0
       }
