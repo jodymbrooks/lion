@@ -8,17 +8,23 @@ export function computerChooseACardAndFollowUp(delay = 500) {
     dispatch(showOverlay);
 
     const { possPoints } = getState().score;
-    const { matchingAttrs } = getState().cards;
-    if (possPoints > 0 && matchingAttrs.length === 1) {
+    const { matchingAttrs, tableCards } = getState().cards;
+    const availableTableCards = tableCards.filter(
+      card => card !== null && card.faceDown
+    );
+    if (
+      possPoints > 0 &&
+      (matchingAttrs.length === 1 || availableTableCards.length === 0)
+    ) {
       window.setTimeout(() => {
         dispatch(keepScoreAndFollowUp());
       }, 2000);
     } else {
       let flippedACard = false;
       for (
-        let cards = getState().cards;
-        !cards.gameOver && !flippedACard;
-        cards = getState().cards
+        let cards = getState().cards, count = 0; // count is a failsafe in case something is amiss and makes us get into an infinite loop
+        !cards.gameOver && !flippedACard && count < 100;
+        cards = getState().cards, count++
       ) {
         const { tableCards } = cards;
         const card = computerPlayer.chooseACard(tableCards);

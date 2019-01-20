@@ -1,4 +1,4 @@
-import { showOverlay } from "./commonActions";
+import { showOverlay, hideOverlay } from "./commonActions";
 import {
   checkGameOver,
   clearKeptCards,
@@ -27,14 +27,19 @@ export const KEEP_SCORE = "KEEP_SCORE";
 export const keepScore = () => ({ type: KEEP_SCORE });
 
 export function keepScoreAndFollowUp() {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(keepScore());
     dispatch(clearKeptCards());
     dispatch(showOverlay());
     setTimeout(() => {
       dispatch(dealCards());
       dispatch(checkGameOver());
-      dispatch(switchUserAndFollowUp());
+      const { gameOver } = getState().cards;
+      if (gameOver) {
+        dispatch(hideOverlay());
+      } else {
+        dispatch(switchUserAndFollowUp());
+      }
     }, 300);
   };
 }
