@@ -33,7 +33,9 @@ class App extends Component {
       >
         Clear table
       </button>
-    ) : "";
+    ) : (
+      ""
+    );
 
     return (
       <Provider store={this.store}>

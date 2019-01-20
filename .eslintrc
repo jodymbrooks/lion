@@ -1,25 +1,21 @@
 {
-  "extends": "react-app",
-  "plugins": [ "jest" ],
+  "extends": ["react-app", "eslint:recommended", "prettier", "prettier/react"],
+  "plugins": ["jest", "prettier"],
   "env": {
     "jest/globals": true,
     "browser": true,
     "node": true
   },
   "rules": {
-    "no-unused-vars": [
-      "error",
-      { "argsIgnorePattern": "next" }
-    ],
+    "no-unused-vars": ["error", { "args": "none" }],
     "linebreak-style": "off",
     "react/jsx-one-expression-per-line": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      { "devDependencies": true }
-    ],
-    "react/prop-types": [ 0 ],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/prop-types": [0],
     "object-curly-newline": "off",
     "no-underscore-dangle": "off",
-    "jsx-a11y/anchor-has-content": "off"
+    "no-console": "off",
+    "jsx-a11y/anchor-has-content": "off",
+    "prettier/prettier": ["error", {}]
   }
 }

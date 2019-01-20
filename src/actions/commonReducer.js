@@ -1,11 +1,11 @@
-import * as commonActions from './commonActions';
+import * as commonActions from "./commonActions";
 
 const initialState = {
   error: null,
   overlayShown: false
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case commonActions.SET_ERROR:
       state = { ...state, error: action.error };

@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import '../App.css';
-import SharedStatus from './SharedStatus';
-import UserScore from './UserScore';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import "../App.css";
+import SharedStatus from "./SharedStatus";
+import UserScore from "./UserScore";
 
 class StatusArea extends Component {
-
   getUserScores() {
     const userScores = this.props.score.userScores.map((userScore, index) => {
       const { user, sets, points } = userScore;
       const isActive = this.props.score.activeUserIndex === index;
       return (
-        <UserScore key={index} index={index} user={user} sets={sets} points={points} isActive={isActive} />
+        <UserScore
+          key={index}
+          index={index}
+          user={user}
+          sets={sets}
+          points={points}
+          isActive={isActive}
+        />
       );
     });
 
@@ -22,18 +28,13 @@ class StatusArea extends Component {
     const userScores = this.getUserScores();
 
     return (
-      <div className='StatusArea'>
+      <div className="StatusArea">
         <SharedStatus />
         {userScores}
       </div>
     );
   }
-
-
-
-
 }
-
 
 function mapStateToProps(state) {
   return {
