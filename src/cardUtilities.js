@@ -32,14 +32,10 @@ export default class cardUtilities {
   ];
 
   static attrNames = cardUtilities.attrs.map(attr => attr.name);
-  static colorAttr = cardUtilities.attrs.filter(
-    attr => typeof attr.colorMap !== "undefined"
-  );
+  static colorAttr = cardUtilities.attrs.filter(attr => typeof attr.colorMap !== "undefined");
 
   static getSelectedCards(tableCards) {
-    const selectedCards = tableCards.filter(
-      card => card !== null && !card.faceDown
-    );
+    const selectedCards = tableCards.filter(card => card !== null && !card.faceDown);
     return selectedCards;
   }
 
@@ -124,12 +120,7 @@ export default class cardUtilities {
       for (var attr2 = 0; attr2 < numAttr2Values; attr2++) {
         for (var attr3 = 0; attr3 < numAttr3Values; attr3++) {
           for (var attr4 = 0; attr4 < numAttr4Values; attr4++) {
-            var cardInfo = cardUtilities.getCardInfoFromAttrs(
-              attr1,
-              attr2,
-              attr3,
-              attr4
-            );
+            var cardInfo = cardUtilities.getCardInfoFromAttrs(attr1, attr2, attr3, attr4);
             deckCards.push(cardInfo);
           }
         }
@@ -166,9 +157,7 @@ export default class cardUtilities {
     var valueName;
 
     if (typeof value === "string") {
-      valueIndex = cardUtilities.attrs[index].values.indexOf(
-        value.toLowerCase()
-      );
+      valueIndex = cardUtilities.attrs[index].values.indexOf(value.toLowerCase());
       if (valueIndex !== -1) {
         valueName = cardUtilities.attrs[index].name[valueIndex]; // get it from the array so it's normalized
         attr = {
@@ -265,5 +254,110 @@ export default class cardUtilities {
       tableCards: newTableCards,
       tableCardsCount
     };
+  }
+
+  static getFaceDownCards(tableCards) {
+    return tableCards.filter(card => card !== null && card.faceDown);
+  }
+
+  // static removeCard(card, cards) {
+  //   const idx = cards.findIndex(c => c.key === card.key);
+  //   if (idx >= 0) {
+  //     cards.splice(idx, 1);
+  //     return true;
+  //   }
+
+  //   return false;
+  // }
+
+  static checkForMatches(cards) {
+    let foundAvailableMatch = false;
+
+    const cardsLength = cards.length;
+    for (let idx1 = 0; idx1 < cardsLength && !foundAvailableMatch; idx1++) {
+      const card1 = cards[idx1];
+      if (!card1) continue;
+
+      for (let idx2 = idx1 + 1; idx2 < cardsLength && !foundAvailableMatch; idx2++) {
+        const card2 = cards[idx2];
+        if (!card2) continue;
+
+        const testCards = [card1, card2];
+        const matchingAttrs = cardUtilities.getMatchingAttrs(testCards);
+        if (matchingAttrs && matchingAttrs.length > 0) {
+          foundAvailableMatch = true; // this will cause both loops to break
+        }
+      }
+    }
+    return foundAvailableMatch;
+  }
+
+  static getAllMatches(cards) {
+    const matches = []; // an array of arrays - each inner array holds cards that match each other
+    /*
+      - Iterate each card against all others and see if there are matches
+        - If a match is found, iterate again against found cards to see if more matches, and so on
+      - For each match, add cards to it as found that match
+      - Rank matches by the count of cards, or sort by the count of involved cards
+     */
+
+    const cardsLength = cards.length;
+    for (let idx1 = 0; idx1 < cardsLength; idx1++) {
+      const card1 = cards[idx1];
+      if (!card1) continue;
+      for (let idx2 = idx1 + 1; idx2 < cardsLength; idx2++) {
+        const card2 = cards[idx2];
+        if (!card2) continue;
+        let testCards = [card1, card2];
+        let matchingAttrs = cardUtilities.getMatchingAttrs(testCards);
+        if (matchingAttrs && matchingAttrs.length > 0) {
+          const match = { matchingAttrs, cards: [card1, card2] };
+
+          // Found a 2-card match so test the rest of the cards to see if they might also match
+          for (let idx3 = idx2 + 1; idx3 < cardsLength; idx3++) {
+            const card3 = cards[idx3];
+            if (!card3) continue;
+            testCards = [...match.cards, card3];
+            matchingAttrs = cardUtilities.getMatchingAttrs(testCards);
+            if (matchingAttrs && matchingAttrs.length > 0) {
+              match.matchingAttrs = matchingAttrs;
+              match.cards.push(card3); // yes it matches so add this card3 to the match array
+            }
+          }
+
+          matches.push(match); // add this match array onto the list of all matches
+        }
+      }
+    }
+
+    // // Now we may have 2-card matches but need to see if other cards match any of these 2-card matches
+    // matches.forEach(match => {
+    //   cards.forEach(card => {
+    //     // if this test card isn't already in the match, then check if the test card matches the others.. if it does, add it in
+    //     if (match.indexOf(c => c.key !== card.key)) {
+    //       const testCards = [...match, card]; // create an array to test for matches between the original matching set and this new test card
+    //       const matchingAttrs = cardUtilities.getMatchingAttrs(testCards);
+    //       if (matchingAttrs && matchingAttrs.length > 0) {
+    //         match.push(card); // this card matches the others in this match array, so add it to them
+    //       }
+    //     }
+    //   });
+    // });
+
+    // Sort matches so the longest match is at the beginning of matches
+    matches.sort((m1, m2) => {
+      // Sort by the number of matching cards first
+      let retval = m2.cards.length - m1.cards.length;
+
+      // Then if needed sort by the number of the matchingAttrs
+      if (retval === 0) retval = m2.matchingAttrs.length - m1.matchingAttrs.length;
+
+      return retval;
+    });
+
+    console.log("matches:");
+    console.dir(matches);
+
+    return matches;
   }
 }

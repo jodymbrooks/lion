@@ -1,9 +1,5 @@
 import { showOverlay, hideOverlay } from "./commonActions";
-import {
-  updateScoreFromMatches,
-  keepScoreAndFollowUp,
-  switchUser
-} from "./scoreActions";
+import { updateScoreFromMatches, keepScoreAndFollowUp, switchUser } from "./scoreActions";
 import cardUtilities from "../cardUtilities";
 import { computerChooseACardAndFollowUp } from "./computerPlayerActions";
 

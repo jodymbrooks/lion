@@ -1,10 +1,5 @@
 import { showOverlay, hideOverlay } from "./commonActions";
-import {
-  checkGameOver,
-  clearKeptCards,
-  dealCards,
-  switchUserAndFollowUp
-} from "./cardsActions";
+import { checkGameOver, clearKeptCards, dealCards, switchUserAndFollowUp } from "./cardsActions";
 
 export const UPDATE_PLAYER_NAME = "UPDATE_PLAYER_NAME";
 export const updatePlayerName = (user, index) => ({

@@ -25,12 +25,8 @@ class Card extends Component {
 
     // const { attr1, attr2, attr3, attr4 } = this.state;
     const { isEmpty, faceDown, highlight } = this.props;
-    const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${
-      attr4.name
-    }`;
-    const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${
-      attr4.name
-    }.png`;
+    const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${attr4.name}`;
+    const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${attr4.name}.png`;
     // <FlipCard flipped={!faceDown} disabled={true}>
     // </FlipCard>
 
@@ -53,11 +49,7 @@ class Card extends Component {
 
       if (faceDown) {
         return (
-          <div
-            className={"Card " + highlight}
-            data-facedown={faceDown}
-            onClick={this.handleClick}
-          >
+          <div className={"Card " + highlight} data-facedown={faceDown} onClick={this.handleClick}>
             <img src={imgSrc} alt={alt} />
           </div>
         );
