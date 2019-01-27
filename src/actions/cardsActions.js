@@ -1,7 +1,7 @@
 import { showOverlay, hideOverlay } from "./commonActions";
 import { updateScoreFromMatches, keepScoreAndFollowUp, switchUser } from "./scoreActions";
 import cardUtilities from "../cardUtilities";
-import { computerChooseACardAndFollowUp } from "./computerPlayerActions";
+import { computerChooseACardAndFollowUp } from "../computerPlayer";
 
 export const DEBUG_REMOVE_BUNCH_OF_CARDS = "DEBUG_REMOVE_BUNCH_OF_CARDS";
 export const debugRemoveBunchOfCards = count => ({
