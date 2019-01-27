@@ -5,6 +5,7 @@ export const initialStoreState = {
   tableCards: [],
   tableCardsCount: null,
   deckCards: [],
+  seenCards: {},
   matchingAttrs: [],
   highlight: "none",
   gameOver: false
@@ -44,33 +45,7 @@ export default function(cardsState = initialStoreState, action) {
 
       if (!newState.gameOver) {
         // If enough cards, then check for matches
-        let foundAvailableMatch = false;
-
-        const tableCardsLength = cardsState.tableCards.length;
-        for (
-          let idx1 = 0;
-          idx1 < tableCardsLength && !foundAvailableMatch;
-          idx1++
-        ) {
-          const card1 = cardsState.tableCards[idx1];
-          if (!card1) continue;
-
-          for (
-            let idx2 = idx1 + 1;
-            idx2 < tableCardsLength && !foundAvailableMatch;
-            idx2++
-          ) {
-            const card2 = cardsState.tableCards[idx2];
-            if (!card2) continue;
-
-            const cards = [card1, card2];
-            const matchingAttrs = cardUtilities.getMatchingAttrs(cards);
-            if (matchingAttrs && matchingAttrs.length > 0) {
-              foundAvailableMatch = true; // this will cause both loops to break
-            }
-          }
-        }
-
+        const foundAvailableMatch = cardUtilities.checkForMatches(cardsState.tableCards);
         newState.gameOver = !foundAvailableMatch;
       }
       break;
@@ -86,6 +61,11 @@ export default function(cardsState = initialStoreState, action) {
           const newCard = { ...card, faceDown: !card.faceDown };
           newTableCards[newCard.index] = newCard;
           newState.tableCards = newTableCards;
+
+          if (!newCard.faceDown) {
+            newState.seenCards = { ...cardsState.seenCards };
+            newState.seenCards[card.key] = { ...newCard };
+          }
         }
       }
       break;
@@ -99,11 +79,7 @@ export default function(cardsState = initialStoreState, action) {
         const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
         const allMatch = matchingAttrs !== null && matchingAttrs.length > 0;
         newState.highlight =
-          matchingAttrs === null
-            ? ""
-            : allMatch
-            ? "highlight-match"
-            : "highlight-mismatch";
+          matchingAttrs === null || allMatch ? "highlight-match" : "highlight-mismatch";
 
         if (allMatch /*&& numSelectedCards > 1*/) {
           newState.matchingAttrs = matchingAttrs;
@@ -115,21 +91,38 @@ export default function(cardsState = initialStoreState, action) {
 
     case cardsActions.RESET_FLIPPED_CARDS:
       newState.matchingAttrs = [];
-      newState.tableCards = cardsState.tableCards.map(card =>
-        card ? { ...card, faceDown: true } : null
-      );
+      // newState.seenCards = { ...cardsState.seenCards };
+      newState.tableCards = cardsState.tableCards.map(card => {
+        if (card) {
+          if (card.faceDown) {
+            return card;
+          } else {
+            const faceDownCard = { ...card, faceDown: true };
+            // newState.seenCards[card.key] = { ...faceDownCard };
+            return faceDownCard;
+          }
+        } else {
+          return null;
+        }
+      });
       newState.highlight = "none";
       break;
 
     case cardsActions.CLEAR_KEPT_CARDS:
       {
-        const { tableCards } = cardsState;
-        const selectedCards = cardUtilities.getSelectedCards(tableCards);
+        const { tableCards, seenCards } = cardsState;
         const newTableCards = [...tableCards];
+        const newSeenCards = { ...seenCards };
+        const selectedCards = cardUtilities.getSelectedCards(tableCards);
         selectedCards.forEach(card => {
+          // clear the card from the tableCards
           newTableCards[card.index] = null;
+
+          // clear the card from the seenCards
+          delete newSeenCards[card.key];
         });
         newState.tableCards = newTableCards;
+        newState.seenCards = newSeenCards;
         newState.matchingAttrs = [];
       }
       break;
