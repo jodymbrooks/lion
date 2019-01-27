@@ -79,7 +79,7 @@ export default function(cardsState = initialStoreState, action) {
         const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
         const allMatch = matchingAttrs !== null && matchingAttrs.length > 0;
         newState.highlight =
-          matchingAttrs === null ? "" : allMatch ? "highlight-match" : "highlight-mismatch";
+          matchingAttrs === null || allMatch ? "highlight-match" : "highlight-mismatch";
 
         if (allMatch /*&& numSelectedCards > 1*/) {
           newState.matchingAttrs = matchingAttrs;
