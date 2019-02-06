@@ -80,6 +80,13 @@ export default class cardUtilities {
   static getMatches(card1, card2, matches) {
     // For first test, any matches will do;
     // However for subsequent tests, only match against what's already matched
+    if (!matches) {
+      matches = {
+        attrs: [null, null, null, null],
+        matchingAttrs: [],
+        count: null
+      };
+    }
     var firstTest = matches.count === null;
 
     card1.attrs.forEach((card1attr, index) => {
@@ -115,11 +122,7 @@ export default class cardUtilities {
 
     if (selectedCardsCount === 1) return null;
 
-    var matches = {
-      attrs: [null, null, null, null],
-      matchingAttrs: [],
-      count: null
-    };
+    var matches = null; // will get default data structure on first call to getMatches
 
     var card1 = selectedCards[0];
 
