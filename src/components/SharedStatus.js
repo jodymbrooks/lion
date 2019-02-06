@@ -11,7 +11,8 @@ class SharedStatus extends Component {
   render() {
     const { possPoints } = this.props.score;
     const { matchingAttrs } = this.props.cards;
-    const matchingAttrsString = matchingAttrs ? matchingAttrs.join(", ") : "";
+    // const matchingAttrsString = matchingAttrs ? matchingAttrs.join(", ") : "";
+    const matchingAttrsString = matchingAttrs ? matchingAttrs.length : "";
     const cardsLeft = this.props.cards.deckCards.length;
     return (
       <div className="SharedStatus">
@@ -35,7 +36,7 @@ class SharedStatus extends Component {
           </div>
         </div>
         <div className="status-section matching-attrs-area">
-          <span className="statusTitle ui label">Matches: </span>
+          <span className="statusTitle ui label">Matching Attributes: </span>
           <span className="matching-attrs ui label">{matchingAttrsString}</span>
         </div>
       </div>

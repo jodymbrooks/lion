@@ -1,3 +1,8 @@
+import cardUtilities from "./cardUtilities";
+import { showOverlay } from "./actions/commonActions";
+import { keepScoreAndFollowUp } from "./actions/scoreActions";
+import { cardFlippedAndFollowUp } from "./actions/cardsActions";
+
 export default class computerPlayer {
   static chooseACard(availableCards, allMatchesFromSeenCards) {
     /*  Rules for choosing a card
@@ -46,4 +51,38 @@ export default class computerPlayer {
       ? "keep"
       : "choose";
   }
+}
+
+export function computerChooseACardAndFollowUp(delay = 500) {
+  return (dispatch, getState) => {
+    dispatch(showOverlay);
+
+    const { possPoints } = getState().score;
+    const { matchingAttrs, tableCards, seenCards } = getState().cards;
+    const availCards = cardUtilities.getFaceDownCards(tableCards);
+    const seenCardsValues = Object.values(seenCards);
+    const allMatchesFromSeenCards = cardUtilities.getAllMatches(seenCardsValues);
+
+    const keepOrChoose = computerPlayer.keepOrChoose(
+      possPoints,
+      matchingAttrs,
+      availCards,
+      allMatchesFromSeenCards
+    );
+    if (keepOrChoose === "keep") {
+      window.setTimeout(() => {
+        dispatch(keepScoreAndFollowUp());
+      }, 2000);
+    } else {
+      const cards = getState().cards;
+      if (!cards.gameOver) {
+        const card = computerPlayer.chooseACard(availCards, allMatchesFromSeenCards);
+        if (card) {
+          setTimeout(() => {
+            dispatch(cardFlippedAndFollowUp(card.key));
+          }, delay);
+        }
+      }
+    }
+  };
 }

@@ -34,6 +34,44 @@ export default class cardUtilities {
   static attrNames = cardUtilities.attrs.map(attr => attr.name);
   static colorAttr = cardUtilities.attrs.filter(attr => typeof attr.colorMap !== "undefined");
 
+  static dealCards(deckCards, tableCards) {
+    let newTableCards;
+    let newDeckCards;
+
+    if (tableCards.length === 0) {
+      newTableCards = new Array(tableMaxCards).fill(null);
+      if (deckCards.length === 0) {
+        newDeckCards = cardUtilities.getShuffledDeckCards();
+      }
+    } else {
+      newTableCards = [...tableCards];
+    }
+
+    if (!newDeckCards) {
+      newDeckCards = [...deckCards];
+    }
+
+    let tableCardsCount = 0;
+    newTableCards.forEach((tableCard, idx) => {
+      // Replace empty table slots (null values) with the next available deck card, if any
+      if (tableCard === null) {
+        if (newDeckCards.length > 0) {
+          const [card] = newDeckCards.splice(0, 1); // returns an array of the spliced entries which is just one entry
+          newTableCards[idx] = { ...card, index: idx };
+          tableCardsCount++;
+        }
+      } else {
+        tableCardsCount++;
+      }
+    });
+
+    return {
+      deckCards: newDeckCards,
+      tableCards: newTableCards,
+      tableCardsCount
+    };
+  }
+
   static getSelectedCards(tableCards) {
     const selectedCards = tableCards.filter(card => card !== null && !card.faceDown);
     return selectedCards;
@@ -42,6 +80,13 @@ export default class cardUtilities {
   static getMatches(card1, card2, matches) {
     // For first test, any matches will do;
     // However for subsequent tests, only match against what's already matched
+    if (!matches) {
+      matches = {
+        attrs: [null, null, null, null],
+        matchingAttrs: [],
+        count: null
+      };
+    }
     var firstTest = matches.count === null;
 
     card1.attrs.forEach((card1attr, index) => {
@@ -77,11 +122,7 @@ export default class cardUtilities {
 
     if (selectedCardsCount === 1) return null;
 
-    var matches = {
-      attrs: [null, null, null, null],
-      matchingAttrs: [],
-      count: null
-    };
+    var matches = null; // will get default data structure on first call to getMatches
 
     var card1 = selectedCards[0];
 
@@ -198,62 +239,6 @@ export default class cardUtilities {
     }
 
     return arr;
-  }
-
-  static dealCards(deckCards, tableCards) {
-    let newTableCards;
-    let newDeckCards;
-
-    // if (cardsState.tableCards.length === 0) {
-    //   newState.tableCards = new Array(count).fill(null);
-
-    //   if (deckCards.length === 0) {
-    //     newState.deckCards = utilities.shuffleDeckCards();
-    //     deckCards = newState.deckCards;
-    //   }
-
-    // } else {
-    //   newState.tableCards = [...cardsState.tableCards];
-    // }
-
-    if (tableCards.length === 0) {
-      newTableCards = new Array(tableMaxCards).fill(null);
-      if (deckCards.length === 0) {
-        newDeckCards = cardUtilities.getShuffledDeckCards();
-      }
-    } else {
-      newTableCards = [...tableCards];
-    }
-
-    if (!newDeckCards) {
-      newDeckCards = [...deckCards];
-    }
-
-    // if (deckCards.length === 0) {
-    //   newDeckCards = cardUtilities.getShuffledDeckCards();
-    // } else {
-    //   newDeckCards = [...deckCards];
-    // }
-
-    let tableCardsCount = 0;
-    newTableCards.forEach((tableCard, idx) => {
-      // Replace empty table slots (null values) with the next available deck card, if any
-      if (tableCard === null) {
-        if (newDeckCards.length > 0) {
-          const [card] = newDeckCards.splice(0, 1); // returns an array of the spliced entries which is just one entry
-          newTableCards[idx] = { ...card, index: idx };
-          tableCardsCount++;
-        }
-      } else {
-        tableCardsCount++;
-      }
-    });
-
-    return {
-      deckCards: newDeckCards,
-      tableCards: newTableCards,
-      tableCardsCount
-    };
   }
 
   static getFaceDownCards(tableCards) {
