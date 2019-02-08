@@ -189,10 +189,11 @@ export default class cardUtilities {
   }
 
   static decodeAttr(index, value) {
-    var attr = {
-      index: null,
-      name: null
-    };
+    if (typeof index !== "number" || index < 0 || index >= cardUtilities.attrs.length) {
+      return null;
+    }
+
+    var attr = null;
 
     var valueIndex;
     var valueName;
@@ -217,7 +218,7 @@ export default class cardUtilities {
       }
     }
 
-    if (cardUtilities.attrs[index].colorMap) {
+    if (attr !== null && cardUtilities.attrs[index].colorMap) {
       attr.value = cardUtilities.attrs[index].colorMap[attr.name];
     }
 
