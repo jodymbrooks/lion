@@ -20,6 +20,16 @@
         "runOn": "folderOpen"
       },
       "problemMatcher": ["$eslint-compact"]
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "label": "test",
+      "isBackground": true,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "problemMatcher": []
     }
   ]
 }

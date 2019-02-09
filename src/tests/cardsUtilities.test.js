@@ -393,8 +393,63 @@ describe("decodeAttr", () => {
   });
 });
 
-// cardUtilities.getKeyFromAttrs(attr1, attr2, attr3, attr4)
-// cardUtilities.shuffleArray(arr)
-// cardUtilities.getFaceDownCards(tableCards)
+describe("getKeyFromAttrs", () => {
+  it("should produce the expected keys from given attrs", () => {});
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 0, 0)).toBe("0000");
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 0, 1)).toBe("0001");
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 1, 0)).toBe("0010");
+  expect(cardUtilities.getKeyFromAttrs(2, 1, 0, 1)).toBe("2101");
+  expect(cardUtilities.getKeyFromAttrs(2, 2, 2, 2)).toBe("2222");
+});
+
+// cardUtilities.shuffleArray(arr) - basically a COTS function - already tested in getShuffledDeckCards
+
+describe("getFaceDownCards", () => {
+  const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
+  const { tableCards } = dealInfo;
+  it("should find all table cards from a fresh deal", () => {
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(20); // none flipped from fesh deal
+  });
+  it("should find 19 cards after flipping 1 from a fresh deal", () => {
+    tableCards[0].faceDown = false;
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(19); // one flipped
+  });
+  it("should find 18 cards after flipping 2 cards from a fresh deal", () => {
+    tableCards[10].faceDown = false;
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(18); // second one flipped
+  });
+  it("should find no cards when the table is empty", () => {
+    expect(cardUtilities.getFaceDownCards([]).length).toBe(0); // empty table
+  });
+});
+
 // cardUtilities.checkForMatches(cards)
+describe("checkForMatches", () => {
+  let deckCards = cardUtilities.getOrderedDeckCards(); // ordered doesn't really matter here
+  const dealInfo = cardUtilities.dealCards(deckCards, []); // [] => empty table
+  const { tableCards } = dealInfo;
+  it("should see matches from a full table of ordered cards", () => {
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(true);
+  });
+  it("should a match when only first two of ordered deck are left on the table", () => {
+    tableCards.splice(2, 18);
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(true);
+  });
+  it("should see no matches when only 1 card is left on the table", () => {
+    tableCards.splice(0, 1);
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(false);
+  });
+  it("should see no match from two selective cards that don't match", () => {
+    const testCards = [deckCards[0], deckCards[80]];
+    expect(cardUtilities.checkForMatches(testCards)).toBe(false);
+  });
+  it("should see no match from three selective cards that don't match", () => {
+    const testCards = [deckCards[0], deckCards[40], deckCards[80]];
+    expect(cardUtilities.checkForMatches(testCards)).toBe(false);
+  });
+});
+
 // cardUtilities.getAllMatches(cards)
+describe("getAllMatches", () => {
+  it("should ...", () => {});
+});
