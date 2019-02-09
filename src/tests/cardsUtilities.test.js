@@ -449,7 +449,29 @@ describe("checkForMatches", () => {
   });
 });
 
-// cardUtilities.getAllMatches(cards)
 describe("getAllMatches", () => {
-  it("should ...", () => {});
+  let deckCards = cardUtilities.getOrderedDeckCards(); // ordered doesn't really matter here
+  const dealInfo = cardUtilities.dealCards(deckCards, []); // [] => empty table
+  const { tableCards } = dealInfo;
+  let allMatches = cardUtilities.getAllMatches(tableCards);
+  it("should see 190 matches from an ordered deck's first deal", () => {
+    expect(allMatches).not.toBe(null);
+    expect(allMatches.length).toBe(190);
+  });
+  it("should see all 20 table cards match on a single attr from an ordered deck's first deal", () => {
+    expect(allMatches[0].cards.length).toBe(20);
+    expect(allMatches[0].matchingAttrs.length).toBe(1);
+  });
+  it("should see a select match towards the end matches on 2 cards and 3 attrs", () => {
+    expect(allMatches[172].cards.length).toBe(2);
+    expect(allMatches[172].matchingAttrs.length).toBe(3);
+  });
+  it("should see a select match further towards the end matches on 2 cards and 2 attrs", () => {
+    expect(allMatches[177].cards.length).toBe(2);
+    expect(allMatches[177].matchingAttrs.length).toBe(2);
+  });
+  it("should see the last match matches on 2 cards and 1 attr", () => {
+    expect(allMatches[189].cards.length).toBe(2);
+    expect(allMatches[189].matchingAttrs.length).toBe(1);
+  });
 });
