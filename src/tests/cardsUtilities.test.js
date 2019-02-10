@@ -1,11 +1,10 @@
 import cardUtilities from "../cardUtilities";
 
 describe("dealCards", () => {
-  it("should deal 20 cards to an empty table", () => {
+  it("should deal 20 cards to an empty table and leave 61 cards in the deck", () => {
     let dealInfo = cardUtilities.dealCards([], []); // [] => empty table
-
-    expect(dealInfo.deckCards.length).toEqual(61);
     expect(dealInfo.tableCardsCount).toEqual(20);
+    expect(dealInfo.deckCards.length).toEqual(61);
   });
 
   it("should deal 2 cards to 2 empty slots if enough cards are left", () => {
