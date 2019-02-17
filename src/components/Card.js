@@ -25,8 +25,6 @@ class Card extends Component {
 
     // const { attr1, attr2, attr3, attr4 } = this.state;
     const { isEmpty, faceDown, highlight } = this.props;
-    const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${attr4.name}`;
-    const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${attr4.name}.png`;
     // <FlipCard flipped={!faceDown} disabled={true}>
     // </FlipCard>
 
@@ -40,6 +38,8 @@ class Card extends Component {
     } else {
       let alt = "card back";
       let imgSrc = "images/cards/brave/CardBack.png";
+      const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${attr4.name}`;
+      const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${attr4.name}.png`;
 
       if (!faceDown) {
         alt = faceDescription;

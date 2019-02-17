@@ -1,11 +1,10 @@
 import cardUtilities from "../cardUtilities";
 
 describe("dealCards", () => {
-  it("should deal 20 cards to an empty table", () => {
+  it("should deal 20 cards to an empty table and leave 61 cards in the deck", () => {
     let dealInfo = cardUtilities.dealCards([], []); // [] => empty table
-
-    expect(dealInfo.deckCards.length).toEqual(61);
     expect(dealInfo.tableCardsCount).toEqual(20);
+    expect(dealInfo.deckCards.length).toEqual(61);
   });
 
   it("should deal 2 cards to 2 empty slots if enough cards are left", () => {
@@ -255,13 +254,223 @@ describe("getMatchingAttrs", () => {
   });
 });
 
-// cardUtilities.getCardInfoFromAttrs(attr1, attr2, attr3, attr4)
-// cardUtilities.getOrderedDeckCards()
-// cardUtilities.getShuffledDeckCards()
-// cardUtilities.getCardFromKey(cards, key)
-// cardUtilities.decodeAttr(index, value)
-// cardUtilities.getKeyFromAttrs(attr1, attr2, attr3, attr4)
-// cardUtilities.shuffleArray(arr)
-// cardUtilities.getFaceDownCards(tableCards)
+describe("getCardInfoFromAttrs", () => {
+  it("should create the expected card from the given all 0 attr values", () => {
+    const cardInfo = cardUtilities.getCardInfoFromAttrs(0, 0, 0, 0);
+    expect(cardInfo).not.toBeNull();
+    expect(cardInfo).toEqual({
+      attrs: [0, 0, 0, 0],
+      faceDown: true,
+      index: null,
+      key: "0000"
+    });
+  });
+
+  it("should create the expected card from the given mixed attr values", () => {
+    const cardInfo = cardUtilities.getCardInfoFromAttrs(0, 1, 2, 1);
+    expect(cardInfo).not.toBeNull();
+    expect(cardInfo).toEqual({
+      attrs: [0, 1, 2, 1],
+      faceDown: true,
+      index: null,
+      key: "0121"
+    });
+  });
+});
+
+describe("getOrderedDeckCards", () => {
+  it("should create the expected deck of ordered cards", () => {
+    const deckCards = cardUtilities.getOrderedDeckCards();
+    expect(deckCards).not.toBeNull();
+    expect(deckCards.length).toBe(81);
+    expect(deckCards[0].key).toBe("0000");
+    expect(deckCards[1].key).toBe("0001");
+    expect(deckCards[2].key).toBe("0002");
+    expect(deckCards[3].key).toBe("0010");
+    expect(deckCards[4].key).toBe("0011");
+    expect(deckCards[5].key).toBe("0012");
+  });
+});
+
+describe("getShuffledDeckCards", () => {
+  it("should create a deck of shuffled cards and first few cards should not be in order", () => {
+    const deckCards = cardUtilities.getShuffledDeckCards();
+    // Not much to reliably check on shuffled cards, but these things:
+    // - got a non-null deck with 81 cards
+    // - enough cards are out-of-order to verify shuffle occurred
+    expect(deckCards).not.toBeNull();
+    expect(deckCards.length).toBe(81);
+    const firstFewAreStillOrdered =
+      deckCards[0].key === "0000" &&
+      deckCards[1].key === "0001" &&
+      deckCards[2].key === "0002" &&
+      deckCards[3].key === "0010";
+    expect(firstFewAreStillOrdered).toBe(false);
+  });
+});
+
+describe("getCardFromKey", () => {
+  it("should return an expected card from a known key", () => {
+    const deckCards = cardUtilities.getOrderedDeckCards();
+    let card = cardUtilities.getCardFromKey(deckCards, "0000");
+    expect(card).not.toBeNull();
+    expect(card).toBe(deckCards[0]);
+
+    card = cardUtilities.getCardFromKey(deckCards, "0001");
+    expect(card).not.toBeNull();
+    expect(card).toBe(deckCards[1]);
+
+    card = cardUtilities.getCardFromKey(deckCards, "blah");
+    expect(card).toBeNull();
+    card = cardUtilities.getCardFromKey(deckCards, null);
+    expect(card).toBeNull();
+    card = cardUtilities.getCardFromKey(deckCards, "blahasdfasdf");
+    expect(card).toBeNull();
+  });
+});
+
+describe("decodeAttr", () => {
+  it("should return the expected attributes for given attr codes", () => {
+    let attr;
+
+    attr = cardUtilities.decodeAttr(0, 0);
+    expect(attr.index).toBe(0);
+    expect(attr.name).toBe("green");
+
+    attr = cardUtilities.decodeAttr(0, 1);
+    expect(attr.index).toBe(1);
+    expect(attr.name).toBe("purple");
+
+    attr = cardUtilities.decodeAttr(0, 2);
+    expect(attr.index).toBe(2);
+    expect(attr.name).toBe("red");
+
+    attr = cardUtilities.decodeAttr(1, 0);
+    expect(attr.index).toBe(0);
+    expect(attr.name).toBe("1");
+
+    attr = cardUtilities.decodeAttr(1, 1);
+    expect(attr.index).toBe(1);
+    expect(attr.name).toBe("2");
+
+    attr = cardUtilities.decodeAttr(1, 2);
+    expect(attr.index).toBe(2);
+    expect(attr.name).toBe("3");
+
+    attr = cardUtilities.decodeAttr(2, 0);
+    expect(attr.index).toBe(0);
+    expect(attr.name).toBe("diamond");
+
+    attr = cardUtilities.decodeAttr(2, 1);
+    expect(attr.index).toBe(1);
+    expect(attr.name).toBe("oval");
+
+    attr = cardUtilities.decodeAttr(2, 2);
+    expect(attr.index).toBe(2);
+    expect(attr.name).toBe("rectangle");
+
+    attr = cardUtilities.decodeAttr(3, 0);
+    expect(attr.index).toBe(0);
+    expect(attr.name).toBe("empty");
+
+    attr = cardUtilities.decodeAttr(3, 1);
+    expect(attr.index).toBe(1);
+    expect(attr.name).toBe("striped");
+
+    attr = cardUtilities.decodeAttr(3, 2);
+    expect(attr.index).toBe(2);
+    expect(attr.name).toBe("solid");
+
+    attr = cardUtilities.decodeAttr(-1, 2);
+    expect(attr).toBeNull();
+    attr = cardUtilities.decodeAttr(4, 2);
+    expect(attr).toBeNull();
+    attr = cardUtilities.decodeAttr("asdf", 2);
+    expect(attr).toBeNull();
+    attr = cardUtilities.decodeAttr(0, 3);
+    expect(attr).toBeNull();
+  });
+});
+
+describe("getKeyFromAttrs", () => {
+  it("should produce the expected keys from given attrs", () => {});
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 0, 0)).toBe("0000");
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 0, 1)).toBe("0001");
+  expect(cardUtilities.getKeyFromAttrs(0, 0, 1, 0)).toBe("0010");
+  expect(cardUtilities.getKeyFromAttrs(2, 1, 0, 1)).toBe("2101");
+  expect(cardUtilities.getKeyFromAttrs(2, 2, 2, 2)).toBe("2222");
+});
+
+// cardUtilities.shuffleArray(arr) - basically a COTS function - already tested in getShuffledDeckCards
+
+describe("getFaceDownCards", () => {
+  const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
+  const { tableCards } = dealInfo;
+  it("should find all table cards from a fresh deal", () => {
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(20); // none flipped from fesh deal
+  });
+  it("should find 19 cards after flipping 1 from a fresh deal", () => {
+    tableCards[0].faceDown = false;
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(19); // one flipped
+  });
+  it("should find 18 cards after flipping 2 cards from a fresh deal", () => {
+    tableCards[10].faceDown = false;
+    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(18); // second one flipped
+  });
+  it("should find no cards when the table is empty", () => {
+    expect(cardUtilities.getFaceDownCards([]).length).toBe(0); // empty table
+  });
+});
+
 // cardUtilities.checkForMatches(cards)
-// cardUtilities.getAllMatches(cards)
+describe("checkForMatches", () => {
+  let deckCards = cardUtilities.getOrderedDeckCards(); // ordered doesn't really matter here
+  const dealInfo = cardUtilities.dealCards(deckCards, []); // [] => empty table
+  const { tableCards } = dealInfo;
+  it("should see matches from a full table of ordered cards", () => {
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(true);
+  });
+  it("should a match when only first two of ordered deck are left on the table", () => {
+    tableCards.splice(2, 18);
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(true);
+  });
+  it("should see no matches when only 1 card is left on the table", () => {
+    tableCards.splice(0, 1);
+    expect(cardUtilities.checkForMatches(tableCards)).toBe(false);
+  });
+  it("should see no match from two selective cards that don't match", () => {
+    const testCards = [deckCards[0], deckCards[80]];
+    expect(cardUtilities.checkForMatches(testCards)).toBe(false);
+  });
+  it("should see no match from three selective cards that don't match", () => {
+    const testCards = [deckCards[0], deckCards[40], deckCards[80]];
+    expect(cardUtilities.checkForMatches(testCards)).toBe(false);
+  });
+});
+
+describe("getAllMatches", () => {
+  let deckCards = cardUtilities.getOrderedDeckCards(); // ordered doesn't really matter here
+  const dealInfo = cardUtilities.dealCards(deckCards, []); // [] => empty table
+  const { tableCards } = dealInfo;
+  let allMatches = cardUtilities.getAllMatches(tableCards);
+  it("should see 190 matches from an ordered deck's first deal", () => {
+    expect(allMatches).not.toBe(null);
+    expect(allMatches.length).toBe(190);
+  });
+  it("should see all 20 table cards match on a single attr from an ordered deck's first deal", () => {
+    expect(allMatches[0].cards.length).toBe(20);
+    expect(allMatches[0].matchingAttrs.length).toBe(1);
+  });
+  it("should see a select match towards the end matches on 2 cards and 3 attrs", () => {
+    expect(allMatches[172].cards.length).toBe(2);
+    expect(allMatches[172].matchingAttrs.length).toBe(3);
+  });
+  it("should see a select match further towards the end matches on 2 cards and 2 attrs", () => {
+    expect(allMatches[177].cards.length).toBe(2);
+    expect(allMatches[177].matchingAttrs.length).toBe(2);
+  });
+  it("should see the last match matches on 2 cards and 1 attr", () => {
+    expect(allMatches[189].cards.length).toBe(2);
+    expect(allMatches[189].matchingAttrs.length).toBe(1);
+  });
+});
