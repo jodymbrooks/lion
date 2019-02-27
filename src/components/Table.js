@@ -24,7 +24,7 @@ class Table extends Component {
       let card = null;
 
       if (cardInfo) {
-        const { key, attrs, faceDown } = cardInfo;
+        const { key, attrs, selected } = cardInfo;
 
         if (attrs && attrs.length === 4) {
           card = (
@@ -35,15 +35,11 @@ class Table extends Component {
                 attr2={attrs[1]}
                 attr3={attrs[2]}
                 attr4={attrs[3]}
-                faceDown={faceDown}
+                selected={selected}
               />
             </div>
           );
         }
-        // else {
-        //   // console.log("cardInfo @ index " + index + " = ");
-        //   // console.log(cardInfo);
-        // }
       }
 
       if (!card) {

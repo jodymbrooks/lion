@@ -1,7 +1,7 @@
 import cardUtilities from "./cardUtilities";
 import { showOverlay } from "./actions/commonActions";
 import { keepScoreAndFollowUp } from "./actions/scoreActions";
-import { cardFlippedAndFollowUp } from "./actions/cardsActions";
+import { cardSelectedAndFollowUp } from "./actions/cardsActions";
 
 export default class computerPlayer {
   static chooseACard(availableCards, allMatchesFromSeenCards) {
@@ -59,7 +59,7 @@ export function computerChooseACardAndFollowUp(delay = 500) {
 
     const { possPoints } = getState().score;
     const { matchingAttrs, tableCards, seenCards } = getState().cards;
-    const availCards = cardUtilities.getFaceDownCards(tableCards);
+    const availCards = cardUtilities.getUnselectedCards(tableCards);
     const seenCardsValues = Object.values(seenCards);
     const allMatchesFromSeenCards = cardUtilities.getAllMatches(seenCardsValues);
 
@@ -79,7 +79,7 @@ export function computerChooseACardAndFollowUp(delay = 500) {
         const card = computerPlayer.chooseACard(availCards, allMatchesFromSeenCards);
         if (card) {
           setTimeout(() => {
-            dispatch(cardFlippedAndFollowUp(card.key));
+            dispatch(cardSelectedAndFollowUp(card.key));
           }, delay);
         }
       }

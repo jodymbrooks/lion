@@ -1,4 +1,4 @@
-export const tableMaxCards = 20;
+export const tableMinCards = 12;
 
 export default class cardUtilities {
   static attrs = [
@@ -39,7 +39,7 @@ export default class cardUtilities {
     let newDeckCards;
 
     if (tableCards.length === 0) {
-      newTableCards = new Array(tableMaxCards).fill(null);
+      newTableCards = new Array(tableMinCards).fill(null);
       if (deckCards.length === 0) {
         newDeckCards = cardUtilities.getShuffledDeckCards();
       }
@@ -73,7 +73,7 @@ export default class cardUtilities {
   }
 
   static getSelectedCards(tableCards) {
-    const selectedCards = tableCards.filter(card => card !== null && !card.faceDown);
+    const selectedCards = tableCards.filter(card => card !== null && card.selected);
     return selectedCards;
   }
 
@@ -142,7 +142,7 @@ export default class cardUtilities {
     var cardInfo = {
       attrs: [attr1, attr2, attr3, attr4],
       key,
-      faceDown: true,
+      selected: false,
       index: null // used when dealt to table
     };
 
@@ -242,8 +242,8 @@ export default class cardUtilities {
     return arr;
   }
 
-  static getFaceDownCards(tableCards) {
-    return tableCards.filter(card => card !== null && card.faceDown);
+  static getUnselectedCards(tableCards) {
+    return tableCards.filter(card => card !== null && !card.selected);
   }
 
   // static removeCard(card, cards) {

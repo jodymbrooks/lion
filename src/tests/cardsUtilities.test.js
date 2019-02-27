@@ -78,7 +78,7 @@ describe("getSelectedCards", () => {
     const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
     const cardsToSelect = [10];
     cardsToSelect.map((value, index) => {
-      dealInfo.tableCards[value].faceDown = false;
+      dealInfo.tableCards[value].selected = true;
     });
     const selectedCards = cardUtilities.getSelectedCards(dealInfo.tableCards);
     expect(selectedCards).not.toBeNull();
@@ -92,7 +92,7 @@ describe("getSelectedCards", () => {
     const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
     const cardsToSelect = [10, 11];
     cardsToSelect.map((value, index) => {
-      dealInfo.tableCards[value].faceDown = false;
+      dealInfo.tableCards[value].selected = true;
     });
     const selectedCards = cardUtilities.getSelectedCards(dealInfo.tableCards);
     expect(selectedCards).not.toBeNull();
@@ -106,7 +106,7 @@ describe("getSelectedCards", () => {
     const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
     const cardsToSelect = [0, 4, 8, 12, 19];
     cardsToSelect.map((value, index) => {
-      dealInfo.tableCards[value].faceDown = false;
+      dealInfo.tableCards[value].selected = true;
     });
     const selectedCards = cardUtilities.getSelectedCards(dealInfo.tableCards);
     expect(selectedCards).not.toBeNull();
@@ -260,7 +260,7 @@ describe("getCardInfoFromAttrs", () => {
     expect(cardInfo).not.toBeNull();
     expect(cardInfo).toEqual({
       attrs: [0, 0, 0, 0],
-      faceDown: true,
+      selected: false,
       index: null,
       key: "0000"
     });
@@ -271,7 +271,7 @@ describe("getCardInfoFromAttrs", () => {
     expect(cardInfo).not.toBeNull();
     expect(cardInfo).toEqual({
       attrs: [0, 1, 2, 1],
-      faceDown: true,
+      selected: false,
       index: null,
       key: "0121"
     });
@@ -403,22 +403,22 @@ describe("getKeyFromAttrs", () => {
 
 // cardUtilities.shuffleArray(arr) - basically a COTS function - already tested in getShuffledDeckCards
 
-describe("getFaceDownCards", () => {
+describe("getUnselectedCards", () => {
   const dealInfo = cardUtilities.dealCards([], []); // [] => empty table
   const { tableCards } = dealInfo;
   it("should find all table cards from a fresh deal", () => {
-    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(20); // none flipped from fesh deal
+    expect(cardUtilities.getUnselectedCards(tableCards).length).toBe(20); // none selected from fesh deal
   });
-  it("should find 19 cards after flipping 1 from a fresh deal", () => {
-    tableCards[0].faceDown = false;
-    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(19); // one flipped
+  it("should find 19 cards after selecting 1 from a fresh deal", () => {
+    tableCards[0].selected = true;
+    expect(cardUtilities.getUnselectedCards(tableCards).length).toBe(19); // one selected
   });
-  it("should find 18 cards after flipping 2 cards from a fresh deal", () => {
-    tableCards[10].faceDown = false;
-    expect(cardUtilities.getFaceDownCards(tableCards).length).toBe(18); // second one flipped
+  it("should find 18 cards after selecting 2 cards from a fresh deal", () => {
+    tableCards[10].selected = true;
+    expect(cardUtilities.getUnselectedCards(tableCards).length).toBe(18); // second one selected
   });
   it("should find no cards when the table is empty", () => {
-    expect(cardUtilities.getFaceDownCards([]).length).toBe(0); // empty table
+    expect(cardUtilities.getUnselectedCards([]).length).toBe(0); // empty table
   });
 });
 

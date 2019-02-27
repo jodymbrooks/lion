@@ -21,7 +21,7 @@ export default function(cardsState = initialStoreState, action) {
 
         newState.tableCards.forEach((card, idx) => {
           if (card !== null && count-- > 0) {
-            newState.tableCards[idx] = { ...card, index: idx, faceDown: false };
+            newState.tableCards[idx] = { ...card, index: idx, selected: true };
           }
         });
         // newState.deckCards = [ ...cardsState.deckCards ];
@@ -50,7 +50,7 @@ export default function(cardsState = initialStoreState, action) {
       }
       break;
 
-    case cardsActions.CARD_FLIPPED:
+    case cardsActions.CARD_SELECTED:
       {
         const { cardKey } = action;
         const { tableCards } = cardsState;
@@ -58,11 +58,11 @@ export default function(cardsState = initialStoreState, action) {
         if (card != null) {
           const newTableCards = [...tableCards];
 
-          const newCard = { ...card, faceDown: !card.faceDown };
+          const newCard = { ...card, selected: card.selected };
           newTableCards[newCard.index] = newCard;
           newState.tableCards = newTableCards;
 
-          if (!newCard.faceDown) {
+          if (newCard.selected) {
             newState.seenCards = { ...cardsState.seenCards };
             newState.seenCards[card.key] = { ...newCard };
           }
@@ -89,17 +89,17 @@ export default function(cardsState = initialStoreState, action) {
       }
       break;
 
-    case cardsActions.RESET_FLIPPED_CARDS:
+    case cardsActions.RESET_SELECTED_CARDS:
       newState.matchingAttrs = [];
       // newState.seenCards = { ...cardsState.seenCards };
       newState.tableCards = cardsState.tableCards.map(card => {
         if (card) {
-          if (card.faceDown) {
+          if (!card.selected) {
             return card;
           } else {
-            const faceDownCard = { ...card, faceDown: true };
-            // newState.seenCards[card.key] = { ...faceDownCard };
-            return faceDownCard;
+            const unselectedCard = { ...card, selected: false };
+            // newState.seenCards[card.key] = { ...unselectedCard };
+            return unselectedCard;
           }
         } else {
           return null;

@@ -9,7 +9,7 @@ const initialStoreState = {
       points: 0
     },
     {
-      user: "Computer",
+      user: "Player2",
       sets: 0,
       points: 0
     }

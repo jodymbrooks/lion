@@ -25,8 +25,8 @@
 //   });
 // });
 
-describe("Testing brave", function() {
-  it("Visits the brave page", function() {
+describe("Testing lion", function() {
+  it("Visits the lion page", function() {
     cy.visit("http://localhost:3000/");
     const cardClass = ".Table_grid_item";
     cy.get(cardClass)

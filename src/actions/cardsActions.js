@@ -15,8 +15,8 @@ export const dealCards = () => ({ type: DEAL_CARDS });
 export const CHECK_GAME_OVER = "CHECK_GAME_OVER";
 export const checkGameOver = () => ({ type: CHECK_GAME_OVER });
 
-export const CARD_FLIPPED = "CARD_FLIPPED";
-export const cardFlipped = cardKey => ({ type: CARD_FLIPPED, cardKey });
+export const CARD_SELECTED = "CARD_SELECTED";
+export const cardSelected = cardKey => ({ type: CARD_SELECTED, cardKey });
 
 export const CHECK_MATCHES = "CHECK_MATCHES";
 export const checkMatches = tableCards => ({
@@ -24,8 +24,8 @@ export const checkMatches = tableCards => ({
   tableCards
 });
 
-export const RESET_FLIPPED_CARDS = "RESET_FLIPPED_CARDS";
-export const resetFlippedCards = () => ({ type: RESET_FLIPPED_CARDS });
+export const RESET_SELECTED_CARDS = "RESET_SELECTED_CARDS";
+export const resetSelectedCards = () => ({ type: RESET_SELECTED_CARDS });
 
 export const CLEAR_KEPT_CARDS = "CLEAR_KEPT_CARDS";
 export const clearKeptCards = () => ({ type: CLEAR_KEPT_CARDS });
@@ -36,8 +36,8 @@ export function cardClickedAndFollowUp(cardKey) {
     const { possPoints } = getState().score;
     const card = cardUtilities.getCardFromKey(tableCards, cardKey);
 
-    if (card.faceDown) {
-      dispatch(cardFlippedAndFollowUp(cardKey));
+    if (!card.selected) {
+      dispatch(cardSelectedAndFollowUp(cardKey));
     } else {
       if (possPoints > 0) {
         dispatch(keepScoreAndFollowUp());
@@ -46,11 +46,11 @@ export function cardClickedAndFollowUp(cardKey) {
   };
 }
 
-export function cardFlippedAndFollowUp(cardKey) {
+export function cardSelectedAndFollowUp(cardKey) {
   return (dispatch, getState) => {
-    dispatch(cardFlipped(cardKey));
+    dispatch(cardSelected(cardKey));
 
-    // Give it a moment to flip and show up, then proceed -- do this with a small timer
+    // Give it a moment to get selected and show up, then proceed -- do this with a small timer
     window.setTimeout(() => {
       const tableCards = getState().cards.tableCards;
       dispatch(checkMatches(tableCards));
@@ -66,7 +66,7 @@ export function cardFlippedAndFollowUp(cardKey) {
       if (!isMatch) {
         dispatch(showOverlay());
         setTimeout(() => {
-          dispatch(resetFlippedCards());
+          dispatch(resetSelectedCards());
           dispatch(switchUserAndFollowUp(0));
         }, 2000);
       } else {

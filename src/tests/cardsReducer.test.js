@@ -1,6 +1,6 @@
 import cardsReducer, { initialStoreState } from "../actions/cardsReducer";
 import * as cardsActions from "../actions/cardsActions";
-// import cardUtilities, { tableMaxCards } from '../cardUtilities';
+// import cardUtilities, { tableMinCards } from '../cardUtilities';
 
 describe("cards reducer", () => {
   const initialState = { ...initialStoreState };

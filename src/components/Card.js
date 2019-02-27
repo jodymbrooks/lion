@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import FlipCard from 'react-flipcard-2';
 
 import "../App.css";
 import { cardClickedAndFollowUp } from "../actions/cardsActions";
@@ -24,41 +23,26 @@ class Card extends Component {
     const attr4 = cardUtilities.decodeAttr(3, this.props.attr4);
 
     // const { attr1, attr2, attr3, attr4 } = this.state;
-    const { isEmpty, faceDown, highlight } = this.props;
-    // <FlipCard flipped={!faceDown} disabled={true}>
-    // </FlipCard>
+    const { isEmpty, selected, highlight } = this.props;
 
     if (isEmpty) {
-      let imgSrc = "images/cards/brave/CardEmpty.png";
+      let imgSrc = "images/cards/lion/CardEmpty.png";
       return (
         <div className="Card is-empty">
           <img alt="" src={imgSrc} />
         </div>
       );
     } else {
-      let alt = "card back";
-      let imgSrc = "images/cards/brave/CardBack.png";
       const faceDescription = `${attr1.name} ${attr2.name} ${attr3.name} ${attr4.name}`;
       const imgName = `${attr1.name}-${attr2.name}-${attr3.name}-${attr4.name}.png`;
 
-      if (!faceDown) {
-        alt = faceDescription;
-        imgSrc = `images/cards/brave/${imgName}`;
-        // imgSrc = "images/cards/CardFaceBlank.png";
-      }
+      const alt = faceDescription;
+      const imgSrc = `images/cards/lion/${imgName}`;
 
-      if (faceDown) {
-        return (
-          <div className={"Card " + highlight} data-facedown={faceDown} onClick={this.handleClick}>
-            <img src={imgSrc} alt={alt} />
-          </div>
-        );
-      }
-      // else ...
       return (
         <div
           className={"Card " + highlight}
-          data-facedown={faceDown}
+          data-selected={selected}
           data-card-label={faceDescription}
           onClick={this.handleClick}
         >

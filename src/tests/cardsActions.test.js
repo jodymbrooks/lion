@@ -38,7 +38,7 @@ describe("async actions", () => {
 
     // const cardKey = "0000";
     // const expectedActions = [
-    //   { type: cardsActions.CARD_FLIPPED, cardKey },
+    //   { type: cardsActions.CARD_SELECTED, cardKey },
     //   { type: cardsActions.CHECK_MATCHES }
     // ];
 
@@ -59,24 +59,24 @@ describe("cardsActions", () => {
     expect(cardsActions.dealCards()).toEqual(expectedAction);
   });
 
-  it("should create an action to flip a card", () => {
+  it("should create an action to select a card", () => {
     const cardKey = "1102";
     const expectedAction = {
-      type: cardsActions.CARD_FLIPPED,
+      type: cardsActions.CARD_SELECTED,
       cardKey
     };
-    expect(cardsActions.cardFlipped(cardKey)).toEqual(expectedAction);
+    expect(cardsActions.cardSelected(cardKey)).toEqual(expectedAction);
   });
 });
 
 // cardClickedAndFollowUp
 describe("cardClickedAndFollowUp", () => {
-  it("should create an action to flip a card", () => {
+  it("should create an action to select a card", () => {
     // expect(cardsActions.cardClickedAndFollowUp()).toEqual();
   });
 });
 
-// cardFlippedAndFollowUp
+// cardSelectedAndFollowUp
 
 // switchUserAndFollowUp
 

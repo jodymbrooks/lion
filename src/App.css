@@ -167,8 +167,8 @@ body {
   display: grid;
   box-sizing: border-box;
   grid-gap: 2vmin;
-  grid-template-columns: repeat(5, minmax(50px, 1fr));
-  grid-template-rows: repeat(4, minmax(50px, 1fr));
+  grid-template-columns: repeat(4, minmax(50px, 1fr));
+  grid-template-rows: repeat(3, minmax(50px, 1fr));
   margin: 1vmin;
 }
 
@@ -193,11 +193,11 @@ body {
   box-shadow: none;
 }
 
-.Card[data-facedown="false"].highlight-mismatch img {
+.Card[data-selected="true"].highlight-mismatch img {
   border-color: red;
 }
 
-.Card[data-facedown="false"].highlight-match img {
+.Card[data-selected="true"].highlight-match img {
   border-color: green;
 }
 

@@ -1,5 +1,5 @@
 // import computerPlayer from '../computerPlayer';
-// import cardUtilities, { tableMaxCards } from '../cardUtilities';
+// import cardUtilities, { tableMinCards } from '../cardUtilities';
 
 describe("computer player", () => {
   it("should remember shown cards with varying degrees of accuracy", () => {});

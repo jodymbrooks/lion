@@ -9,7 +9,6 @@ class SharedStatus extends Component {
   }
 
   render() {
-    const { possPoints } = this.props.score;
     const { matchingAttrs } = this.props.cards;
     // const matchingAttrsString = matchingAttrs ? matchingAttrs.join(", ") : "";
     const matchingAttrsString = matchingAttrs ? matchingAttrs.length : "";
@@ -19,21 +18,6 @@ class SharedStatus extends Component {
         <div className="status-section cards-area">
           <span className="statusTitle ui label">Cards Left: </span>
           <span className="status-count ui basic label">{cardsLeft}</span>
-        </div>
-        <div className="status-section posspoints-area">
-          <span className="statusTitle ui label">Possible Points: </span>
-          <div className="">
-            <button
-              className="ui button primary keep-button"
-              tabIndex="0"
-              disabled={possPoints === 0}
-              title="Keep the possible points. Also you can click on a flipped up card in the set to keep them."
-              onClick={this.onKeepButtonClick.bind(this)}
-            >
-              Keep
-            </button>
-            <span className="status-count ui basic label">{possPoints}</span>
-          </div>
         </div>
         <div className="status-section matching-attrs-area">
           <span className="statusTitle ui label">Matching Attributes: </span>

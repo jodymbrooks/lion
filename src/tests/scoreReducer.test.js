@@ -73,7 +73,7 @@ describe("score reducer", () => {
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { tableCards } = dealInfo;
-    tableCards[0].faceDown = false;
+    tableCards[0].selected = true;
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const newState = scoreReducer(startingState, {
@@ -89,12 +89,12 @@ describe("score reducer", () => {
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { deckCards, tableCards } = dealInfo;
-    tableCards[0].faceDown = false; // selects this card
+    tableCards[0].selected = true; // selects this card
 
     // Replace a table card with one that doesn't match
     const [card] = deckCards.splice(deckCards.length - 1, 1);
     tableCards[1] = card;
-    tableCards[1].faceDown = false; // selects this card
+    tableCards[1].selected = true; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const newState = scoreReducer(initialState, {
@@ -110,8 +110,8 @@ describe("score reducer", () => {
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { tableCards } = dealInfo;
-    tableCards[0].faceDown = false; // selects this card
-    tableCards[1].faceDown = false; // selects this card
+    tableCards[0].selected = true; // selects this card
+    tableCards[1].selected = true; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const newState = scoreReducer(initialState, {
@@ -127,9 +127,9 @@ describe("score reducer", () => {
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { tableCards } = dealInfo;
-    tableCards[0].faceDown = false; // selects this card
-    tableCards[1].faceDown = false; // selects this card
-    tableCards[2].faceDown = false; // selects this card
+    tableCards[0].selected = true; // selects this card
+    tableCards[1].selected = true; // selects this card
+    tableCards[2].selected = true; // selects this card
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const newState = scoreReducer(initialState, {
@@ -145,10 +145,10 @@ describe("score reducer", () => {
 
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { tableCards } = dealInfo;
-    tableCards[0].faceDown = false; // selects this card
-    tableCards[1].faceDown = false; // "
-    tableCards[2].faceDown = false; // "
-    tableCards[3].faceDown = false; // "
+    tableCards[0].selected = true; // selects this card
+    tableCards[1].selected = true; // "
+    tableCards[2].selected = true; // "
+    tableCards[3].selected = true; // "
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const newState = scoreReducer(initialState, {
@@ -163,8 +163,8 @@ describe("score reducer", () => {
     const testUtils = new testUtilities();
     const dealInfo = cardUtilities.dealCards(testUtils.orderedDeck, []);
     const { tableCards } = dealInfo;
-    tableCards[0].faceDown = false; // selects this card
-    tableCards[1].faceDown = false; // "
+    tableCards[0].selected = true; // selects this card
+    tableCards[1].selected = true; // "
     const selectedCards = cardUtilities.getSelectedCards(tableCards);
     const matchingAttrs = cardUtilities.getMatchingAttrs(selectedCards);
     const nextState = scoreReducer(initialState, {
