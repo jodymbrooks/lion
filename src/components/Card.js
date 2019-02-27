@@ -23,7 +23,9 @@ class Card extends Component {
     const attr4 = cardUtilities.decodeAttr(3, this.props.attr4);
 
     // const { attr1, attr2, attr3, attr4 } = this.state;
-    const { isEmpty, selected, highlight } = this.props;
+    const { index, isEmpty, selected, highlight } = this.props;
+
+    const keyboardKey = String.fromCharCode(index + 65);
 
     if (isEmpty) {
       let imgSrc = "images/cards/lion/CardEmpty.png";
@@ -46,6 +48,7 @@ class Card extends Component {
           data-card-label={faceDescription}
           onClick={this.handleClick}
         >
+          <span className="keyboard-key">{keyboardKey}</span>
           <img src={imgSrc} alt={alt} />
         </div>
       );

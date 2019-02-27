@@ -31,6 +31,7 @@ class Table extends Component {
             <div key={index + "." + key} className="Table_grid_item">
               <Card
                 cardKey={key}
+                index={index}
                 attr1={attrs[0]}
                 attr2={attrs[1]}
                 attr3={attrs[2]}
